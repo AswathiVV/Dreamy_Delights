@@ -7,13 +7,13 @@ urlpatterns=[
     path('logout',views.shop_logout),
 # ------------------Admin--------------------------------
     path('shop_home',views.shop_home),
-    path('add_cupcake',views.add_cupcake),
-    path('cupcake',views.cupcake),
-    path('edit_cupcake/<id>',views.edit_cupcake),
-    path('delete_cupcake/<id>',views.delete_cupcake),
+    # path('add_cupcake',views.add_cupcake),
+    # path('cupcake',views.cupcake),
+    # path('edit_cupcake/<id>',views.edit_cupcake),
+    # path('delete_cupcake/<id>',views.delete_cupcake),
 
 
 # #------------------------------------- User--------------------------------------------------------------
     path('user_home',views.user_home),
-    path('view_cupcake',views.view_cupcake),
-    ]
+    # path('view_cupcake',views.view_cupcake),    
+]
