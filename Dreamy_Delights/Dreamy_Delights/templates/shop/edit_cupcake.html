@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Product</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/css/edit.css' %}">
+</head>
+<body>
+    <h1>Update product</h1>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" name="id" id="" placeholder="id">
+        <input type="text" name="name" id="" placeholder="Name">
+        <input type="number" name="price" id="" placeholder="Price">
+        <input type="file" name="img" id="">
+        <input type="text" name="category" id="" placeholder="category">
+        <input type="number" name="quantity" id="" placeholder="qty">
+        <input type="text" name="description" id="" placeholder="des">
+    
+        <input type="submit" value="Update">
+        
+
+    </form>
+</body>
+</html>
