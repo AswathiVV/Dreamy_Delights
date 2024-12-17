@@ -19,5 +19,10 @@ urlpatterns=[
 
 # #------------------------------------- User--------------------------------------------------------------
     path('user_home',views.user_home),
-    # path('view_cupcake',views.view_cupcake),    
+    path('user_cupcake',views.user_cupcake),
+    path('user_layercake',views.user_layercake),    
+    path('user_onelayercake',views.user_onelayercake), 
+    path('user_twolayercake',views.user_twolayercake),    
+   
+    
 ]

@@ -169,9 +169,35 @@ def user_home(req):
         # products=Cake.objects.all()
         return render(req,'user/user_home.html')  
 
-def view_cupcake(req):
+def user_cupcake(req):
     if 'user' in req.session:
-        cupcakes=Cake.objects.all()
-        return render(req,'user/view_cupcake.html',{'cupcake': cupcakes})
+        cake_category=Category.objects.get(name='CupCakes')
+        cupcakes=Cake.objects.filter(category=cake_category)
+        return render(req,'user/cupcake.html',{'cupcake': cupcakes})
     else:
-        return redirect(shop_login) 
+        return redirect(shop_login)
+    
+def user_layercake(req):
+    if 'user' in req.session:
+        cake_category=Category.objects.get(name='Layer Cakes')
+        layercakes=Cake.objects.filter(category=cake_category)
+        return render(req,'user/layercake.html',{'layercake': layercakes})
+    else:
+        return redirect(shop_login)      
+
+
+def user_onelayercake(req):
+    if 'user' in req.session:
+        cake_category=Category.objects.get(name='One Tier Party Cakes')
+        onelayercakes=Cake.objects.filter(category=cake_category)
+        return render(req,'user/onelayercake.html',{'onelayercake': onelayercakes})
+    else:
+        return redirect(shop_login)   
+    
+def user_twolayercake(req):
+    if 'user' in req.session:
+        cake_category=Category.objects.get(name='Two Tier Party Cakes')
+        twolayercakes=Cake.objects.filter(category=cake_category)
+        return render(req,'user/twolayercake.html',{'twolayercake': twolayercakes})
+    else:
+        return redirect(shop_login)     
