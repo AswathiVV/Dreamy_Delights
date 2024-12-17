@@ -61,12 +61,12 @@ border: none;
 <div class="container custom-container">
     <h2 class="text-center mb-4" style="color: palevioletred;">Browse the Collections</h2><br>
     <div class="row">
-        {% for cake in cupcake %}
+        {% for cake in twolayercake %}
             <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
                 <div class="card custom-card">
-                    {% if cake.img %}
+                    <!-- {% if cake.img %} -->
                         <img class="card-img-top img-fluid" src="{{ cake.img.url }}" alt="Card image">
-                    {% endif %}
+                    <!-- {% endif %} -->
                     <div class="card-body">
                         <h5 class="card-title" style="color: rgb(221, 111, 129);">{{ cake.name }}</h5>
                         <p class="card-text" style="color: rgb(221, 111, 129);font-weight: bold;">₹ {{ cake.price }}</p>
