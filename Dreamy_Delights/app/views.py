@@ -57,11 +57,55 @@ def  register(req):
             return redirect(register)
      else:
          return render(req,'register.html')
-     
+
+
+
+def view_cupcake(req):
+    # if 'user' in req.session:
+        cake_category=Category.objects.get(name='CupCakes')
+        cupcakes=Cake.objects.filter(category=cake_category)
+        return render(req,'user/cupcake.html',{'cupcake': cupcakes})
+    # else:
+    #     return redirect(shop_login)
+    
+def view_layercake(req):
+    if 'user' in req.session:
+        cake_category=Category.objects.get(name='Layer Cakes')
+        layercakes=Cake.objects.filter(category=cake_category)
+        return render(req,'user/layercake.html',{'layercake': layercakes})
+    # else:
+    #     return redirect(shop_login)      
+
+
+def view_onelayercake(req):
+    # if 'user' in req.session:
+        cake_category=Category.objects.get(name='One Tier Party Cakes')
+        onelayercakes=Cake.objects.filter(category=cake_category)
+        return render(req,'user/onelayercake.html',{'onelayercake': onelayercakes})
+    # else:
+    #     return redirect(shop_login)   
+    
+def view_twolayercake(req):
+    # if 'user' in req.session:
+        cake_category=Category.objects.get(name='Two Tier Party Cakes')
+        twolayercakes=Cake.objects.filter(category=cake_category)
+        return render(req,'user/twolayercake.html',{'twolayercake': twolayercakes})
+    # else:
+    #     return redirect(shop_login)  
+
+# def view_cakes(req,id):
+#      if 'user' in req.session:
+#          user=User.objects.get(username=req.session['user'])
+#          cake=Cake.objects.get(pk=id)
+    #  try:
+    #      cart=Cart.objects.get(Cake=cake,user=user)
+    #  except:
+    #      cart=None    
+    #  return render(req,'user/view_cakes.html',{'cake':cake})     
 # def home_cupcake(req):
 #     if 'user' in req.session:
-#         cupcakes=CupCake.objects.all()
-#         return render(req,'user/view_cupcake.html',{'cupcake': cupcakes})
+#         cupcakes=Cake.objects.all()
+#         return render(req,'user/view_cake.html',{'cupcake': cupcakes})
 #     else:
 #         return redirect(shop_login)     
 
@@ -201,3 +245,32 @@ def user_twolayercake(req):
         return render(req,'user/twolayercake.html',{'twolayercake': twolayercakes})
     else:
         return redirect(shop_login)     
+
+
+def view_cake(req,id):
+     if 'user' in req.session:
+        user=User.objects.get(username=req.session['user'])
+        cake=Cake.objects.get(pk=id)
+        try:
+            cart=Cart.objects.get(Cake=cake,user=user)
+        except:
+            cart=None    
+        return render(req,'user/view_cakes.html',{'cake':cake,'cart':cart}) 
+     else:
+         return redirect(shop_login)  
+     
+def add_to_cart(req,id):
+     cake=Cake.objects.get(pk=id)
+     print(Cake)
+     user=User.objects.get(username=req.session['user'])
+     print(user)
+     data=Cart.objects.create(user=user,Cake=cake)
+     data.save()
+     return redirect(cart_display)
+
+ 
+
+def cart_display(req):
+    user=User.objects.get(username=req.session['user'])
+    data=Cart.objects.filter(user=user)
+    return render(req,'user/cart_display.html',{'data':data})     

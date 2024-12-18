@@ -21,3 +21,6 @@ class Cake(models.Model):
     def __str__(self):
         return self.name
 
+class Cart(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    cake=models.ForeignKey(Cake,on_delete=models.CASCADE) 

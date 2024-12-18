@@ -65,7 +65,7 @@ border: none;
             <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
                 <div class="card custom-card">
                     <!-- {% if cake.img %} -->
-                        <img class="card-img-top img-fluid" src="{{ cake.img.url }}" alt="Card image">
+                        <a href="view_cake/{{cake.pk}}"><img class="card-img-top img-fluid" src="{{ cake.img.url }}" alt="Card image"></a>
                     <!-- {% endif %} -->
                     <div class="card-body">
                         <h5 class="card-title" style="color: rgb(221, 111, 129);">{{ cake.name }}</h5>
