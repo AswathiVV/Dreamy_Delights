@@ -60,7 +60,6 @@ def  register(req):
          return render(req,'register.html')
 
 
-
 def view_cupcake(req):
     # if 'user' in req.session:
         cake_category=Category.objects.get(name='CupCakes')
