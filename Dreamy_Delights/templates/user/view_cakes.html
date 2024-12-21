@@ -13,42 +13,48 @@
 </head>
 <body>
     {% csrf_token %}
-    <nav class="navbar navbar-expand-sm navbar-light shadow-sm" style="background-color:#f1c9d9;" >
-      <div class="container-fluid">
-  
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-  
+    <nav class="navbar navbar-expand-sm navbar-light shadow-sm" style="background-color:#f1c9d9 ;" >
+        <div class="container-fluid">
     
-          <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav me-auto mb-2 mb-sm-0">
-                  <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="javascript:void(0)">Home</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="add_cupcake">Add Product</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="bookings">Bookings</a>
-                  </li>
-                 
-                  <li class="nav-item">
-                      <a class="nav-link" href="logout">Logout</a>
-                  </li>
-               
-                  
-              </ul>
-              
-        
-              <form class="d-flex">
-                <input class="form-control me-2" type="text" placeholder="Search">
-                <button class="btn" style="background-color: pink;" type="button">Search</button>
-              </form>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
       
-          </div>
-      </div>
-  </nav>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="javascript:void(0)">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="">ORDER ONLINE</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">VISIT US</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">ABOUT US</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cart_display">
+                          <i style="color:white; font-weight: bolder; font-size: 18px;" class="bi bi-cart2"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="logout">LOGOUT</a>
+                  </li>
+                    
+                </ul>
+                
+          
+                <form class="d-flex">
+                  <input class="form-control me-2" type="text" placeholder="Search">
+                  <button class="btn" style="background-color: pink;" type="button">Search</button>
+                </form>
+        
+            </div>
+        </div>
+    </nav>
   <br><br>  
   
   
@@ -67,17 +73,21 @@
           <label for="quantity" class="form-label">Quantity:</label>
           <select id="quantity" class="form-select">
             <option>{{cake.quantity}}</option>
-            <!-- <option>Box of 6</option>
-            <option>Box of 12</option> -->
+           
           </select>
         </div>
+        <!-- {% if cart %}
+        <a href="../cart_display" class="btn btn-outline-primary">Go to cart</a>
+        <a href="../delete_cart/{{cart_obj.pk}}" class="btn btn-outline-dark"><i class="bi bi-trash"></i></a>
+        {% else %}
+        <a href="../add_to_cart/{{cake.pk}}" class="btn btn-outline-primary">Add to cart</a>
+        {% endif %} -->
         <!-- <div class="mb-3">
           <label for="quantity-number" class="form-label">Quantity:</label>
           <input type="number" id="quantity-number" class="form-control" value="1" min="1">
         </div> -->
         <div class="d-flex gap-3">
             {% if cart %}
-    <!-- If the product is already in the cart -->
     <button class="btn btn-primary w-50">
         <a href="../cart_display" class="text-white">
             <i class="bi bi-cart"></i> Go to cart
@@ -89,13 +99,13 @@
         </a>
     </button>
 {% else %}
-    <button class="btn btn-primary w-50">
-        <a href="../add_to_cart/{{products.pk}}" class="text-white">
+    <button class="btn btn-secondary w-50">
+        <a href="../add_to_cart/{{cake.pk}}" class="text-white">
             <i class="bi bi-cart"></i> Add to cart
         </a>
     </button>
     <button class="btn btn-primary w-50">
-        <a href="../buy_pro/{{products.pk}}" class="text-white">
+        <a href="../buy_pro/{{cake.pk}}" class="text-white">
             <i class="bi bi-chevron-double-right"></i> Buy Now
         </a>
     </button>

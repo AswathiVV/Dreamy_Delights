@@ -29,8 +29,11 @@ urlpatterns=[
     path('user_onelayercake',views.user_onelayercake), 
     path('user_twolayercake',views.user_twolayercake), 
     path('view_cake/<id>',views.view_cake),   
-    path('add_to_cart/<id>',views.add_to_cart),  
-    path('cart_display',views.cart_display),  
+    path('add_to_cart/<id>',views.add_to_cart, name='add_to_cart'),
+    path('cart_display',views.cart_display),
+    path('delete_cart/<id>',views.delete_cart), 
+    path('buy_pro/<id>',views.buy_pro),
+    path('user_view_bookings',views.user_view_bookings),
      
      
 

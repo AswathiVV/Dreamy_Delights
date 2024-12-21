@@ -7,6 +7,7 @@ from django.contrib import messages
 
 from django.core.mail import send_mail
 from django.conf import settings
+from django.http import HttpResponse
 
 
 def home(req):
@@ -258,19 +259,54 @@ def view_cake(req,id):
         return render(req,'user/view_cakes.html',{'cake':cake,'cart':cart}) 
      else:
          return redirect(shop_login)  
-     
+         
+
 def add_to_cart(req,id):
-     cake=Cake.objects.get(pk=id)
-     print(Cake)
+     Product=Cake.objects.get(pk=id)
+     print(Product)
      user=User.objects.get(username=req.session['user'])
      print(user)
-     data=Cart.objects.create(user=user,Cake=cake)
+     data=Cart.objects.create(user=user,cake=Product)
      data.save()
      return redirect(cart_display)
 
- 
 
 def cart_display(req):
     user=User.objects.get(username=req.session['user'])
     data=Cart.objects.filter(user=user)
-    return render(req,'user/cart_display.html',{'data':data})     
+    return render(req,'user/cart_display.html',{'data':data})  
+
+
+def delete_cart(req,id):
+    data=Cart.objects.get(pk=id) 
+    data.delete()
+    return redirect(cart_display)
+
+
+def buy_pro(req,id):
+    Product=Cake.objects.get(pk=id)
+    user=User.objects.get(username=req.session['user'])
+    data=Buy.objects.create(user=user,cake=Product)
+    data.save()
+    return redirect(user_home)
+    return render(req, 'order_details.html', {'cake': Cake, 'user': user})
+
+def place_order(request):
+    if request.method == 'POST':
+        user = User.objects.get(id=request.POST['user'])
+        cake = Cake.objects.get(id=request.POST['cake'])
+        name = request.POST['name']
+        address = request.POST['address']
+        
+        buy = Buy.objects.create(user=user, cake=cake, price=cake.price, name=name, address=address)
+        
+        return redirect('user_home') 
+    else:
+        return HttpResponse("Invalid request", status=400)
+    
+    
+
+def user_view_bookings(req):
+    user=User.objects.get(username=req.session['user'])
+    data=Buy.objects.filter(user=user)[::-1]
+    return render(req,'user/view_bookings.html',{'data':data})         

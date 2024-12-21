@@ -47,6 +47,52 @@
         </div>
     </div>
 </nav>
+
+<br><br>
+<div class="custom-carousel-container container">
+  <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+
+      <div class="carousel-item active">
+        <img src="{% static 'img/caro1.jpeg' %}" class="d-block w-100" alt="Image 1" style="object-fit: contain; height: 100%;">
+        <div class="carousel-caption position-absolute top-0 start-0 m-3">
+          <button class="btn btn-light">
+            <a href="#" class="btn">SHOP NOW</a>
+          </button>
+        </div>
+      </div>
+      
+      <div class="carousel-item">
+        <img src="{% static 'img/caro2.jpeg' %}" class="d-block w-100" alt="Image 2" style="object-fit: contain; height: 100%;">
+        <div class="carousel-caption position-absolute top-0 start-0 m-3">
+          <button class="btn btn-light">
+            <a href="#" class="btn">LEARN MORE</a>
+          </button>
+        </div>
+      </div>
+      
+      <div class="carousel-item">
+        <img src="{% static 'img/caro3.jpeg' %}" class="d-block w-100" alt="Image 3" style="object-fit: contain; height: 100%;">
+        <div class="carousel-caption position-absolute top-0 start-0 m-3">
+          <button class="btn btn-light">
+            <a href="#" class="btn">MENU</a>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
+
+
 <br><br>
     <div class="container img-container">
         <div class="row">
