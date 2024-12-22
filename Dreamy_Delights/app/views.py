@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 from django.http import HttpResponse
+from django.utils import timezone
 
 
 def home(req):
@@ -282,26 +283,65 @@ def delete_cart(req,id):
     return redirect(cart_display)
 
 
+
 def buy_pro(req,id):
+    cake=Cake.objects.get(pk=id)
+    return redirect(address_page)
+
+# views.py
+
+
+
+def address_page(req,id):
+    cake = Cake.objects.get(id=id)
+    
+    if req.method == 'POST':
+        name = req.POST.get('name')
+        address = req.POST.get('address')
+        phone_number = req.POST.get('phone_number')
+
+        user_address = Address(user=req.user, name=name, address=address, phone_number=phone_number)
+        user_address.save()
+
+        buy = Buy(user=req.user, cake=cake, price=cake.price, address=user_address)
+        buy.save()
+
+        return redirect(success) 
+
+    return render(req, 'user/order_details.html', {
+        'cake': cake,
+    })
+
+def place_order(req,id):
     Product=Cake.objects.get(pk=id)
     user=User.objects.get(username=req.session['user'])
+    # price=Product.offer_price
     data=Buy.objects.create(user=user,cake=Product)
     data.save()
     return redirect(user_home)
-    return render(req, 'order_details.html', {'cake': Cake, 'user': user})
 
-def place_order(request):
-    if request.method == 'POST':
-        user = User.objects.get(id=request.POST['user'])
-        cake = Cake.objects.get(id=request.POST['cake'])
-        name = request.POST['name']
-        address = request.POST['address']
+def success(req):
+    return render(req,'user/order_success.html')
+# def buy_pro(req,id):
+#     Product=Cake.objects.get(pk=id)
+#     user=User.objects.get(username=req.session['user'])
+#     data=Buy.objects.create(user=user,cake=Product)
+#     data.save()
+#     return redirect(user_home)
+#     return render(req, 'order_details.html', {'cake': Cake, 'user': user})
+
+# def place_order(request):
+#     if request.method == 'POST':
+#         user = User.objects.get(id=request.POST['user'])
+#         cake = Cake.objects.get(id=request.POST['cake'])
+#         name = request.POST['name']
+#         address = request.POST['address']
         
-        buy = Buy.objects.create(user=user, cake=cake, price=cake.price, name=name, address=address)
+#         buy = Buy.objects.create(user=user, cake=cake, price=cake.price, name=name, address=address,date=timezone.now())
         
-        return redirect('user_home') 
-    else:
-        return HttpResponse("Invalid request", status=400)
+#         return redirect('user_home') 
+#     else:
+#         return HttpResponse("Invalid request", status=400)
     
     
 
