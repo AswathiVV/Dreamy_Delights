@@ -87,7 +87,7 @@ border: none;
     padding: 10px; 
 }
 
-.image-text-container {
+/* .image-text-container {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
@@ -119,7 +119,9 @@ border: none;
 .image-text-container .image img {
   width: 100%;
   height: auto;
-}
+} */
+
+
 
 .text {
   background-color: rgba(0, 0, 0, 0.1);
@@ -224,10 +226,124 @@ hr {
   text-decoration: none; 
 }
 
+.image img {
+  width: 100%;
+  height: auto;
+}
+
+.row.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.row.no-gutters > .col,
+.row.no-gutters > [class*="col-"] {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  background-color: pink;
+}
+.text h1{
+  color:#ed80a8;
+}
+
+
+.footer {
+  background: linear-gradient(to right,  #f1c6c6,#f1c9d9); 
+  /* background-color:linear-gradient(to right, #ff80bf, #ff66b2); */
+  color: #947070;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  /* padding: 0 100px; */
+  padding-top: 40px;
+  padding-left: 12%;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-col h4 {
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.footer-col a {
+  color: #947070;
+  text-decoration: none;
+  margin-bottom: 10px;
+  font-size: 17px;
+  transition: color 0.3s;
+}
+
+.footer-col a:hover {
+  color: #00aced;
+}
+
+.social-icons {
+  display: flex;
+  gap: 15px;
+}
+
+.social-icons a {
+  font-size: 30px;
+  color: #947070;
+  transition: color 0.3s;
+}
+
+.social-icons a:hover {
+  color: #00aced; 
+}
+
+.footer-bottom {
+  margin-top: 30px;
+  font-size: 0.85rem;
+  color: #110f0f;
+}
+
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-col {
+    align-items: center;
+  }
+
+  .footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .box {
+    border: 1px solid #ccc; 
+  }
+}
+
+
 @media (max-width: 1024px) {
   .text {
       background-color: rgba(0, 0, 0, 0.15); 
-      padding: 15px;
+      padding: 10px;
   }
 }
 

@@ -206,6 +206,10 @@ def delete_cupcake(req,id):
         data.delete()
         return redirect(shop_home) 
 
+def bookings(req):
+    bookings=Buy.objects.all()[::-1][:10]
+    return render(req,'shop/bookings.html',{'data':bookings})
+
 
 # #------------------------------------- User--------------------------------------------------------------
 

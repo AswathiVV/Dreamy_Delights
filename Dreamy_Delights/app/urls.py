@@ -19,7 +19,8 @@ urlpatterns=[
 
     path('add_cupcake',views.add_cupcake),
     path('edit_cupcake/<id>',views.edit_cupcake),
-    # path('delete_cupcake/<id>',views.delete_cupcake),
+    path('delete_cupcake/<id>',views.delete_cupcake),
+    path('bookings',views.bookings),
 
 
 # #------------------------------------- User--------------------------------------------------------------
@@ -36,7 +37,7 @@ urlpatterns=[
     path('address_page/<id>',views.address_page),
     path('place_order/<id>',views.place_order), 
     path('order_success',views.success),
- 
+
     path('user_view_bookings',views.user_view_bookings),
      
      
