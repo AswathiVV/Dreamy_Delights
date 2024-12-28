@@ -326,6 +326,7 @@ def place_order(req,id):
 
 def success(req):
     return render(req,'user/order_success.html')
+
 # def buy_pro(req,id):
 #     Product=Cake.objects.get(pk=id)
 #     user=User.objects.get(username=req.session['user'])
