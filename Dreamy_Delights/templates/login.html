@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>login</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static '/css/style.css' %}">
+    <link rel="stylesheet" href="{% static '/css/log.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -18,8 +18,42 @@
 
     </style>
     
-    <!-- <h1>login</h1> -->
+
     {% if messages %}
+    {% for message in messages %}
+        <ul class="messages">
+            <div class="alert alert-danger alert-dismissible fade show">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                {{ message }}
+            </div>
+        </ul>
+    {% endfor %}
+    {% endif %}
+
+<form action="" method="post" >
+    {% csrf_token %}
+    <h4 style="text-align: center; color: #555; font-weight: bold; margin-bottom: 20px;">𝓓𝓻𝓮𝓪𝓶𝔂 𝓓𝓮𝓵𝓲𝓰𝓱𝓽𝓼</h4>
+    <br>
+    <div style="margin-bottom: 15px;">
+        <label for="uname" style="font-size: 15px; color: #555;font-weight: bold;">Username</label>
+        <input type="text" name="uname" id="uname" placeholder="Enter your username" style="width: 100%; padding: 8px; font-size: 14px; border-radius: 4px; border: 1px solid #ccc; margin-top: 5px;">
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+        <label for="password" style="font-size: 15px; color: #555;font-weight: bold;">Password</label>
+        <input type="password" name="password" id="password" placeholder="Enter your password" style="width: 100%; padding: 8px; font-size: 14px; border-radius: 4px; border: 1px solid #ccc; margin-top: 5px;">
+    </div>
+    <br>
+    <div style="text-align: center;">
+        <input type="submit" value="Login" style="background-color: #5b2b11; color: white; border: none; padding: 10px 15px; border-radius: 4px; font-size: 16px; cursor: pointer; width: 100%; max-width: 200px;">
+    </div>
+    
+    <div style="text-align: center; margin-top: 15px;">
+        <a href="register" style="font-size: 14px; color: #4e5051; text-decoration: none;">Don't have an account? Register</a>
+    </div>
+</form>
+
+    <!-- {% if messages %}
     {% for message in messages %}
     <ul class="messages">
 
@@ -28,20 +62,20 @@
             {{message}}
         </div>
        
-    </ul>
-    {% endfor %}
+    </ul> -->
+    <!-- {% endfor %}
     {% endif %}
     
     <form action="" method="post" style="background-color: white;">
-        {% csrf_token %}
+        {% csrf_token %} -->
         <!-- <img src="{% static 'images/logo.jpg' %}" alt="" srcset=""><br> -->
-        <h6>Dreamy Delights</h6><br>
+        <!-- <h6>Dreamy Delights</h6><br>
         uname <input type="text" name="uname">
         password <input type="password" name="password">
         <input type="submit" value="login">
          <br><br>
         <a href="register">Register</a>
-    </form>
+    </form> -->
     
     
 </body>

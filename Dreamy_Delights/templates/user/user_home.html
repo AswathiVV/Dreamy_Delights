@@ -13,6 +13,40 @@
 
 </head>
 <style>
+/* Ensure the input field has space for the button */
+.input-group {
+    width: 100%;
+    max-width: 500px;  /* Optionally, limit the width of the search box */
+}
+
+/* Ensure the input and button have matching background colors */
+.input-group .form-control {
+    padding-right: 40px;  /* Add space on the right for the button */
+    border-right: none;   /* Remove the border between input and button */
+    border-radius: 0.25rem;  /* Same border radius as the button */
+}
+
+/* Style the button to have the same background color and height as the input */
+.input-group .btn {
+    border-left: none;    /* Remove the border between input and button */
+    background-color: #f8f9fa;  /* Match the input's background color */
+    border-radius: 0.25rem;  /* Same border radius as input */
+    padding: 8px 10px;    /* Adjust padding for proper alignment */
+    width: auto;          /* Set button width to auto so it adjusts to content */
+    min-width: 35px;      /* Ensure the button is not too small */
+    height: 100%;         /* Ensure the button height matches the input field */
+}
+
+/* Adjust icon size */
+.input-group .btn i {
+    font-size: 18px; /* Adjust the size of the search icon */
+}
+
+/* Make the input and button look seamless */
+.input-group .btn:focus {
+    outline: none;  /* Remove outline when focused */
+    box-shadow: none; /* Remove any box shadow on focus */
+}
 
 
 
@@ -53,11 +87,20 @@
                 
             </ul>
             
-      
             <form class="d-flex">
-              <input class="form-control me-2" type="text" placeholder="Search">
-              <button class="btn" style="background-color: pink;" type="button">Search</button>
-            </form>
+              <div class="input-group">
+                  <button class="btn " type="submit" style="background-color: white;">
+                      <i class="bi bi-search"></i>
+                  </button>
+                  <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+              </div>
+          </form>
+          
+          
+          
+            <!-- <form class="d-flex">
+              <input class="form-control me-2" type="text" placeholder="Search"><i class="bi bi-search"></i>
+            </form> -->
     
         </div>
     </div>
@@ -136,16 +179,16 @@
       </div>
     </div>
 
-    <div class="container image-text-container mt-5">
+    <div class="container image-text-container mt-5" >
       <div class="row no-gutters box">
         <div class="col-12 col-md-6">
           <div class="image">
-            <img src="{% static 'img/shop.jpg' %}" alt="Placeholder Image" class="img-fluid">
+            <img src="{% static 'img/shop.jpg' %}" alt="Placeholder Image" class="img-fluid" style="border-radius: 0%;">
           </div>
         </div>
     
         <div class="col-12 col-md-6">
-          <div class="text" style="background-color: rgb(253, 213, 219);text-align: center;">
+          <div class="text" style="background-color: rgb(253, 213, 219);text-align: center;border-radius: 0%;">
             <h1>𝓓𝓻𝓮𝓪𝓶𝔂 𝓓𝓮𝓵𝓲𝓰𝓱𝓽𝓼</h1>
             <p>116 Ebury Street, Belgravia <br> London SW1W 9QQ</p>
             <p style="font-weight: bold;">Mon to Sat: 09.00-18.00</p>
