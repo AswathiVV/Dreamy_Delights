@@ -170,33 +170,52 @@ def add_cupcake(req):
     return render(req,'shop/add_cupcake.html') 
 
 
+def edit_cupcake(req,id):
+        cake = Cake.objects.get(pk=id)
 
-def edit_cupcake(req, id):
-    cupcakes = Cake.objects.get(pk=id)
+        if req.method == 'POST':
+            id=req.POST['id']
+            name = req.POST['name']
+            price = req.POST['price']
+            file = req.FILES.get('img')  
+            cat = req.POST['category']
+            qty = req.POST['quantity']
+            des = req.POST['description']
+            
+            print(file)
+            if file:
+                Cake.objects.filter(pk=id).update(id=id,name=name,price=price,img=file,category=cat,quantity=qty,description=des)   
+            else:
+                Cake.objects.filter(pk=id).update(id=id,name=name,price=price,category=cat,quantity=qty,description=des)   
 
-    if req.method == 'POST':
-        name = req.POST['name']
-        price = req.POST['price']
-        file = req.FILES.get('img')  
-        cat = req.POST['category']
-        qty = req.POST['quantity']
-        des = req.POST['description']
+            return redirect(shop_home)
+        return render(req,'shop/edit_cupcake.html',{'data':cake}) 
+# def edit_cupcake(req, id):
+#     cupcakes = Cake.objects.get(pk=id)
+
+#     if req.method == 'POST':
+#         name = req.POST['name']
+#         price = req.POST['price']
+#         file = req.FILES.get('img')  
+#         cat = req.POST['category']
+#         qty = req.POST['quantity']
+#         des = req.POST['description']
         
 
-        if file:
-            cupcakes.img = file 
+#         if file:
+#             cupcakes.img = file 
 
-        cupcakes.name = name
-        cupcakes.price = price
-        cupcakes.category = cat
-        cupcakes.quantity = qty
-        cupcakes.description = des
+#         cupcakes.name = name
+#         cupcakes.price = price
+#         cupcakes.category = cat
+#         cupcakes.quantity = qty
+#         cupcakes.description = des
 
-        cupcakes.save()
+#         cupcakes.save()
 
-        return redirect('shop_home')
+#         return redirect('shop_home')
 
-    return render(req, 'shop/edit_cupcake.html', {'data': cupcakes})
+#     return render(req, 'shop/edit_cupcake.html', {'data': cupcakes})
 
 def delete_cupcake(req,id):
         data=Cake.objects.get(pk=id)
