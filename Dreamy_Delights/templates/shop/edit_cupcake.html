@@ -11,13 +11,13 @@
     <h1>Update product</h1>
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <input type="text" name="id" id="" placeholder="id">
-        <input type="text" name="name" id="" placeholder="Name">
-        <input type="number" name="price" id="" placeholder="Price">
+        <input type="text" name="id" id="" placeholder="id" value="{{data.id}}">
+        <input type="text" name="name" id="" placeholder="Name" value="{{data.name}}">
+        <input type="number" name="price" id="" placeholder="Price" value="{{data.price}}">
         <input type="file" name="img" id="">
-        <input type="text" name="category" id="" placeholder="category">
-        <input type="number" name="quantity" id="" placeholder="qty">
-        <input type="text" name="description" id="" placeholder="des">
+        <input type="text" name="category" id="" placeholder="category" value="{{data.category}}">
+        <input type="number" name="quantity" id="" placeholder="qty" value="{{data.quantity}}">
+        <input type="text" name="description" id="" placeholder="des" value="{{data.description}}">
     
         <input type="submit" value="Update">
         
