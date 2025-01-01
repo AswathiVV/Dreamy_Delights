@@ -154,27 +154,53 @@ def twolayercake(req):
         return redirect(shop_login)      
            
 
-    
 def add_cupcake(req):
-    if req.method=='POST':
-        id=req.POST['id']
-        name=req.POST['name']       
-        price=req.POST['price']            
-        file=req.FILES['img']
-        cat=req.POST['category']
-        qty=req.POST['quantity']
-        des=req.POST['description']
-        data=Cake.objects.create(id=id,name=name,price=price,img=file,category=cat,quantity=qty,description=des)   
+    if req.method == 'POST':
+        name = req.POST['name']
+        price = req.POST['price']
+        file = req.FILES['img']
+        category_name = req.POST['category']  
+        qty = req.POST['quantity']
+        des = req.POST['description']
+
+        try:
+            category = Category.objects.get(name=category_name)  
+        except Category.DoesNotExist:
+            return HttpResponse("Category does not exist.", status=400)  
+
+        data = Cake.objects.create(
+            name=name, 
+            price=price, 
+            img=file, 
+            category=category,  
+            quantity=qty, 
+            description=des
+        )
+
         data.save()
         return redirect(shop_home)
-    return render(req,'shop/add_cupcake.html') 
+
+    return render(req, 'shop/add_cupcake.html')
+    
+# def add_cupcake(req):
+#     if req.method=='POST':
+#         id=req.POST['id']
+#         name=req.POST['name']       
+#         price=req.POST['price']            
+#         file=req.FILES['img']
+#         category=req.POST['category']
+#         qty=req.POST['quantity']
+#         des=req.POST['description']
+#         data=Cake.objects.create(name=name,price=price,img=file,category=category,quantity=qty,description=des)   
+#         data.save()
+#         return redirect(shop_home)
+#     return render(req,'shop/add_cupcake.html') 
 
 
-def edit_cupcake(req,id):
+def edit_cake(req,id):
         cake = Cake.objects.get(pk=id)
 
         if req.method == 'POST':
-            id=req.POST['id']
             name = req.POST['name']
             price = req.POST['price']
             file = req.FILES.get('img')  
@@ -184,9 +210,9 @@ def edit_cupcake(req,id):
             
             print(file)
             if file:
-                Cake.objects.filter(pk=id).update(id=id,name=name,price=price,img=file,category=cat,quantity=qty,description=des)   
+                Cake.objects.filter(pk=id).update(name=name,price=price,img=file,category=cat,quantity=qty,description=des)   
             else:
-                Cake.objects.filter(pk=id).update(id=id,name=name,price=price,category=cat,quantity=qty,description=des)   
+                Cake.objects.filter(pk=id).update(name=name,price=price,category=cat,quantity=qty,description=des)   
 
             return redirect(shop_home)
         return render(req,'shop/edit_cupcake.html',{'data':cake}) 

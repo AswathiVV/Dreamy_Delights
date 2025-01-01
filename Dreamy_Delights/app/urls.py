@@ -18,7 +18,7 @@ urlpatterns=[
     path('twolayercake',views.twolayercake),
 
     path('add_cupcake',views.add_cupcake),
-    path('edit_cupcake/<id>',views.edit_cupcake),
+    path('edit_cupcake/<id>',views.edit_cake),
     path('delete_cupcake/<id>',views.delete_cupcake),
     path('bookings',views.bookings),
 
