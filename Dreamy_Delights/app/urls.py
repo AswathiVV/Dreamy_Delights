@@ -2,14 +2,13 @@ from django.urls import path
 from . import views
 urlpatterns=[
     path('',views.home),
-    path('shop_login',views.shop_login),
+    path('login',views.shop_login),
     path('register',views.register),
     path('logout',views.shop_logout),
     path('view_cupcake',views.view_cupcake),
     path('view_layercake',views.view_layercake),    
     path('view_onelayercake',views.view_onelayercake), 
     path('view_twolayercake',views.view_twolayercake), 
-    # path('view_cakes/<id>',views.view_cakes),
 # ------------------Admin--------------------------------
     path('shop_home',views.shop_home),
     path('cupcake',views.cupcake),
@@ -17,7 +16,7 @@ urlpatterns=[
     path('onelayercake',views.onelayercake),
     path('twolayercake',views.twolayercake),
 
-    path('add_cupcake',views.add_cupcake),
+    path('add_cake',views.add_cake),
     path('edit_cupcake/<id>',views.edit_cake),
     path('delete_cupcake/<id>',views.delete_cupcake),
     path('bookings',views.bookings),

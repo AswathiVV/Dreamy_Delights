@@ -12,6 +12,38 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 </head>
+<style>
+  .input-group {
+    width: 100%;
+    max-width: 500px; 
+}
+
+.input-group .form-control {
+    padding-right: 40px; 
+    border-right: none;  
+    border-radius: 0.25rem;  
+}
+
+
+.input-group .btn {
+    border-left: none;    
+    background-color: #f8f9fa; 
+    border-radius: 0.25rem;  
+    padding: 8px 10px;    
+    width: auto;          
+    min-width: 35px;     
+    height: 100%;       
+}
+
+.input-group .btn i {
+    font-size: 18px; 
+}
+
+.input-group .btn:focus {
+    outline: none; 
+    box-shadow: none; 
+}
+</style>
 <body>
   {% csrf_token %}
   <nav class="navbar navbar-expand-sm navbar-light shadow-sm" style="background-color:#f1c9d9 ;" >
@@ -29,6 +61,7 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="">ORDER ONLINE</a>
+                  
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="">VISIT US</a>
@@ -37,31 +70,40 @@
                     <a class="nav-link" href="">ABOUT US</a>
                 </li>
                 <!-- <li class="nav-item">
-                  <a class="nav-link" href="cart_display"><i style="color: rgb(48, 45, 45);" class="bi bi-cart2"></i></a>
-                </li> -->
+                  <a class="nav-link" href="cart_display">
+                    <i style="color:white; font-weight: bolder; font-size: 18px;" class="bi bi-cart2"></i>
+                  </a>
+               </li> -->
                 <li class="nav-item">
-                  <a class="nav-link" href="shop_login">LOGIN</a>
+                  <a class="nav-link" href="login">LOGIN</a>
               </li>
                 
             </ul>
             
-      
             <form class="d-flex">
-              <input class="form-control me-2" type="text" placeholder="Search">
-              <button class="btn" style="background-color: pink;" type="button">Search</button>
-            </form>
+              <div class="input-group">
+                  <button class="btn " type="submit" style="background-color: white;">
+                      <i class="bi bi-search"></i>
+                  </button>
+                  <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+              </div>
+          </form>
+
     
         </div>
     </div>
 </nav>
+  
+
 <br><br>
+
 <div class="custom-carousel-container container">
   <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
 
       <div class="carousel-item active">
         <img src="{% static 'img/caro1.jpeg' %}" class="d-block w-100" alt="Image 1" style="object-fit: contain; height: 100%;">
-        <div class="carousel-caption position-absolute top-0 start-0 m-3">
+        <div class="carousel-caption position-absolute m-3" style="top: 46%;left: 10%;">
           <button class="btn btn-light">
             <a href="#" class="btn">SHOP NOW</a>
           </button>
@@ -70,7 +112,7 @@
       
       <div class="carousel-item">
         <img src="{% static 'img/caro2.jpeg' %}" class="d-block w-100" alt="Image 2" style="object-fit: contain; height: 100%;">
-        <div class="carousel-caption position-absolute top-0 start-0 m-3">
+        <div class="carousel-caption position-absolute m-3" style="top: 46%;left: 72%;">
           <button class="btn btn-light">
             <a href="#" class="btn">LEARN MORE</a>
           </button>
@@ -79,7 +121,7 @@
       
       <div class="carousel-item">
         <img src="{% static 'img/caro3.jpeg' %}" class="d-block w-100" alt="Image 3" style="object-fit: contain; height: 100%;">
-        <div class="carousel-caption position-absolute top-0 start-0 m-3">
+        <div class="carousel-caption position-absolute m-3" style="top: 46%;left: 10%;">
           <button class="btn btn-light">
             <a href="#" class="btn">MENU</a>
           </button>
@@ -98,52 +140,9 @@
   </div>
 </div>
 
-<!-- <div class="custom-carousel-container container" >
-  <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-   
-      <div class="carousel-item active">
-        <img src="{% static 'img/caro1.jpeg' %}" class="d-block w-100" alt="Image 1">
-        <div class="carousel-caption d-none d-md-block">
-          <button class="btn btn-light"><a href="#" class="btn">SHOP NOW</a></button>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <img src="{% static 'img/caro2.jpeg' %}" class="d-block w-100" alt="Image 2">
-        <div class="carousel-caption d-none d-md-block">
-          <button class="btn btn-light"><a href="#" class="btn">LEARN MORE</a></button>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <img src="{% static 'img/caro3.jpeg' %}" class="d-block w-100" alt="Image 3">
-        <div class="carousel-caption d-none d-md-block">
-          <button class="btn btn-light"><a href="#" class="btn">MENU</a></button>
-        </div>
-      </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
-</div> -->
 
 <br><br>
 
-    <!-- <div class="container img-container">
-        <div class="row">
-          <div class="col">
-            <a href="view_cupcake"><img src="{% static 'img/cc.png' %}" alt="Image 2" class="img-fluid"></a>
-          </div>
-          <div class="col">
-            <img src="{% static 'img/col.png' %}" alt="Image 3" class="img-fluid">
-          </div>
-        </div>
-    </div> -->
 
     <div class="container img-container">
       <div class="row">
@@ -155,9 +154,6 @@
           </div>
       </div>
     </div>
-  
-
-
   
     <div class="container img-container" style="padding-top: 100px;">
       <div class="row">
@@ -216,7 +212,6 @@
           <a href="#">Privacy Policy</a>
         </div>
   
-        <!-- Social Media Column -->
         <div class="footer-col">
           <h4>Follow Us</h4>
           <div class="social-icons">
@@ -238,24 +233,5 @@
     </footer>
 
 
-    <!-- <div class="container image-text-container mt-5">
-          <div class="image">
-              <img src="{% static 'img/shop.jpg' %}" alt="Placeholder Image">
-          </div>
-          <div class="text">
-              <h1>𝓓𝓻𝓮𝓪𝓶𝔂 𝓓𝓮𝓵𝓲𝓰𝓱𝓽𝓼</h1><br>
-              <p >116 Ebury Street, Belgravia <br>
-                London SW1W 9QQ</p>
-                <p style="font-weight: bold;">Mon to Sat : 09.00-18.00</p>
-                <p style="font-weight: bold;">Mon to Sat : 09.00-18.00</p>
-                <p style="font-weight: bold;">Last kitchen orders: 16.30</p>
-                <p>Read more...</p>
-                <p style="font-weight: normal;">BOOK A TABLE</p>
-                <br><br><br><br>
-
-          </div>
-    </div>   -->
-     
-  
 </body>
 </html>

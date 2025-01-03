@@ -61,12 +61,12 @@ border: none;
 <div class="container custom-container">
     <h2 class="text-center mb-4" style="color: palevioletred;">Browse the Collections</h2><br>
     <div class="row">
-        {% for cake in layercake %}
+        {% for cake in cake %}
             <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
                 <div class="card custom-card">
-                    <!-- {% if cake.img %} -->
+                    {% if cake.img %}
                         <img class="card-img-top img-fluid" src="{{ cake.img.url }}" alt="Card image">
-                    <!-- {% endif %} -->
+                    {% endif %}
                     <div class="card-body">
                         <h5 class="card-title" style="color: rgb(221, 111, 129);">{{ cake.name }}</h5>
                         <p class="card-text" style="color: rgb(221, 111, 129);font-weight: bold;">₹ {{ cake.price }}</p>
@@ -78,6 +78,47 @@ border: none;
         {% endfor %}
     </div>
 </div> 
+
+<br><br><br>
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col">
+      <h4>About Us</h4>
+      <a href="#">Our Heritage</a>
+      <a href="#">Coffeehouse</a>
+      <a href="#">Our Company</a>
+      
+    </div>
+
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="#">Home</a>
+      <a href="#">Services</a>
+      <a href="#">Contact</a>
+      <a href="#">FAQs</a>
+
+      <a href="#">Privacy Policy</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Follow Us</h4>
+      <div class="social-icons">
+        <a href="#" target="_blank"><i class="bi bi-facebook"></i></a>
+        <a href="#" target="_blank"><i class="bi bi-instagram"></i></a>
+        <a href="#" target="_blank"><i class="bi bi-pinterest"></i></a>
+        <a href="#" target="_blank"><i class="bi bi-twitter"></i></a>
+
+      </div>
+    </div>
+  </div>
+
+  <br>
+  <hr>
+
+  <div class="footer-bottom">
+    <p>&copy; 2024 Your Company. All rights reserved.</p>
+  </div>
+</footer>
 
 </body>
 </html>
