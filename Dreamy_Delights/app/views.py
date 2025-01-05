@@ -79,7 +79,10 @@ def view_onelayercake(req):
 def view_twolayercake(req):
         cake_category=Category.objects.get(name='Two Tier Party Cakes')
         twolayercakes=Cake.objects.filter(category=cake_category)
-        return render(req,'user/cake.html',{'cake': twolayercakes})    
+        return render(req,'user/cake.html',{'cake': twolayercakes})   
+
+def about_us(req):
+    return render(req,'about_us.html') 
 
 
 #--------------------- admin-------------------------------------------------------------------------------------------  

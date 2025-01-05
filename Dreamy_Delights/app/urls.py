@@ -9,6 +9,7 @@ urlpatterns=[
     path('view_layercake',views.view_layercake),    
     path('view_onelayercake',views.view_onelayercake), 
     path('view_twolayercake',views.view_twolayercake), 
+    path('about_us',views.about_us),
 # ------------------Admin--------------------------------
     path('shop_home',views.shop_home),
     path('cupcake',views.cupcake),
