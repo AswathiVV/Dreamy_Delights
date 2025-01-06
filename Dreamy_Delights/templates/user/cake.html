@@ -104,7 +104,8 @@ border: none;
     <h2 class="text-center mb-4" style="color: palevioletred;">Browse the Collections</h2><br>
     <div class="row">
         {% for cake in cake %}
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
+            <div class="col-6 col-sm-6 col-md-4 col-lg-4 mb-4">
+            <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4"> -->
                 <div class="card custom-card">
                     {% if cake.img %}
                         <a href="view_cake/{{cake.pk}}"><img class="card-img-top img-fluid" src="{{ cake.img.url }}" alt="Card image"></a>
@@ -112,8 +113,6 @@ border: none;
                     <div class="card-body">
                         <h5 class="card-title" style="color: rgb(221, 111, 129);font-weight: bold;">{{ cake.name }}</h5>
                         <p class="card-text" style="color: rgb(221, 111, 129);font-weight: bold;">₹ {{ cake.price }}</p>
-                        <!-- <a style="text-align: center;" href="edit_cupcake/{{cake.pk}}" class="btn btn-secondary">Edit <i class="bi bi-pencil-square"></i></a> -->
-                        <!-- <a style="text-align: center;" href="delete_cupcake/{{cake.pk}}" class="btn btn-danger"><i class="bi bi-trash3"></i></a>                         -->
                     </div>
                 </div>
             </div>

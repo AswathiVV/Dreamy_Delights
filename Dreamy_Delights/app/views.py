@@ -48,7 +48,7 @@ def  register(req):
         name=req.POST['name']       
         email=req.POST['email']
         password=req.POST['password']
-        send_mail('Eshop registration', 'E_shop account created', settings.EMAIL_HOST_USER, [email])
+        send_mail('Dreamy Delights registration', 'Welcome to Dreamy Delights! Your account has been created successfully', settings.EMAIL_HOST_USER, [email])
 
         try:
             data=User.objects.create_user(first_name=name,username=email,email=email,password=password)
