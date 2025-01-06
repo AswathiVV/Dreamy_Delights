@@ -172,6 +172,8 @@ def add_cake(req):
 
 def edit_cake(req,id):
         cake = Cake.objects.get(pk=id)
+        Category=Category.objects.all()
+
 
         if req.method == 'POST':
             name = req.POST['name']
