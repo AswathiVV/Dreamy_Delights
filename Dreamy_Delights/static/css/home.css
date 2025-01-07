@@ -340,6 +340,22 @@ hr {
     padding: 20px;
   }
 }
+/* @media (max-width:390px) {
+  .container {
+    margin-bottom: 5px;  
+    padding-top: 2%;  
+  }
+
+  .img-container {
+    margin-bottom: 5px; 
+  }
+
+  .col {
+    padding-left: 2px;  
+    padding-right: 2px; 
+  }
+  
+} */
 
 @media (max-width: 480px) {
   /* .image-text-container{
@@ -358,6 +374,25 @@ hr {
     object-fit: contain;
 
   } */
+  .container {
+    margin-bottom: 10px;  
+    padding-top: 2%;  
+  }
+
+  .img-container {
+    margin-bottom: 10px; 
+  }
+
+  .col {
+    padding-left: 2px;  
+    padding-right: 2px; 
+  }
+
+  .carousel-caption .btn {
+      font-size: 0.6rem; 
+      padding: 3px 6px; 
+  }
+
   .image-text-container .row {
     padding-left: 10px;
     padding-right: 10px;
@@ -455,11 +490,12 @@ hr {
       background-color: rgba(0, 0, 0, 0.15); 
       padding: 18px; 
   }
+
 }
 
 @media (min-width: 992px) {
   .navbar .navbar-nav .nav-item .nav-link{
-    font-size: 13px;
+    font-size: 15px;
     padding: 10px;
   }
   .navbar .navbar-nav .nav-item .nav-link i{
@@ -495,9 +531,78 @@ hr {
 .col-md-4 {
   flex: 1 1 100%; 
 }
+.container {
+  margin-bottom: 15px;  
+  padding-top: 2%;  
 }
 
+.img-container {
+  margin-bottom: 15px; 
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.col {
+  padding-left: 5px;  
+  padding-right: 5px;  
+}
+
+}
+
+@media (max-width: 576px) {
+  .container {
+    margin-bottom: 10px;  
+    padding-top: 2%;  
+  }
+
+  .img-container {
+    margin-bottom: 10px; 
+  }
+
+  .col {
+    padding-left: 2px;  
+    padding-right: 2px; 
+  }
+}
+
+/* @media (min-width: 820px) {
+  .nav-item{
+    font-size: 10px;
+  }
   
+} */
+
+@media (max-width: 375px) {
+
+  .img-container {
+    margin-bottom: 0px;
+    padding-top: 6px;
+
+  }
+
+  .image-text-container .col{
+    width: 100;
+  }
+
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .col {
+    padding-left: 2px; 
+    padding-right: 2px; 
+  }
+  .custom-container .card-body .card-title{
+    font-size: 13px;
+  }
+  .custom-container .card-body .card-text{
+    font-size: 13px;
+  }
+}  
 
 
 
