@@ -42,6 +42,8 @@
     outline: none; 
     box-shadow: none; 
 }
+
+
 </style>
 <body>
   {% csrf_token %}
@@ -96,7 +98,7 @@
 <br><br>
   
   
-  <div class="container">
+  <div class="container cake-container">
     <div class="row">
       <div class="col-md-6 text-center">
         <img src="{{cake.img.url}}" class="img-fluid" style="max-height: 600px; object-fit: cover;border: none;" alt="">

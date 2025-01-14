@@ -84,6 +84,11 @@ def view_twolayercake(req):
 def about_us(req):
     return render(req,'about_us.html') 
 
+def visit_us(req):
+    return render(req,'visit_us.html')
+
+def collections(req):
+    return render(req,'collections.html')
 
 #--------------------- admin-------------------------------------------------------------------------------------------  
 
