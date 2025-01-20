@@ -175,9 +175,32 @@ def add_cake(req):
 #     return render(req,'shop/add_cupcake.html') 
 
 
+# def edit_cake(req,id):
+#         cake = Cake.objects.get(pk=id)
+#         category=Category.objects.all()
+
+
+#         if req.method == 'POST':
+#             name = req.POST['name']
+#             price = req.POST['price']
+#             file = req.FILES.get('img')  
+#             cat = req.POST['category']
+#             qty = req.POST['quantity']
+#             des = req.POST['description']
+            
+#             print(file)
+#             if file:
+#                 Cake.objects.filter(pk=id).update(name=name,price=price,img=file,category=cat,quantity=qty,description=des)   
+#             else:
+#                 Cake.objects.filter(pk=id).update(name=name,price=price,category=cat,quantity=qty,description=des)   
+
+#             return redirect(shop_home)
+#         return render(req,'shop/edit_cupcake.html',{'data':cake},{'categories': category}) 
+
+
 def edit_cake(req,id):
         cake = Cake.objects.get(pk=id)
-        Category=Category.objects.all()
+        category = Category.objects.all()
 
 
         if req.method == 'POST':
@@ -187,15 +210,19 @@ def edit_cake(req,id):
             cat = req.POST['category']
             qty = req.POST['quantity']
             des = req.POST['description']
+
+            # category = Category.objects.get(id=Category) 
             
             print(file)
             if file:
-                Cake.objects.filter(pk=id).update(name=name,price=price,img=file,category=cat,quantity=qty,description=des)   
+                Cake.objects.filter(pk=id).update(name=name,price=price,img=file,quantity=qty,description=des)   
             else:
-                Cake.objects.filter(pk=id).update(name=name,price=price,category=cat,quantity=qty,description=des)   
+                Cake.objects.filter(pk=id).update(name=name,price=price,quantity=qty,description=des)   
 
             return redirect(shop_home)
-        return render(req,'shop/edit_cupcake.html',{'data':cake}) 
+        return render(req,'shop/edit_cupcake.html',{'data':cake, 'categories': category}) 
+
+
 # def edit_cupcake(req, id):
 #     cupcakes = Cake.objects.get(pk=id)
 
