@@ -217,39 +217,34 @@ hr {
   color:#ed80a8;
 }
 
-
 .footer {
-  background: linear-gradient(to right,  #f1c6c6,#f1c9d9); 
-  /* background-color:linear-gradient(to right, #ff80bf, #ff66b2); */
+  background: linear-gradient(to right, #f1c6c6, #f1c9d9); 
   color: #947070;
-  padding: 40px 0;
+  padding: 40px 20px;
   text-align: center;
   font-family: "Playfair Display", serif;
-
 }
 
 .footer-container {
   display: flex;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-  /* padding: 0 100px; */
-  padding-top: 40px;
-  padding-left: 12%;
-  justify-content: space-between;
   flex-wrap: wrap;
+  justify-content: center; 
+  gap: 20px; 
+  padding-top: 20px;
+  padding-left: 0; 
 }
 
 .footer-col {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center; 
   flex: 1;
-  min-width: 200px;
+  min-width: 150px;
 }
 
 .footer-col h4 {
-  margin-bottom: 20px;
-  font-size: 1.2rem;
+  margin-bottom: 15px;
+  font-size: 1rem; 
   text-transform: uppercase;
   font-weight: bold;
 }
@@ -258,8 +253,8 @@ hr {
   display: block;
   color: #947070;
   text-decoration: none;
-  margin-bottom: 10px;
-  font-size: 17px;
+  margin-bottom: 8px;
+  font-size: 15px; 
   transition: color 0.3s;
 }
 
@@ -269,11 +264,12 @@ hr {
 
 .social-icons {
   display: flex;
-  gap: 15px;
+  justify-content: center;
+  gap: 10px;
 }
 
 .social-icons a {
-  font-size: 30px;
+  font-size: 24px;
   color: #947070;
   transition: color 0.3s;
 }
@@ -283,10 +279,32 @@ hr {
 }
 
 .footer-bottom {
-  margin-top: 30px;
-  font-size: 0.85rem;
+  margin-top: 20px;
+  font-size: 0.8rem; 
   color: #110f0f;
 }
+
+@media (max-width: 500px) {
+  .footer-container {
+    flex-direction: column; 
+    align-items: center; 
+    gap: 20px;
+  }
+
+  .footer-col {
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-col h4 {
+    font-size: 1.2rem;
+  }
+
+  .footer-bottom {
+    font-size: 0.75rem;
+  }
+}
+
 .img-fluid {
   width: 100%;          
   height: auto;          
@@ -298,6 +316,11 @@ hr {
     font-size: 13px;
     padding: 10px;
   }
+  .footer-bottom {
+    margin-top: 30px;
+    font-size: 0.85rem;
+    color: #110f0f;
+  } */
   .navbar .navbar-nav .nav-item .nav-link i{
     font-size: 10px;
     padding: 10px;

@@ -82,15 +82,21 @@
               </li>
                 
             </ul>
-            
-            <form class="d-flex">
+            <form class="d-flex" role="search" action="{% url 'search' %}" method="POST">
+              {% csrf_token %}
+              <input id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200"
+                  class="form-control me-2" type="text" placeholder="Search For Product, Brand and More"
+                  aria-label="Search" name="searched">
+              <!-- <button type="submit" class="btn btn-outline-primary">Search</button> -->
+            </form>
+            <!-- <form class="d-flex">
               <div class="input-group">
                   <button class="btn " type="submit" style="background-color: white;">
                       <i class="bi bi-search"></i>
                   </button>
                   <input class="form-control" type="text" placeholder="Search" aria-label="Search">
               </div>
-          </form>
+          </form> -->
 
     
         </div>

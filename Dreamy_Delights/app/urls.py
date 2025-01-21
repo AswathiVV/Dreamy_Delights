@@ -25,6 +25,8 @@ urlpatterns=[
     path('edit_cupcake/<id>',views.edit_cake),
     path('delete_cupcake/<id>',views.delete_cupcake),
     path('bookings',views.bookings),
+    # path('search_admin',views.search_admin),
+    path('search_admin/', views.search_admin, name='search_admin'),
 
 
 # #------------------------------------- User--------------------------------------------------------------
@@ -41,6 +43,9 @@ urlpatterns=[
     path('address_page/<id>',views.address_page),
     path('place_order/<id>',views.place_order), 
     path('order_success',views.success),
+    # path('search',views.search),
+    path('search/', views.search, name='search'),
+
 
     path('user_view_bookings',views.user_view_bookings),
      

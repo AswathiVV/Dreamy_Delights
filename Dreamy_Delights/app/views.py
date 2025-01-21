@@ -159,6 +159,14 @@ def add_cake(req):
         return redirect(shop_home)
 
     return render(req, 'shop/add_cake.html')
+
+def search_admin(request):
+    if request.method == 'POST':
+        searched = request.POST.get('searched', '')  
+        results = Cake.objects.filter(name__icontains=searched) if searched else []
+        return render(request, 'shop/search_admin.html', {'searched': searched, 'results': results})
+    else:
+        return render(request, 'shop/search_admin.html', {'searched': '', 'results': []})    
     
 # def add_cupcake(req):
 #     if req.method=='POST':
@@ -212,6 +220,9 @@ def edit_cake(req,id):
             des = req.POST['description']
 
             # category = Category.objects.get(id=Category) 
+            if file:
+                cake.img =file
+            cake.save()    
             
             print(file)
             if file:
@@ -315,6 +326,14 @@ def view_cake(req,id):
         return render(req,'user/view_cakes.html',{'cake':cake,'cart':cart}) 
      else:
          return redirect(shop_login)  
+
+def search(request):
+    if request.method == 'POST':
+        searched = request.POST.get('searched', '') 
+        results = Cake.objects.filter(name__icontains=searched) if searched else []
+        return render(request, 'user/search_user.html', {'searched': searched, 'results': results})
+    else:
+        return render(request, 'user/search_user.html', {'searched': '', 'results': []})         
          
 
 def add_to_cart(req,id):
