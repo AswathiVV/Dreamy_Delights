@@ -10,6 +10,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 
 </head>
 <style>
@@ -29,7 +31,7 @@
     border-left: none;    
     background-color: #f8f9fa; 
     border-radius: 0.25rem;  
-    padding: 8px 10px;    
+    padding: 8px 1px;    
     width: auto;          
     min-width: 35px;     
     height: 100%;       
@@ -70,22 +72,17 @@
               </li>
                 
             </ul>
-            <form class="d-flex" role="search" action="{% url 'search_admin' %}" method="POST">
+            <form class="d-flex" role="search" action="{% url 'search' %}" method="POST">
               {% csrf_token %}
-              <input id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200"
-                  class="form-control me-2" type="text" placeholder="Search For Product, Brand and More"
-                  aria-label="Search" name="searched">
-              <!-- <button type="submit" class="btn btn-outline-primary">Search</button> -->
-            </form>
-            
-            <!-- <form class="d-flex">
               <div class="input-group">
                   <button class="btn " type="submit" style="background-color: white;">
                       <i class="bi bi-search"></i>
                   </button>
-                  <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+                  <input class="form-control" type="text" placeholder="Search" aria-label="Search"id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200" 
+                  class="form-control me-2" 
+                  aria-label="Search" name="searched">
               </div>
-          </form> -->
+            </form>
 
     
         </div>
@@ -100,7 +97,7 @@
         <img src="{% static 'img/caro1.jpeg' %}" class="d-block w-100" alt="Image 1" style="object-fit: contain; height: 100%;">
         <div class="carousel-caption position-absolute m-3"  style="top: 46%;left: 15%;">
           <button class="btn btn-light">
-            <a href="../user_cupcake" class="btn">SHOP NOW</a>
+            <a href="../cupcake" class="btn">SHOP NOW</a>
           </button>
         </div>
       </div>
@@ -136,94 +133,133 @@
 </div>
 
 
-<br><br>
-<div class="container img-container">
+<div class="container img-container" style="padding-top: 5%;">
   <div class="row">
       <div class="col">
           <a href="cupcake"><img src="{% static 'img/cupcake.png' %}" alt="Image 2" class="img-fluid" style="height: 100%; object-fit: cover;"></a>
       </div>
       <div class="col">
-          <img src="{% static 'img/col.png' %}" alt="Image 3" class="img-fluid" style="height: 100%; object-fit: cover;">
+          <a href="collections"><img src="{% static 'img/col.png' %}" alt="Image 3" class="img-fluid" style="height: 100%; object-fit: cover;"></a>
       </div>
   </div>
 </div>
-      <div class="container img-container" style="padding-top: 100px;">
-        <div class="row">
-          <div class="col">
-            <a href="layercake"><img src="{% static 'img/lc.webp' %}" alt="Image 1" class="img-fluid"></a>
-          </div>
-          <div class="col">
-            <a href="onelayercake"><img src="{% static 'img/opa.png' %}" alt="Image 2" class="img-fluid"></a>
-          </div>
-          <div class="col">
-            <a href="twolayercake"><img src="{% static 'img/tpa.png' %}" alt="Image 3" class="img-fluid"></a>
-          </div>
-        </div>
+
+<div class="container img-container" style="padding-top: 4%;">
+  <div class="row">
+    <div class="col">
+      <a href="layercake"><img src="{% static 'img/lc.webp' %}" alt="Image 1" class="img-fluid"></a>
+    </div>
+    <div class="col">
+      <a href="onelayercake"><img src="{% static 'img/opa.png' %}" alt="Image 2" class="img-fluid"></a>
+    </div>
+    <div class="col">
+      <a href="twolayercake"><img src="{% static 'img/tpa.png' %}" alt="Image 3" class="img-fluid"></a>
+    </div>
+  </div>
+</div>
+  
+<div class="container image-text-container" style="padding-top:4% ;padding-bottom: 5%;">
+  <div class="row no-gutters box">
+    <div class="col-12 col-md-6">
+      <div class="image">
+        <img src="{% static 'img/shop.jpg' %}" alt="Placeholder Image" class="img-fluid" style="border-radius: 0%">
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <div class="text" style="background-color: rgb(253, 213, 219);text-align: center;border-radius: 0%">
+        <h1>𝓓𝓻𝓮𝓪𝓶𝔂 𝓓𝓮𝓵𝓲𝓰𝓱𝓽𝓼</h1>
+        <p>116 Ebury Street, Belgravia <br> London SW1W 9QQ</p>
+        <p style="font-weight: bold;">Mon to Sat: 09.00-18.00</p>
+        <p style="font-weight: bold;">Mon to Sat: 09.00-18.00</p>
+        <p style="font-weight: bold;">Last kitchen orders: 16.30</p>
+        <p>Read more...</p>
+        <!-- <p style="font-weight: normal;">BOOK A TABLE</p> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+<footer>
+    <div class="footer-container">
+      <div class="footer-column">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Cake Catalog</a></li>
+          <li><a href="#">Custom Orders</a></li>
+          <li><a href="#">Seasonal Specials</a></li>
+          <li><a href="#">Gift Cards</a></li>
+        </ul>
       </div>
   
-      <div class="container image-text-container mt-5">
-        <div class="row no-gutters box">
-          <div class="col-12 col-md-6">
-            <div class="image">
-              <img src="{% static 'img/shop.jpg' %}" alt="Placeholder Image" class="img-fluid" style="border-radius: 0%">
-            </div>
-          </div>
-      
-          <div class="col-12 col-md-6">
-            <div class="text" style="background-color: rgb(253, 213, 219);text-align: center;border-radius: 0%">
-              <h1>𝓓𝓻𝓮𝓪𝓶𝔂 𝓓𝓮𝓵𝓲𝓰𝓱𝓽𝓼</h1>
-              <p>116 Ebury Street, Belgravia <br> London SW1W 9QQ</p>
-              <p style="font-weight: bold;">Mon to Sat: 09.00-18.00</p>
-              <p style="font-weight: bold;">Mon to Sat: 09.00-18.00</p>
-              <p style="font-weight: bold;">Last kitchen orders: 16.30</p>
-              <p>Read more...</p>
-              <!-- <p style="font-weight: normal;">BOOK A TABLE</p> -->
-            </div>
-          </div>
-        </div>
+      <div class="footer-column">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Order Tracking</a></li>
+          <li><a href="#">Customer Service</a></li>
+          <li><a href="#">Cake Care Tips</a></li>
+          <li><a href="#">Shipping & Returns</a></li>
+        </ul>
       </div>
-
-
-      <br><br><br>
-    <footer class="footer">
-      <div class="footer-container">
-        <div class="footer-col">
-          <h4>About Us</h4>
-          <a href="#">Our Heritage</a>
-          <a href="#">Coffeehouse</a>
-          <a href="#">Our Company</a>
-          
-        </div>
   
-        <div class="footer-col">
-          <h4>Quick Links</h4>
-          <a href="#">Home</a>
-          <a href="#">Services</a>
-          <a href="#">Contact</a>
-          <a href="#">FAQs</a>
-
-          <a href="#">Privacy Policy</a>
-        </div>
-  
-        <div class="footer-col">
-          <h4>Follow Us</h4>
-          <div class="social-icons">
-            <a href="#" target="_blank"><i class="bi bi-facebook"></i></a>
-            <a href="#" target="_blank"><i class="bi bi-instagram"></i></a>
-            <a href="#" target="_blank"><i class="bi bi-pinterest"></i></a>
-            <a href="#" target="_blank"><i class="bi bi-twitter"></i></a>
-
-          </div>
-        </div>
+      <div class="footer-column">
+        <h4>Account & Community</h4>
+        <ul>
+          <li><a href="#">My Page</a></li>
+          <li><a href="#">My Products</a></li>
+          <li><a href="#">Orders</a></li>
+          <li><a href="#">Wishlist</a></li>
+          <li><a href="#">Vouchers</a></li>
+          <li><a href="#">My Referrals</a></li>
+          <li><a href="#">Service</a></li>
+        </ul>
       </div>
-
-      <br>
-      <hr>
   
-      <div class="footer-bottom">
-        <p>&copy; 2024 Your Company. All rights reserved.</p>
+      <div class="footer-column">
+        <h4>Sustainability</h4>
+        <ul>
+          <li><a href="#">Environment</a></li>
+          <li><a href="#">Security & Privacy</a></li>
+          <li><a href="#">Accessibility</a></li>
+          <li><a href="#">Diversity, Equity, Inclusion</a></li>
+          <li><a href="#">Corporate Citizenship</a></li>
+          <li><a href="#">Corporate Sustainability</a></li>
+        </ul>
       </div>
-    </footer>
+  
+      <div class="footer-column">
+        <h4>About Us</h4>
+        <ul>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Our Bakery</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr>
+    <div class="social-media">
+      <ul>
+        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+        <li><a href="#"><i class="fab fa-pinterest"></i></a></li>
+        <li><a href="#"><i class="fab fa-tiktok"></i></a></li>
+      </ul>
+    </div>
+    <div class="footer-bottom">
+      <p>Copyright © 1995-2025 Samsung. All Rights Reserved.</p>
+      <div class="payment-options">
+        <i class="fab fa-cc-amex"></i>
+        <i class="fab fa-apple"></i>
+        <i class="fab fa-cc-visa"></i>
+        <i class="fab fa-cc-mastercard"></i>
+        <i class="fab fa-cc-paypal"></i>
+      </div>
+    </div>
+</footer>  
+  
  
 </body>
 </html>
