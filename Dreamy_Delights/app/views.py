@@ -375,7 +375,7 @@ def address_page(req,id):
         buy = Buy(user=req.user, cake=cake, price=cake.price, address=user_address)
         buy.save()
 
-        return redirect(success) 
+        return redirect(user_view_bookings) 
 
     return render(req, 'user/order_details.html', {
         'cake': cake,
@@ -389,8 +389,8 @@ def place_order(req,id):
     data.save()
     return redirect(user_home)
 
-def success(req):
-    return render(req,'user/order_success.html')
+# def success(req):
+#     return render(req,'user/order_success.html')
 
 # def buy_pro(req,id):
 #     Product=Cake.objects.get(pk=id)

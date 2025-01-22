@@ -124,7 +124,7 @@ border: none;
                   
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">VISIT US</a>
+                    <a class="nav-link" href="visit_us">VISIT US</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="about_us">ABOUT US</a>
@@ -139,15 +139,25 @@ border: none;
               </li> -->
                 
             </ul>
-            
-            <form class="d-flex">
+            <form class="d-flex" role="search" action="{% url 'search' %}" method="POST">
+              {% csrf_token %}
+              <div class="input-group">
+                  <button class="btn " type="submit" style="background-color: white;">
+                      <i class="bi bi-search"></i>
+                  </button>
+                  <input class="form-control" type="text" placeholder="Search" aria-label="Search"id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200"
+                  class="form-control me-2" 
+                  aria-label="Search" name="searched">
+              </div>
+          </form>
+            <!-- <form class="d-flex">
               <div class="input-group">
                   <button class="btn " type="submit" style="background-color: white;">
                       <i class="bi bi-search"></i>
                   </button>
                   <input class="form-control" type="text" placeholder="Search" aria-label="Search">
               </div>
-          </form>
+          </form> -->
 
     
         </div>

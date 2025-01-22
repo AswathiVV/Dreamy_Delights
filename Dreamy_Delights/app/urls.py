@@ -42,7 +42,7 @@ urlpatterns=[
     path('buy_pro/<id>',views.buy_pro),
     path('address_page/<id>',views.address_page),
     path('place_order/<id>',views.place_order), 
-    path('order_success',views.success),
+    # path('order_success',views.success),
     # path('search',views.search),
     path('search/', views.search, name='search'),
 

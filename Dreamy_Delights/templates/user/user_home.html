@@ -84,12 +84,7 @@
               </li>
                 
             </ul>
-            <!-- <form class="d-flex" role="search" action="{% url 'search' %}" method="POST">
-              {% csrf_token %}
-              <input id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200"
-                  class="form-control me-2" type="text" placeholder="Search For Product, Brand and More"
-                  aria-label="Search" name="searched">
-            </form> -->
+   
 
 
             <form class="d-flex" role="search" action="{% url 'search' %}" method="POST">
@@ -98,7 +93,6 @@
                   <button class="btn " type="submit" style="background-color: white;">
                       <i class="bi bi-search"></i>
                   </button>
-                  <!-- <input class="form-control" type="text" placeholder="Search" aria-label="Search"> -->
                   <input class="form-control" type="text" placeholder="Search" aria-label="Search"id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200"
                   class="form-control me-2" 
                   aria-label="Search" name="searched">
@@ -117,9 +111,9 @@
 
       <div class="carousel-item active">
         <img src="{% static 'img/caro1.jpeg' %}" class="d-block w-100" alt="Image 1" style="object-fit: contain; height: 100%;">
-        <div class="carousel-caption position-absolute m-3" style="top: 46%;left: 10%;">
+        <div class="carousel-caption position-absolute m-3" style="top: 46%;left: 15%;">
           <button class="btn btn-light">
-            <a href="#" class="btn">SHOP NOW</a>
+            <a href="../user_cupcake" class="btn">SHOP NOW</a>
           </button>
         </div>
       </div>
@@ -128,16 +122,16 @@
         <img src="{% static 'img/caro2.jpeg' %}" class="d-block w-100" alt="Image 2" style="object-fit: contain; height: 100%;">
         <div class="carousel-caption position-absolute m-3" style="top: 46%;left: 72%;">
           <button class="btn btn-light">
-            <a href="#" class="btn">LEARN MORE</a>
+            <a href="../visit_us" class="btn">LEARN MORE</a>
           </button>
         </div>
       </div>
       
       <div class="carousel-item">
         <img src="{% static 'img/caro3.jpeg' %}" class="d-block w-100" alt="Image 3" style="object-fit: contain; height: 100%;">
-        <div class="carousel-caption position-absolute m-3" style="top: 46%;left: 10%;">
+        <div class="carousel-caption position-absolute m-3" style="top: 46%;left: 15%;">
           <button class="btn btn-light">
-            <a href="#" class="btn">MENU</a>
+            <a href="../about_us" class="btn">MENU</a>
           </button>
         </div>
       </div>
