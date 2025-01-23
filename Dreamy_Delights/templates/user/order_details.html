@@ -5,39 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Place Your Order</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-    <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<!-- <script>
-    $(document).ready(function () {
-    $('a#order').on('click', function (event) {
-        event.preventDefault(); 
-        const href = $(this).attr('href'); 
 
-        Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Order Placed Successfully",
-            showConfirmButton: false,
-            timer: 1500
-        }).then(() => {
-            window.location.href = href;
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('order').addEventListener('click', function (event) {
+            event.preventDefault(); 
+
+            Swal.fire({
+                title: 'Order Placed Successfully!',
+                text: 'Your order has been successfully placed. Thank you for shopping with us!',
+                icon: 'success',
+                confirmButtonText: 'Okay',
+                showClass: {
+                    popup: 'animate__animated animate__fadeIn'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOut'
+                }
+            }).then(() => {
+                document.getElementById('order-form').submit();
+            });
         });
     });
-});
-</script> -->
+</script>
+
 <style>
     .product-img {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    object-fit: cover;
-    height: 200px;
-}
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        object-fit: cover;
+        height: 200px;
+    }
 
+    .animated-button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 12px;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .animated-button:hover {
+        transform: scale(1.1);
+        background-color: #45a049;
+    }
 </style>
+
 <body>
     <div class="container order-container my-5">
         <div class="row">
@@ -46,15 +65,15 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                     <img src="{{cake.img.url}}" class="product-img" alt="{{ cake.name }}"><br><br>
                     <div class="product-details">
                         <h5 class="product-title" style="color: #ed80a8;">{{ cake.name }}</h5>
-                        <p class="product-price" style="  color:#ed80a8;;"><strong>Quantity:</strong> {{ cake.quantity }}</p>
-                        <p class="product-price" style="color: #ed80a8;;"><strong>Price:</strong> ₹{{ cake.price }}</p>
+                        <p class="product-price" style="color:#ed80a8;"><strong>Quantity:</strong> {{ cake.quantity }}</p>
+                        <p class="product-price" style="color: #ed80a8;"><strong>Price:</strong> ₹{{ cake.price }}</p>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-7">
                 <h2>Enter Your Shipping Address</h2>
-                <form method="POST">
+                <form id="order-form" method="POST">
                     {% csrf_token %}
                     <div class="form-group mb-3">
                         <label for="name">Full Name</label>
@@ -72,16 +91,15 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                     </div>
 
                     <div class="form-group text-center">
-                        <a href="../place_order/{{cake.pk}}" id="order">
-                        <button type="submit" class="btn btn-primary btn-lg">Place Order</button>
-                        </a>
+                        <button type="button" id="order" class="btn animated-button">Place Order</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-   
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
+

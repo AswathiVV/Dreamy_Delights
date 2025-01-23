@@ -4,7 +4,9 @@ body {
 }
 
 .navbar {
-  font-family: 'Arial', sans-serif;
+  /* font-family: 'Arial', sans-serif; */
+  font-family: "Playfair Display", serif;
+  
 }
 
 .navbar .navbar-nav .nav-item .nav-link {
