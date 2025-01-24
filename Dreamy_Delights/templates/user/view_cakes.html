@@ -117,17 +117,17 @@ $(document).ready(function () {
                     <a class="nav-link active" aria-current="page" href="javascript:void(0)">HOME</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="user_view_bookings">ORDERS</a>
+                  <a class="nav-link" href="../user_view_bookings">ORDERS</a>
                   
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="visit_us">VISIT US</a>
+                    <a class="nav-link" href="../visit_us">VISIT US</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about_us">ABOUT US</a>
+                    <a class="nav-link" href="../about_us">ABOUT US</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="cart_display">
+                  <a class="nav-link" href="../cart_display">
                     <i style="color:white; font-weight: bolder; font-size: 18px;" class="bi bi-cart2"></i>
                   </a>
                </li>
@@ -147,17 +147,7 @@ $(document).ready(function () {
                   aria-label="Search" name="searched">
               </div>
           </form>
-            
-            <!-- <form class="d-flex">
-              <div class="input-group">
-                  <button class="btn " type="submit" style="background-color: white;">
-                      <i class="bi bi-search"></i>
-                  </button>
-                  <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-              </div>
-          </form> -->
-
-    
+             
         </div>
     </div>
 </nav>
@@ -182,25 +172,36 @@ $(document).ready(function () {
            
           </select>
         </div>
+<div class="d-flex gap-3">
+    {% if cart %}
+    <a href="../cart_display" class="btn btn-primary w-50 text-dark">
+        <i class="bi bi-cart"></i> Go to cart
+    </a>
+    {% else %}
+    <a href="../add_to_cart/{{ cake.pk }}" class="btn btn-secondary w-50 text-white">
+        <i class="bi bi-cart"></i> Add to cart
+    </a>
+    <a href="../address_page/{{ cake.pk }}" class="btn btn-primary w-50 text-white">
+        <i class="bi bi-chevron-double-right"></i> Buy Now
+    </a>
+    {% endif %}
+</div>
 
-        <div class="d-flex gap-3">
-            {% if cart %}
+    <!-- <div class="d-flex gap-3">
+{% if cart %}
     <button class="btn btn-primary w-50">
-        <a href="../cart_display" class="text-white">
+        <a href="../cart_display" class="text-dark">
             <i class="bi bi-cart"></i> Go to cart
         </a>
     </button>
-    <button class="btn btn-outline-dark w-50">
-        <a href="../delete_cart/{{cart.pk}}" class="text-dark">
-            <i class="bi bi-trash"></i> Remove from cart
-        </a>
-    </button>
+
 {% else %}
     <button class="btn btn-secondary w-50">
         <a href="../add_to_cart/{{cake.pk}}" class="text-white" id="cart">
             <i class="bi bi-cart"></i> Add to cart
         </a>
     </button>
+    
     <button class="btn btn-primary w-50">
         <a href="../address_page/{{cake.pk}}" class="text-white">
             <i class="bi bi-chevron-double-right"></i> Buy Now
@@ -208,8 +209,8 @@ $(document).ready(function () {
     </button>
 {% endif %}
 
-
-        </div>
+    </div> -->
+    
 <br><br>
         <h5>Description: </h5>
         <p>{{cake.description}}</p><br>
