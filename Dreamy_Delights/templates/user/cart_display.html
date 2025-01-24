@@ -45,6 +45,105 @@ border: none;
     outline: none; 
     box-shadow: none; 
 }
+.cart-item {
+    font-family: "Playfair Display", serif;
+    background-color: #f9f9f9; 
+    border-radius: 8px; 
+    padding: 15px;
+    transition: all 0.3s ease; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.cart-item:hover {
+    background-color: #e2e2e2; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+    transform: translateY(-5px); 
+}
+
+.cart-item-img {
+    width: 100%;
+    height: 120px; 
+    object-fit: contain;
+    border-radius: 8px; 
+}
+
+/* .remove-btn {
+    transition: color 0.3s ease;
+} */
+
+/* .remove-btn:hover {
+    color: #8c7f81;
+} */
+
+/* .remove-btn i {
+    font-size: 1.1rem;
+} */
+
+.cart-item-title {
+    font-size: 1.1rem; 
+    color: #663233;
+    margin-bottom: 10px;
+}
+
+.cart-item-price {
+    font-size: 1rem; 
+    color: #663233;
+    margin-bottom: 10px;
+}
+.cart-item-img {
+    border: none;
+}
+
+/* .remove-btn,
+.btn-outline-success {
+    border: none;
+} */
+
+@media (max-width: 768px) {
+    .cart-item {
+        flex-direction: column; 
+        align-items: flex-start;
+    }
+
+    .cart-item-img {
+        max-height: 100px;
+    }
+
+    .cart-item-title {
+        font-size: 1.2rem;
+    }
+
+    .cart-item-price {
+        font-size: 1rem;
+    }
+
+    .remove-btn {
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+    }
+}
+
+@media (min-width: 992px) {
+    .cart-item {
+        padding: 20px; 
+    }
+
+    .cart-item-title {
+        font-size: 1.75rem; 
+    }
+
+    .cart-item-price {
+        font-size: 1.3rem; 
+    }
+
+    .cart-item-img {
+        height: 140px;
+    }
+}
 
 </style>
 <body>
@@ -93,45 +192,35 @@ border: none;
                         aria-label="Search" name="searched">
                     </div>
                 </form>
-<!--                 
-                <form class="d-flex">
-                  <div class="input-group">
-                      <button class="btn " type="submit" style="background-color: white;">
-                          <i class="bi bi-search"></i>
-                      </button>
-                      <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-                  </div>
-              </form> -->
-    
-        
             </div>
         </div>
     </nav>
-    <br><br><br>
-
-    <div class="container cart-container">
+    <br>
+    <div class="container my-5">
         <div class="row">
             {% for cart_obj in data %}
-            <div class="col-12 col-md-6 col-lg-4 mb-4">
-                <div class="card h-100">
-                    <!-- Card Image -->
-                    <img src="{{ cart_obj.cake.img.url }}" class="card-img-top" alt="{{ cart_obj.cake.name }}" style="width: 100%; height: 390px; object-fit: cover;">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ cart_obj.cake.name }}</h5>
-                        <p class="card-text">₹ {{ cart_obj.cake.price }}</p>
-                        <div class="d-flex justify-content-between">
-                            <a href="../buy_pro/{{ cart_obj.cake.pk }}" class="btn btn-outline-dark">Buy Now</a>
-                            <a href="../delete_cart/{{ cart_obj.pk }}" class="btn btn-outline-danger">
-                                <i class="bi bi-trash"></i> Remove
-                            </a>
-                        </div>
+            <div class="col-12 mb-4">
+                <div class="row align-items-center cart-item">
+                    <div class="col-4 col-md-3 col-lg-2">
+                        <img src="{{ cart_obj.cake.img.url }}" alt="{{ cart_obj.cake.name }}" class="img-fluid cart-item-img">
+                    </div>
+    
+                    <div class="col-8 col-md-6 col-lg-7">
+                        <h5 class="cart-item-title">{{ cart_obj.cake.name }}</h5>
+                        <p class="cart-item-price">₹ {{ cart_obj.cake.price }}</p>
+                    </div>
+    
+                    <div class="col-12 col-md-4 col-lg-3 text-center text-md-right">
+                        <a href="../buy_pro/{{ cart_obj.cake.pk }}" class="btn" style="background-color: orange;">Buy Now</a>
+                        <a href="../delete_cart/{{ cart_obj.pk }}" class="btn" style="background-color: red;color: #e2e2e2;">
+                            <i class="bi bi-trash"></i>
+                        </a>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
-    
     
 </body>
 </html>
