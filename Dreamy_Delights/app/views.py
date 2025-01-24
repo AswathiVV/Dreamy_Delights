@@ -359,7 +359,7 @@ def delete_cart(req,id):
 
 def buy_pro(req,id):
     cake=Cake.objects.get(pk=id)
-    return redirect(address_page)
+    return redirect(address_page, id=id)
 
 def address_page(req,id):
     cake = Cake.objects.get(id=id)
@@ -368,6 +368,10 @@ def address_page(req,id):
         name = req.POST.get('name')
         address = req.POST.get('address')
         phone_number = req.POST.get('phone_number')
+
+        # if not name or not address or not phone_number:
+        #     messages.error(req, "All fields are required. Please fill in all the details.")
+        #     return render(req, 'user/order_details.html', {'cake': cake})
 
         user_address = Address(user=req.user, name=name, address=address, phone_number=phone_number)
         user_address.save()
@@ -380,6 +384,7 @@ def address_page(req,id):
     return render(req, 'user/order_details.html', {
         'cake': cake,
     })
+
 
 def place_order(req,id):
     Product=Cake.objects.get(pk=id)
