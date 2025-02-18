@@ -22,8 +22,8 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 
 $(document).ready(function () {
     $('#login').on('click', function (event) {
-        event.preventDefault(); // Prevent default link behavior
-        const href = $(this).attr('href'); // Get the href value from the link
+        event.preventDefault();
+        const href = $(this).attr('href'); 
 
         Swal.fire({
             title: "Are you sure?",
@@ -50,10 +50,9 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    // For Add to Cart
     $('a#cart').on('click', function (event) {
-        event.preventDefault(); // Prevent navigation
-        const href = $(this).attr('href'); // Store the href link
+        event.preventDefault(); 
+        const href = $(this).attr('href'); 
 
         Swal.fire({
             position: "center",
@@ -62,7 +61,6 @@ $(document).ready(function () {
             showConfirmButton: false,
             timer: 1500
         }).then(() => {
-            // After alert finishes, navigate to the link
             window.location.href = href;
         });
     });
@@ -102,6 +100,10 @@ border: none;
     outline: none; 
     box-shadow: none; 
 }
+.pagination .page-link {
+    min-width: 80px; 
+    text-align: center;
+}
 
 </style>
 <body>
@@ -129,15 +131,7 @@ border: none;
                 <li class="nav-item">
                     <a class="nav-link" href="about_us">ABOUT US</a>
                 </li>
-                <!-- <li class="nav-item">
-                  <a class="nav-link" href="cart_display">
-                    <i style="color:white; font-weight: bolder; font-size: 18px;" class="bi bi-cart2"></i>
-                  </a>
-               </li> -->
-                <!-- <li class="nav-item">
-                  <a class="nav-link" href="logout">LOGOUT</a>
-              </li> -->
-                
+              
             </ul>
             <form class="d-flex" role="search" action="{% url 'search' %}" method="POST">
               {% csrf_token %}
@@ -150,29 +144,19 @@ border: none;
                   aria-label="Search" name="searched">
               </div>
           </form>
-            <!-- <form class="d-flex">
-              <div class="input-group">
-                  <button class="btn " type="submit" style="background-color: white;">
-                      <i class="bi bi-search"></i>
-                  </button>
-                  <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-              </div>
-          </form> -->
 
-    
         </div>
     </div>
 </nav>
    
 <br><br>    
 
-
+<!-- 
 <div class="container custom-container">
     <h2 class="text-center mb-4" style="color: palevioletred;">Browse the Collections</h2><br>
     <div class="row">
         {% for cake in cake %}
             <div class="col-6 col-sm-6 col-md-4 col-lg-4 mb-4">
-            <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4"> -->
                 <div class="card custom-card">
                     {% if cake.img %}
                         <a href="view_cake/{{cake.pk}}"><img class="card-img-top img-fluid" src="{{ cake.img.url }}" alt="Card image"></a>
@@ -185,7 +169,84 @@ border: none;
             </div>
         {% endfor %}
     </div>
-</div> 
+</div>  -->
+<div class="container custom-container">
+  <h2 class="text-center mb-4" style="color: palevioletred;">Browse the Collections</h2><br>
+  <div class="row">
+      {% for cake in page_obj %}
+          <div class="col-6 col-sm-6 col-md-4 col-lg-4 mb-4">
+              <div class="card custom-card">
+                  {% if cake.img %}
+                      <a href="view_cake/{{cake.pk}}">
+                          <img class="card-img-top img-fluid" src="{{ cake.img.url }}" alt="Cake Image">
+                      </a>
+                  {% endif %}
+                  <div class="card-body">
+                      <h5 class="card-title" style="color: rgb(221, 111, 129); font-weight: bold;">
+                          {{ cake.name }}
+                      </h5>
+                      <p class="card-text" style="color: rgb(221, 111, 129); font-weight: bold;">
+                          ₹ {{ cake.price }}
+                      </p>
+                  </div>
+              </div>
+          </div>
+      {% endfor %}
+  </div>
+
+  <!-- Pagination Links -->
+  <!-- <div class="pagination mt-4 text-center">
+      <nav>
+          <ul class="pagination justify-content-center">
+              {% if page_obj.has_previous %}
+                  <li class="page-item">
+                      <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                  </li>
+              {% endif %}
+
+              {% for num in page_obj.paginator.page_range %}
+                  <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                      <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                  </li>
+              {% endfor %}
+
+              {% if page_obj.has_next %}
+                  <li class="page-item">
+                      <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                  </li>
+              {% endif %}
+          </ul>
+      </nav>
+  </div>
+</div> -->
+<!-- Pagination Links (Centered) -->
+<div class="pagination-container mt-4">
+  <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+          {% if page_obj.has_previous %}
+              <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                  </a>
+              </li>
+          {% endif %}
+
+          {% for num in page_obj.paginator.page_range %}
+              <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                  <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+              </li>
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+              <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                  </a>
+              </li>
+          {% endif %}
+      </ul>
+  </nav>
+</div>
 
 
 <br><br><br>
