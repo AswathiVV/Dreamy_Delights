@@ -4,11 +4,12 @@ from .models import *
 import os
 from django.contrib.auth.models import User
 from django.contrib import messages
-
+import re
 from django.core.mail import send_mail
 from django.conf import settings
 from django.http import HttpResponse
 from django.utils import timezone
+from django.core.paginator import Paginator
 
 
 def home(req):
@@ -43,43 +44,135 @@ def shop_logout(req):
     req.session.flush()              
     return redirect(shop_login) 
 
-def  register(req):
-     if req.method=='POST':
-        name=req.POST['name']       
-        email=req.POST['email']
-        password=req.POST['password']
-        send_mail('Dreamy Delights registration', 'Welcome to Dreamy Delights! Your account has been created successfully', settings.EMAIL_HOST_USER, [email])
+# def  register(req):
+#      if req.method=='POST':
+#         name=req.POST['name']       
+#         email=req.POST['email']
+#         password=req.POST['password']
+#         send_mail('Dreamy Delights registration', 'Welcome to Dreamy Delights! Your account has been created successfully', settings.EMAIL_HOST_USER, [email])
+
+#         try:
+#             data=User.objects.create_user(first_name=name,username=email,email=email,password=password)
+#             data.save()
+#             return redirect(shop_login)
+#         except:
+#             messages.warning(req,"user details already exits")
+#             return redirect(register)
+#      else:
+#          return render(req,'register.html')
+
+def register(req):
+    if req.method == 'POST':
+        name = req.POST.get('name', '').strip()
+        email = req.POST.get('email', '').strip()
+        password = req.POST.get('password', '').strip()
+
+        if not name or not email or not password:
+            messages.error(req, "All fields are required.")
+            return redirect(register)
+
+        email_regex = r'^[a-z][a-z0-9._%+-]*\d[a-z0-9._%+-]*@[a-z0-9.-]+\.[a-z]{2,}$'
+        if not re.fullmatch(email_regex, email): 
+            messages.error(req, "Invalid email format.")
+            return redirect(register)
+
+        if len(password) < 6:
+            messages.error(req, "Password must be at least 6 characters long.")
+            return redirect(register)
+        if not re.search(r'[A-Z]', password):
+            messages.error(req, "Password must contain at least one uppercase letter.")
+            return redirect(register)
+        if not re.search(r'\d', password):
+            messages.error(req, "Password must contain at least one number.")
+            return redirect(register)
+
+        if User.objects.filter(username=email).exists():
+            messages.warning(req, "User already exists.")
+            return redirect(register)
 
         try:
-            data=User.objects.create_user(first_name=name,username=email,email=email,password=password)
-            data.save()
+            user = User.objects.create_user(first_name=name, username=email, email=email, password=password)
+            user.save()
+
+            send_mail(
+                'Dreamy Delights registration', 'Welcome to Dreamy Delights! Your account has been created successfully',
+                settings.EMAIL_HOST_USER,
+                [email],
+                fail_silently=False
+            )
+
+            messages.success(req, "Registration successful! Please log in.")
             return redirect(shop_login)
-        except:
-            messages.warning(req,"user details already exits")
+
+        except Exception as e:
+            messages.error(req, f"Registration failed: {str(e)}")
             return redirect(register)
-     else:
-         return render(req,'register.html')
+
+    return render(req, 'register.html')
 
 
 def view_cupcake(req):
-        cake_category=Category.objects.get(name='CupCakes')
-        cupcakes=Cake.objects.filter(category=cake_category)
-        return render(req,'user/cake.html',{'cake': cupcakes})
-    
+        cake_category = Category.objects.get(name='CupCakes')
+        cupcakes = Cake.objects.filter(category=cake_category)
+
+        paginator = Paginator(cupcakes, 6)  
+        page_number = req.GET.get('page')  
+        page_obj = paginator.get_page(page_number)
+
+        return render(req, 'user/cake.html', {'page_obj': page_obj})
+ 
+
 def view_layercake(req):
-        cake_category=Category.objects.get(name='Layer Cakes')
-        layercakes=Cake.objects.filter(category=cake_category)
-        return render(req,'user/cake.html',{'cake': layercakes})     
+        cake_category = Category.objects.get(name='Layer Cakes')
+        layercakes = Cake.objects.filter(category=cake_category)
+
+        paginator = Paginator(layercakes, 6)
+        page_number = req.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        return render(req, 'user/cake.html', {'page_obj': page_obj})
+  
 
 def view_onelayercake(req):
-        cake_category=Category.objects.get(name='One Tier Party Cakes')
-        onelayercakes=Cake.objects.filter(category=cake_category)
-        return render(req,'user/cake.html',{'cake': onelayercakes})   
-    
+        cake_category = Category.objects.get(name='One Tier Party Cakes')
+        onelayercakes = Cake.objects.filter(category=cake_category)
+
+        paginator = Paginator(onelayercakes, 6)
+        page_number = req.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        return render(req, 'user/cake.html', {'page_obj': page_obj})
+  
+
 def view_twolayercake(req):
-        cake_category=Category.objects.get(name='Two Tier Party Cakes')
-        twolayercakes=Cake.objects.filter(category=cake_category)
-        return render(req,'user/cake.html',{'cake': twolayercakes})   
+        cake_category = Category.objects.get(name='Two Tier Party Cakes')
+        twolayercakes = Cake.objects.filter(category=cake_category)
+
+        paginator = Paginator(twolayercakes, 6)
+        page_number = req.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        return render(req, 'user/cake.html', {'page_obj': page_obj})
+
+# def view_cupcake(req):
+#         cake_category=Category.objects.get(name='CupCakes')
+#         cupcakes=Cake.objects.filter(category=cake_category)
+#         return render(req,'user/cake.html',{'cake': cupcakes})
+    
+# def view_layercake(req):
+#         cake_category=Category.objects.get(name='Layer Cakes')
+#         layercakes=Cake.objects.filter(category=cake_category)
+#         return render(req,'user/cake.html',{'cake': layercakes})     
+
+# def view_onelayercake(req):
+#         cake_category=Category.objects.get(name='One Tier Party Cakes')
+#         onelayercakes=Cake.objects.filter(category=cake_category)
+#         return render(req,'user/cake.html',{'cake': onelayercakes})   
+    
+# def view_twolayercake(req):
+#         cake_category=Category.objects.get(name='Two Tier Party Cakes')
+#         twolayercakes=Cake.objects.filter(category=cake_category)
+#         return render(req,'user/cake.html',{'cake': twolayercakes})   
 
 def about_us(req):
     return render(req,'about_us.html') 
@@ -281,16 +374,12 @@ def user_home(req):
         # products=Cake.objects.all()
         return render(req,'user/user_home.html')  
 
-from django.core.paginator import Paginator
-from django.shortcuts import render, redirect
-from .models import Cake, Category
 
 def user_cupcake(req):
     if 'user' in req.session:
         cake_category = Category.objects.get(name='CupCakes')
         cupcakes = Cake.objects.filter(category=cake_category)
 
-        # Pagination - 6 items per page
         paginator = Paginator(cupcakes, 6)  
         page_number = req.GET.get('page')  
         page_obj = paginator.get_page(page_number)

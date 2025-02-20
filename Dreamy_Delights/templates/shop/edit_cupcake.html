@@ -24,6 +24,9 @@
         {% csrf_token %}
         <input type="text" name="name" id="" placeholder="Name" value="{{data.name}}">
         <input type="number" name="price" id="" placeholder="Price" value="{{data.price}}">
+        {% if data.img %}
+            <img src="{{ data.img.url }}" alt="Current Image" style="width:150px; height:auto; margin-bottom:10px;">
+        {% endif %}
         <input type="file" name="img" id="">
         <input type="text" name="category" id="" placeholder="category" value="{{data.category}}">
          
