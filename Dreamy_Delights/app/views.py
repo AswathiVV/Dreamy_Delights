@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import authenticate,login,logout
 from .models import *
 import os
@@ -10,6 +10,10 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.utils import timezone
 from django.core.paginator import Paginator
+import razorpay
+import json
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 
 def home(req):
@@ -515,9 +519,6 @@ def address_page(req,id):
         address = req.POST.get('address')
         phone_number = req.POST.get('phone_number')
 
-        # if not name or not address or not phone_number:
-        #     messages.error(req, "All fields are required. Please fill in all the details.")
-        #     return render(req, 'user/order_details.html', {'cake': cake})
 
         user_address = Address(user=req.user, name=name, address=address, phone_number=phone_number)
         user_address.save()
@@ -531,40 +532,175 @@ def address_page(req,id):
         'cake': cake,
     })
 
+def pay(req):
+    user = User.objects.get(username=req.session['user'])
+    cake = Cake.objects.get(pk=req.session['cake_id'])  
+    quantity = int(req.GET.get('quantity', 1))
+    order = Order.objects.get(pk=req.session['order_id'])
+
+    if req.method == 'GET':
+        user_address = Address.objects.filter(user=user).order_by('-id').first()
+
+        data = Buy.objects.create(
+            user=user,
+            cake=cake,
+            price=cake.price * quantity,  
+            address=user_address,
+            quantity=quantity,
+            order=order
+        )
+        data.save()
+        return redirect(order_payment)
+
+    return render(req, 'user/user_bookings.html')
+
+
+def order_payment(req):
+    if 'user' in req.session:
+        user = User.objects.get(username=req.session['user'])
+        cake = Cake.objects.get(pk=req.session['cake_id'])
+        amount = cake.price
+
+        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+        razorpay_order = client.order.create({
+            "amount": int(amount) * 100,  
+            "currency": "INR",
+            "payment_capture": "1"
+        })
+        order_id = razorpay_order['id']
+
+        order = Order.objects.create(
+            user=user,
+            price=amount,
+            provider_order_id=order_id
+        )
+        order.save()
+        req.session['order_id'] = order.pk
+
+        return render(req, "user/order_details.html", {
+            "callback_url": "http://127.0.0.1:8000/callback/",
+            "razorpay_key": settings.RAZORPAY_KEY_ID,
+            "order": order,
+        })
+    else:
+        return redirect('login')
+
+
+@csrf_exempt
+def callback(request):
+    def verify_signature(response_data):
+        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+        return client.utility.verify_payment_signature(response_data)
+
+    if "razorpay_signature" in request.POST:
+        payment_id = request.POST.get("razorpay_payment_id", "")
+        provider_order_id = request.POST.get("razorpay_order_id", "")
+        signature_id = request.POST.get("razorpay_signature", "")
+
+        order = Order.objects.get(provider_order_id=provider_order_id)
+        order.payment_id = payment_id
+        order.signature_id = signature_id
+
+        try:
+            verify_signature(request.POST)
+            order.status = PaymentStatus.SUCCESS
+        except:
+            order.status = PaymentStatus.FAILURE
+        
+        order.save()
+
+        return redirect("pay") if order.status == PaymentStatus.SUCCESS else redirect("payment_failed")
+    else:
+        error_data = json.loads(request.POST.get("error[metadata]", "{}"))
+        provider_order_id = error_data.get("order_id", "")
+        order = Order.objects.get(provider_order_id=provider_order_id)
+        order.status = PaymentStatus.FAILURE
+        order.save()
+
+        return redirect("payment_failed")
+
 
 def place_order(req,id):
     Product=Cake.objects.get(pk=id)
     user=User.objects.get(username=req.session['user'])
-    # price=Product.offer_price
     data=Buy.objects.create(user=user,cake=Product)
     data.save()
     return redirect(user_home)
 
-# def success(req):
-#     return render(req,'user/order_success.html')
-
-# def buy_pro(req,id):
-#     Product=Cake.objects.get(pk=id)
-#     user=User.objects.get(username=req.session['user'])
-#     data=Buy.objects.create(user=user,cake=Product)
-#     data.save()
-#     return redirect(user_home)
-#     return render(req, 'order_details.html', {'cake': Cake, 'user': user})
-
-# def place_order(request):
-#     if request.method == 'POST':
-#         user = User.objects.get(id=request.POST['user'])
-#         cake = Cake.objects.get(id=request.POST['cake'])
-#         name = request.POST['name']
-#         address = request.POST['address']
-        
-#         buy = Buy.objects.create(user=user, cake=cake, price=cake.price, name=name, address=address,date=timezone.now())
-        
-#         return redirect('user_home') 
-#     else:
-#         return HttpResponse("Invalid request", status=400)
     
 def user_view_bookings(req):
     user=User.objects.get(username=req.session['user'])
     data=Buy.objects.filter(user=user)[::-1]
     return render(req,'user/view_bookings.html',{'data':data})         
+
+
+
+
+
+@login_required
+def profile_view(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    addresses = Address.objects.filter(user=request.user)
+    return render(request, 'user/profile.html', {'profile': profile, 'addresses': addresses})
+
+@login_required
+def add_address(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        address_text = request.POST.get('address')
+        phone_number = request.POST.get('phone_number')
+
+        if name and address_text and phone_number:
+            address = Address.objects.create(
+                user=request.user,
+                name=name,
+                address=address_text,
+                phone_number=phone_number
+            )
+
+            profile, created = Profile.objects.get_or_create(user=request.user)
+            if not profile.primary_address:
+                profile.primary_address = address
+                profile.save()
+
+            messages.success(request, "Address added successfully.")
+            return redirect('profile_view')
+        else:
+            messages.error(request, "All fields are required.")
+
+    return render(request, 'user/profile.html')
+
+@login_required
+def edit_address(request, address_id):
+    address = get_object_or_404(Address, id=address_id, user=request.user)
+
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        address_text = request.POST.get('address')
+        phone_number = request.POST.get('phone_number')
+
+        if name and address_text and phone_number:
+            address.name = name
+            address.address = address_text
+            address.phone_number = phone_number
+            address.save()
+
+            messages.success(request, "Address updated successfully.")
+            return redirect('profile_view')
+        else:
+            messages.error(request, "All fields are required.")
+
+    return render(request, 'user/profile.html', {'address': address})
+
+@login_required
+def delete_address(request, address_id):
+    address = get_object_or_404(Address, id=address_id, user=request.user)
+    profile = get_object_or_404(Profile, user=request.user)
+
+    if profile.primary_address == address:
+        profile.primary_address = None
+        profile.save()
+
+    address.delete()
+    messages.success(request, "Address deleted successfully.")
+    return redirect('profile_view')

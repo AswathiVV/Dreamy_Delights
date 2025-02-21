@@ -135,5 +135,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'dreamydelights.team@gmail.com'
 EMAIL_HOST_PASSWORD = 'hlsz lebn mxli sead'
 
-RAZORPAY_KEY_ID = 'rzp_test_jAqU4GxOKrC5Sq ID'
-RAZORPAY_KEY_SECRET= 'SXAQ4DQACX9uDfRaAYwLa50H KEY'
+
+
+RAZORPAY_KEY_ID= 'rzp_test_sOuTt2Y2KdTlzd'
+RAZORPAY_KEY_SECRET= 'qFSPIaB548Eh9a7TpKdtJcUn'
