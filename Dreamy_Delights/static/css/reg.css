@@ -1,4 +1,4 @@
-body {
+/* body {
     background-color: #f4f7fc;
     font-family: 'Playfair Display', serif;
     background-image: url("{% static 'img/hero-bg.jpg' %}");
@@ -84,4 +84,4 @@ body {
         padding: 20px;
         margin: 20px;
     }
-}
+} */

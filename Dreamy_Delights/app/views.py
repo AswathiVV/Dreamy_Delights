@@ -14,7 +14,8 @@ import razorpay
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 def home(req):
     return render(req,'home.html')
@@ -65,52 +66,90 @@ def shop_logout(req):
 #      else:
 #          return render(req,'register.html')
 
+# def register(req):
+#     if req.method == 'POST':
+#         name = req.POST.get('name', '').strip()
+#         email = req.POST.get('email', '').strip()
+#         password = req.POST.get('password', '').strip()
+
+#         if not name or not email or not password:
+#             messages.error(req, "All fields are required.")
+#             return redirect(register)
+
+#         email_regex = r'^[a-z][a-z0-9._%+-]*\d[a-z0-9._%+-]*@[a-z0-9.-]+\.[a-z]{2,}$'
+#         if not re.fullmatch(email_regex, email): 
+#             messages.error(req, "Invalid email format.")
+#             return redirect(register)
+
+#         if len(password) < 6:
+#             messages.error(req, "Password must be at least 6 characters long.")
+#             return redirect(register)
+#         if not re.search(r'[A-Z]', password):
+#             messages.error(req, "Password must contain at least one uppercase letter.")
+#             return redirect(register)
+#         if not re.search(r'\d', password):
+#             messages.error(req, "Password must contain at least one number.")
+#             return redirect(register)
+
+#         if User.objects.filter(username=email).exists():
+#             messages.warning(req, "User already exists.")
+#             return redirect(register)
+
+#         try:
+#             user = User.objects.create_user(first_name=name, username=email, email=email, password=password)
+#             user.save()
+
+#             send_mail(
+#                 'Dreamy Delights registration', 'Welcome to Dreamy Delights! Your account has been created successfully',
+#                 settings.EMAIL_HOST_USER,
+#                 [email],
+#                 fail_silently=False
+#             )
+
+#             messages.success(req, "Registration successful! Please log in.")
+#             return redirect(shop_login)
+
+#         except Exception as e:
+#             messages.error(req, f"Registration failed: {str(e)}")
+#             return redirect(register)
+
+#     return render(req, 'register.html')
+
+
 def register(req):
     if req.method == 'POST':
-        name = req.POST.get('name', '').strip()
-        email = req.POST.get('email', '').strip()
-        password = req.POST.get('password', '').strip()
+        name = req.POST['name']
+        email = req.POST['email']
+        password = req.POST['password']
 
-        if not name or not email or not password:
-            messages.error(req, "All fields are required.")
-            return redirect(register)
-
-        email_regex = r'^[a-z][a-z0-9._%+-]*\d[a-z0-9._%+-]*@[a-z0-9.-]+\.[a-z]{2,}$'
-        if not re.fullmatch(email_regex, email): 
+        try:
+            validate_email(email)
+        except ValidationError:
             messages.error(req, "Invalid email format.")
             return redirect(register)
 
-        if len(password) < 6:
-            messages.error(req, "Password must be at least 6 characters long.")
-            return redirect(register)
-        if not re.search(r'[A-Z]', password):
-            messages.error(req, "Password must contain at least one uppercase letter.")
-            return redirect(register)
-        if not re.search(r'\d', password):
-            messages.error(req, "Password must contain at least one number.")
+        password_pattern = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$'
+        if not re.match(password_pattern, password):
+            messages.error(req, "Password must be at least 8 characters long and include letters and numbers.")
             return redirect(register)
 
         if User.objects.filter(username=email).exists():
-            messages.warning(req, "User already exists.")
+            messages.warning(req, "User with this email already exists.")
             return redirect(register)
 
-        try:
-            user = User.objects.create_user(first_name=name, username=email, email=email, password=password)
-            user.save()
+        user = User.objects.create_user(first_name=name, username=email, email=email, password=password)
+        user.save()
 
-            send_mail(
-                'Dreamy Delights registration', 'Welcome to Dreamy Delights! Your account has been created successfully',
-                settings.EMAIL_HOST_USER,
-                [email],
-                fail_silently=False
-            )
+        send_mail(
+            'Dreamy Delights Registration',
+            '🎉 Welcome to Dreamy Delights! Your account has been created successfully.',
+            settings.EMAIL_HOST_USER,
+            [email],
+            fail_silently=False
+        )
 
-            messages.success(req, "Registration successful! Please log in.")
-            return redirect(shop_login)
-
-        except Exception as e:
-            messages.error(req, f"Registration failed: {str(e)}")
-            return redirect(register)
+        messages.success(req, "Account created successfully! Please log in.")
+        return redirect(shop_login)
 
     return render(req, 'register.html')
 
@@ -704,3 +743,45 @@ def delete_address(request, address_id):
     address.delete()
     messages.success(request, "Address deleted successfully.")
     return redirect('profile_view')
+
+
+@login_required
+def delete_account(request):
+    if request.method == "POST":
+        user = request.user
+        user.delete()
+        logout(request)
+        messages.success(request, "Your account has been deleted successfully.")
+        return redirect('login')
+    
+    return render(request, "user/profile.html")
+
+@login_required
+def update_profile(request):
+    if request.method == "POST":
+        user = request.user
+        first_name = request.POST.get("first_name", "").strip()
+        username = request.POST.get("username", "").strip()
+
+        if not first_name or not username:
+            messages.error(request, "Both fields are required.")
+            return render(request, "user/update_profile.html", {"user": user})
+
+        try:
+            validate_email(username)
+        except ValidationError:
+            messages.error(request, "Invalid email format.")
+            return render(request, "user/update_profile.html", {"user": user})
+
+        if user.username != username and user.__class__.objects.filter(username=username).exists():
+            messages.error(request, "This email is already in use.")
+            return render(request, "user/profile.html", {"user": user})
+
+        user.first_name = first_name
+        user.username = username
+        user.save()
+
+        messages.success(request, "Profile updated successfully.")
+        return redirect("profile_view")
+
+    return render(request, "user/profile.html", {"user": request.user})

@@ -211,8 +211,8 @@
 
 <div class="profile-card">
     <h2>User Profile</h2>
-    <h3>{{ user.first_name }}</h5>
-    <h3>{{ user.username }}</h5>
+    <h3>{{ user.first_name }}</h3>
+    <h3>{{ user.username }}</h3>
 
     {% if messages %}
         {% for message in messages %}
@@ -225,8 +225,8 @@
         <p><strong>Name:</strong> {{ profile.primary_address.name }}</p>
         <p><strong>Address:</strong> {{ profile.primary_address.address }}</p>
         <p><strong>Phone:</strong> {{ profile.primary_address.phone_number }}</p>
+        <button class="btn btn-edit" onclick="openEditModal('{{ profile.primary_address.id }}', '{{ profile.primary_address.name|escapejs }}', '{{ profile.primary_address.address|escapejs }}', '{{ profile.primary_address.phone_number|escapejs }}')">Edit Address</button>
 
-        <button class="btn btn-edit" onclick="openEditModal('{{ profile.primary_address.id }}', '{{ profile.primary_address.name }}', '{{ profile.primary_address.address }}', '{{ profile.primary_address.phone_number }}')">Edit Address</button>
         <button class="btn btn-delete" onclick="openDeleteModal('{{ profile.primary_address.id }}')">Remove Address</button>
 
     {% else %}
