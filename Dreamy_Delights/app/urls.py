@@ -60,5 +60,7 @@ urlpatterns=[
     path('add-address/', views.add_address, name='add_address'),
     path('edit-address/<int:address_id>/', views.edit_address, name='edit_address'),
     path('delete-address/<int:address_id>/', views.delete_address, name='delete_address'),
-    
+    path('delete_account', views.delete_account, name='delete_account'),
+    path('update_profile', views.update_profile, name='update_profile'),
+
 ]
