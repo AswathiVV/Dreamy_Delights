@@ -49,10 +49,10 @@ urlpatterns=[
 
     path('user_view_bookings',views.user_view_bookings),
      
-    path('order_payment', views.order_payment, name='order_payment'),
-    path('pay', views.pay, name='pay'),
+    # path('order_payment', views.order_payment, name='order_payment'),
+    # path('pay', views.pay, name='pay'),
      
-    path('callback', views.callback, name='callback'),
+    # path('callback', views.callback, name='callback'),
      
 
    
@@ -62,5 +62,9 @@ urlpatterns=[
     path('delete-address/<int:address_id>/', views.delete_address, name='delete_address'),
     path('delete_account', views.delete_account, name='delete_account'),
     path('update_profile', views.update_profile, name='update_profile'),
+    # path('confirm_purchase/', views.confirm_purchase, name='confirm_purchase'),
+    path('cart_address_page/', views.cart_address_page, name='cart_address_page'),
+    path('cart_place_order', views.cart_place_order, name='cart_place_order'),
+
 
 ]
