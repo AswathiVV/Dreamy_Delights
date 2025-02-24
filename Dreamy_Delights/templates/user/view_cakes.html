@@ -171,13 +171,13 @@ $(document).ready(function () {
         <h1 class="product-title">{{cake.name}}</h1>
         <p class="product-price" >₹ {{cake.price}}</p>
         <hr>
-        <div class="mb-3">
+        <!-- <div class="mb-3">
           <label for="quantity" class="form-label">Quantity:</label>
           <select id="quantity" class="form-select">
             <option>{{cake.quantity}}</option>
            
           </select>
-        </div>
+        </div> -->
 <div class="d-flex gap-3">
     {% if cart %}
     <a href="../cart_display" class="btn btn-primary w-50 text-dark">
@@ -223,10 +223,7 @@ $(document).ready(function () {
         <h5>Allergen & Dietary Advice:</h5>
         <p>Contains GLUTEN (WHEAT), MILK, EGG, and SOYA.</p>
         <br><br>
-        <hr>
-        <a href="#" class="btn btn-outline-secondary w-100 mb-2">Email us about this product</a>
-        <button class="btn btn-outline-secondary w-100">Share this</button>
-        <hr>
+  
       </div>
     </div>
   </div>

@@ -498,40 +498,7 @@ def user_twolayercake(req):
 
         return render(req, 'user/cake.html', {'page_obj': page_obj})
     else:
-        return redirect(shop_login)
-
-# def user_cupcake(req):
-#     if 'user' in req.session:
-#         cake_category=Category.objects.get(name='CupCakes')
-#         cupcakes=Cake.objects.filter(category=cake_category)
-#         return render(req,'user/cake.html',{'cake': cupcakes})
-#     else:
-#         return redirect(shop_login)
-    
-# def user_layercake(req):
-#     if 'user' in req.session:
-#         cake_category=Category.objects.get(name='Layer Cakes')
-#         layercakes=Cake.objects.filter(category=cake_category)
-#         return render(req,'user/cake.html',{'cake': layercakes})
-#     else:
-#         return redirect(shop_login)      
-
-
-# def user_onelayercake(req):
-#     if 'user' in req.session:
-#         cake_category=Category.objects.get(name='One Tier Party Cakes')
-#         onelayercakes=Cake.objects.filter(category=cake_category)
-#         return render(req,'user/cake.html',{'cake': onelayercakes})
-#     else:
-#         return redirect(shop_login)   
-    
-# def user_twolayercake(req):
-#     if 'user' in req.session:
-#         cake_category=Category.objects.get(name='Two Tier Party Cakes')
-#         twolayercakes=Cake.objects.filter(category=cake_category)
-#         return render(req,'user/cake.html',{'cake': twolayercakes})
-#     else:
-#         return redirect(shop_login)     
+        return redirect(shop_login)   
 
 
 def view_cake(req,id):
@@ -676,12 +643,12 @@ def order_payment(req):
     else:
         return redirect('login')
 
+
 @login_required
 def pay(req):
     user = get_object_or_404(User, username=req.session['user'])
     cake = Cake.objects.get(pk=req.session['cake'])
 
-    # cart_item = Cake.objects.filter(user=user).order_by('-id').first()
 
     if not cake:
         messages.error(req, "Your cart is empty. Please add a cake first.")
@@ -948,16 +915,13 @@ def cart_place_order(req):
 
 
 @login_required
-@login_required
 def order_payment2(req):
     if 'user' in req.session:
         user = get_object_or_404(User, username=req.session['user'])
         cart_items = Cart.objects.filter(user=req.user)
 
-        # Initialize the amount to 0
         amount = 0
 
-        # Iterate through each cart item and sum up the price of each cake
         for cart_item in cart_items:
             if cart_item.cake:  # Ensure the cart item has a cake (which it should)
                 amount += cart_item.cake.price  # Add the price of the cake to the total amount
@@ -984,17 +948,14 @@ def order_payment2(req):
         )
         order.save()
 
-        # Store order_id in session for later use
         req.session['order_id'] = order.pk
 
-        # Return the payment page with Razorpay details
         return render(req, "user/payment.html", {
             "callback_url": "http://127.0.0.1:8000/callback2/",
             "razorpay_key": settings.RAZORPAY_KEY_ID,
             "order": order,
         })
     else:
-        # If the user is not logged in, redirect to login page
         return redirect('login')
 
 # def order_payment2(req):
@@ -1037,43 +998,82 @@ def order_payment2(req):
 #     else:
 #         return redirect('login')
 
+# @login_required
+# def pay2(req):
+#     user = get_object_or_404(User, username=req.session['user'])
+#     # cake = Cart.objects.get(pk=req.session['cake'])
+#     cart_items= Cart.objects.filter(user=req.user)
+
+
+#     # cart_item = Cake.objects.filter(user=user).order_by('-id').first()
+
+#     if not cart_items:
+#         messages.error(req, "Your cart is empty. Please add a cake first.")
+#         return redirect('cart_display')
+
+#     cart_items = cart_items
+#     quantity = int(req.GET.get('quantity', 1))
+#     order_id = req.session.get('order_id')
+#     order = get_object_or_404(Order, pk=order_id) if order_id else None
+#     print(cart_items)
+
+
+#     if req.method == 'GET':
+#         user_address = Address.objects.filter(user=user).order_by('-id').first()
+
+#         data = Buy.objects.create(
+#             user=user,
+#             cake=cart_items,
+#             # price=cake.price,  
+#             price = cart_items.price,
+
+#             address=user_address,
+#             order=order
+#         )
+#         data.save()
+
+#         return redirect(user_view_bookings)
+
+#     return render(req, 'user/view_bookings.html')
+
 @login_required
 def pay2(req):
     user = get_object_or_404(User, username=req.session['user'])
-    # cake = Cart.objects.get(pk=req.session['cake'])
-    cart_items= Cart.objects.filter(user=req.user)
 
+    cart_items = Cart.objects.filter(user=req.user)
 
-    # cart_item = Cake.objects.filter(user=user).order_by('-id').first()
-
-    if not cart_items:
+    if not cart_items.exists():
         messages.error(req, "Your cart is empty. Please add a cake first.")
-        return redirect('cart_display')
+        return redirect(cart_display)
 
-    cart_items = cart_items
     quantity = int(req.GET.get('quantity', 1))
+
+    total_price = sum(item.cake.price * quantity for item in cart_items)
+
     order_id = req.session.get('order_id')
     order = get_object_or_404(Order, pk=order_id) if order_id else None
-    print(cart_items)
-
 
     if req.method == 'GET':
         user_address = Address.objects.filter(user=user).order_by('-id').first()
 
-        data = Buy.objects.create(
-            user=user,
-            cake=cart_items,
-            # price=cake.price,  
-            price = cart_items.price,
+        for item in cart_items:
+            Buy.objects.create(
+                user=user,
+                cake=item.cake,
+                quantity=quantity,  
+                price=item.cake.price * quantity,  
+                address=user_address,
+                order=order
+            )
 
-            address=user_address,
-            order=order
-        )
-        data.save()
+        cart_items.delete()
 
         return redirect(user_view_bookings)
 
-    return render(req, 'user/view_bookings.html')
+    return render(req, 'user/view_bookings.html', {
+        'total_price': total_price,
+        'cart_items': cart_items
+    })
 
 
 
