@@ -49,10 +49,10 @@ urlpatterns=[
 
     path('user_view_bookings',views.user_view_bookings),
      
-    # path('order_payment', views.order_payment, name='order_payment'),
-    # path('pay', views.pay, name='pay'),
+    path('order_payment', views.order_payment, name='order_payment'),
+    path('pay', views.pay, name='pay'),
      
-    # path('callback', views.callback, name='callback'),
+    path('callback/', views.callback, name='callback'),
      
 
    
@@ -65,6 +65,10 @@ urlpatterns=[
     # path('confirm_purchase/', views.confirm_purchase, name='confirm_purchase'),
     path('cart_address_page/', views.cart_address_page, name='cart_address_page'),
     path('cart_place_order', views.cart_place_order, name='cart_place_order'),
+
+    path('order_payment2', views.order_payment2, name='order_payment2'),
+    path('pay2', views.pay2, name='pay2'),
+    path('callback2/', views.callback2, name='callback2'),
 
 
 ]

@@ -136,5 +136,6 @@ EMAIL_HOST_USER = 'dreamydelights.team@gmail.com'
 EMAIL_HOST_PASSWORD = 'hlsz lebn mxli sead'
 
 
+
 RAZORPAY_KEY_ID = 'rzp_test_jAqU4GxOKrC5Sq'
 RAZORPAY_KEY_SECRET= 'SXAQ4DQACX9uDfRaAYwLa50H'
