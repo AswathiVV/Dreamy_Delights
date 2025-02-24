@@ -20,6 +20,7 @@ body {
   color: #333;
 }
 
+
 .contact-page {
   /* max-width: 1200px; */
   /* margin: 50px auto; */
@@ -184,6 +185,66 @@ button.submit-btn:hover {
 
 </style>
 <body>
+  
+  {% csrf_token %}
+  <nav class="navbar navbar-expand-sm navbar-light shadow-sm" style="background-color:#f1c9d9 ;" >
+    <div class="container-fluid">
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+  
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="../">HOME</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../collections">ORDER ONLINE</a>
+                  
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="visit_us">VISIT US</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about_us">ABOUT US</a>
+                </li>
+                <!-- <li class="nav-item">
+                  <a class="nav-link" href="cart_display">
+                    <i style="color:white; font-weight: bolder; font-size: 18px;" class="bi bi-cart2"></i>
+                  </a>
+               </li> -->
+                <li class="nav-item">
+                  <a class="nav-link" href="login">LOGIN</a>
+              </li>
+                
+            </ul>
+            <!-- <form class="d-flex" role="search" action="{% url 'search' %}" method="POST">
+              {% csrf_token %}
+              <div class="input-group">
+                  <button class="btn " type="submit" style="background-color: white;">
+                      <i class="bi bi-search"></i>
+                  </button>
+                  <input class="form-control" type="text" placeholder="Search" aria-label="Search"id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200"
+                  class="form-control me-2" 
+                  aria-label="Search" name="searched">
+              </div>
+          </form> -->
+            
+            <!-- <form class="d-flex">
+              <div class="input-group">
+                  <button class="btn " type="submit" style="background-color: white;">
+                      <i class="bi bi-search"></i>
+                  </button>
+                  <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+              </div>
+          </form> -->
+
+    
+        </div>
+    </div>
+  </nav>
 
   <div class="contact-page">
     <header class="contact-header">

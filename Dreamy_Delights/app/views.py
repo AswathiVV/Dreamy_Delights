@@ -775,114 +775,114 @@ def address_page(req, id):
 # import json
 
 # Razorpay Client Initialization
-# razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
 # -----------------------------------
 # 🧾 ORDER PAYMENT (Initiate Payment)
 # -----------------------------------
-# @login_required
-# def order_payment(req):
-#     if 'username' in req.session:
-#         user = get_object_or_404(User, username=req.session['username'])
-#         cake = Cake.objects.get(pk=req.session['id'])
-#         amount = cake.price
+@login_required
+def order_payment(req):
+    if 'username' in req.session:
+        user = get_object_or_404(User, username=req.session['username'])
+        cake = Cake.objects.get(pk=req.session['id'])
+        amount = cake.price
 
-#         # Create Razorpay Order
-#         razorpay_order = razorpay_client.order.create({
-#             "amount": int(amount) * 100,  # Amount in paisa
-#             "currency": "INR",
-#             # "payment_capture": "1"
-#         })
+        # Create Razorpay Order
+        razorpay_order = razorpay_client.order.create({
+            "amount": int(amount) * 100,  # Amount in paisa
+            "currency": "INR",
+            # "payment_capture": "1"
+        })
 
-#         # Create Local Order
-#         order = Order.objects.create(
-#             user=user,
-#             price=amount,
-#             provider_order_id=razorpay_order['id']
-#         )
-#         req.session['order_id'] = order.pk
+        # Create Local Order
+        order = Order.objects.create(
+            user=user,
+            price=amount,
+            provider_order_id=razorpay_order['id']
+        )
+        req.session['order_id'] = order.pk
 
-#         return render(req, "user/address.html", {
-#             "callback_url": "http://127.0.0.1:8000/callback/",
-#             "razorpay_key": settings.RAZORPAY_KEY_ID,
-#             "order": order,
-#         })
-#     else:
-#         return redirect('login')
+        return render(req, "user/address.html", {
+            "callback_url": "http://127.0.0.1:8000/callback/",
+            "razorpay_key": settings.RAZORPAY_KEY_ID,
+            "order": order,
+        })
+    else:
+        return redirect('login')
 
 # -----------------------------------
 # 💸 PAY & CREATE BUY ENTRY
 # -----------------------------------
-# @login_required
-# def pay(req):
-#     user = get_object_or_404(User, username=req.session['user'])
+@login_required
+def pay(req):
+    user = get_object_or_404(User, username=req.session['user'])
 
-#     cart_item = Cart.objects.filter(user=user).order_by('-id').first()
+    cart_item = Cart.objects.filter(user=user).order_by('-id').first()
 
-#     if not cart_item:
-#         messages.error(req, "Your cart is empty. Please add a cake first.")
-#         return redirect('cart_display')
+    if not cart_item:
+        messages.error(req, "Your cart is empty. Please add a cake first.")
+        return redirect('cart_display')
 
-#     cake = cart_item.cake
-#     quantity = int(req.GET.get('quantity', 1))
-#     order_id = req.session.get('order_id')
-#     order = get_object_or_404(Order, pk=order_id) if order_id else None
+    cake = cart_item.cake
+    quantity = int(req.GET.get('quantity', 1))
+    order_id = req.session.get('order_id')
+    order = get_object_or_404(Order, pk=order_id) if order_id else None
 
-#     if req.method == 'GET':
-#         user_address = Address.objects.filter(user=user).order_by('-id').first()
+    if req.method == 'GET':
+        user_address = Address.objects.filter(user=user).order_by('-id').first()
 
-#         data = Buy.objects.create(
-#             user=user,
-#             cake=cake,
-#             price=cake.price * quantity,  # Price multiplied by quantity
-#             address=user_address,
-#             order=order
-#         )
-#         data.save()
+        data = Buy.objects.create(
+            user=user,
+            cake=cake,
+            price=cake.price * quantity,  # Price multiplied by quantity
+            address=user_address,
+            order=order
+        )
+        data.save()
 
-#         return redirect(user_view_bookings)
+        return redirect(user_view_bookings)
 
-#     return render(req, 'user/view_bookings.html')
+    return render(req, 'user/view_bookings.html')
 
 
 
-# # -----------------------------------
-# # 🧾 RAZORPAY CALLBACK (Verify Payment)
-# # -----------------------------------
-# @csrf_exempt
-# def callback(request):
-#     def verify_signature(response_data):
-#         client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
-#         return client.utility.verify_payment_signature(response_data)
+# -----------------------------------
+# 🧾 RAZORPAY CALLBACK (Verify Payment)
+# -----------------------------------
+@csrf_exempt
+def callback(request):
+    def verify_signature(response_data):
+        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+        return client.utility.verify_payment_signature(response_data)
 
-#     if "razorpay_signature" in request.POST:
-#         payment_id = request.POST.get("razorpay_payment_id", "")
-#         provider_order_id = request.POST.get("razorpay_order_id", "")
-#         signature_id = request.POST.get("razorpay_signature", "")
+    if "razorpay_signature" in request.POST:
+        payment_id = request.POST.get("razorpay_payment_id", "")
+        provider_order_id = request.POST.get("razorpay_order_id", "")
+        signature_id = request.POST.get("razorpay_signature", "")
 
-#         # Update Order
-#         order = Order.objects.get(provider_order_id=provider_order_id)
-#         order.payment_id = payment_id
-#         order.signature_id = signature_id
+        # Update Order
+        order = Order.objects.get(provider_order_id=provider_order_id)
+        order.payment_id = payment_id
+        order.signature_id = signature_id
 
-#         # Verify Signature
-#         if verify_signature(request.POST):
-#             order.status = PaymentStatus.SUCCESS
-#         else:
-#             order.status = PaymentStatus.FAILURE
+        # Verify Signature
+        if verify_signature(request.POST):
+            order.status = PaymentStatus.SUCCESS
+        else:
+            order.status = PaymentStatus.FAILURE
 
-#         order.save()
-#         return redirect("pay")
+        order.save()
+        return redirect("pay")
 
-#     else:
-#         # Handle Payment Failure
-#         payment_data = json.loads(request.POST.get("error[metadata]", "{}"))
-#         provider_order_id = payment_data.get("order_id", "")
-#         order = Order.objects.get(provider_order_id=provider_order_id)
-#         order.status = PaymentStatus.FAILURE
-#         order.save()
+    else:
+        # Handle Payment Failure
+        payment_data = json.loads(request.POST.get("error[metadata]", "{}"))
+        provider_order_id = payment_data.get("order_id", "")
+        order = Order.objects.get(provider_order_id=provider_order_id)
+        order.status = PaymentStatus.FAILURE
+        order.save()
 
-#         return redirect("pay")
+        return redirect("pay")
 
 
 def place_order(req,id):
