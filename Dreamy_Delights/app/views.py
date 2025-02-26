@@ -49,72 +49,6 @@ def shop_logout(req):
     req.session.flush()              
     return redirect(shop_login) 
 
-# def  register(req):
-#      if req.method=='POST':
-#         name=req.POST['name']       
-#         email=req.POST['email']
-#         password=req.POST['password']
-#         send_mail('Dreamy Delights registration', 'Welcome to Dreamy Delights! Your account has been created successfully', settings.EMAIL_HOST_USER, [email])
-
-#         try:
-#             data=User.objects.create_user(first_name=name,username=email,email=email,password=password)
-#             data.save()
-#             return redirect(shop_login)
-#         except:
-#             messages.warning(req,"user details already exits")
-#             return redirect(register)
-#      else:
-#          return render(req,'register.html')
-
-# def register(req):
-#     if req.method == 'POST':
-#         name = req.POST.get('name', '').strip()
-#         email = req.POST.get('email', '').strip()
-#         password = req.POST.get('password', '').strip()
-
-#         if not name or not email or not password:
-#             messages.error(req, "All fields are required.")
-#             return redirect(register)
-
-#         email_regex = r'^[a-z][a-z0-9._%+-]*\d[a-z0-9._%+-]*@[a-z0-9.-]+\.[a-z]{2,}$'
-#         if not re.fullmatch(email_regex, email): 
-#             messages.error(req, "Invalid email format.")
-#             return redirect(register)
-
-#         if len(password) < 6:
-#             messages.error(req, "Password must be at least 6 characters long.")
-#             return redirect(register)
-#         if not re.search(r'[A-Z]', password):
-#             messages.error(req, "Password must contain at least one uppercase letter.")
-#             return redirect(register)
-#         if not re.search(r'\d', password):
-#             messages.error(req, "Password must contain at least one number.")
-#             return redirect(register)
-
-#         if User.objects.filter(username=email).exists():
-#             messages.warning(req, "User already exists.")
-#             return redirect(register)
-
-#         try:
-#             user = User.objects.create_user(first_name=name, username=email, email=email, password=password)
-#             user.save()
-
-#             send_mail(
-#                 'Dreamy Delights registration', 'Welcome to Dreamy Delights! Your account has been created successfully',
-#                 settings.EMAIL_HOST_USER,
-#                 [email],
-#                 fail_silently=False
-#             )
-
-#             messages.success(req, "Registration successful! Please log in.")
-#             return redirect(shop_login)
-
-#         except Exception as e:
-#             messages.error(req, f"Registration failed: {str(e)}")
-#             return redirect(register)
-
-#     return render(req, 'register.html')
-
 
 def register(req):
     if req.method == 'POST':
@@ -197,35 +131,9 @@ def view_twolayercake(req):
 
         return render(req, 'user/cake.html', {'page_obj': page_obj})
 
-# def view_cupcake(req):
-#         cake_category=Category.objects.get(name='CupCakes')
-#         cupcakes=Cake.objects.filter(category=cake_category)
-#         return render(req,'user/cake.html',{'cake': cupcakes})
-    
-# def view_layercake(req):
-#         cake_category=Category.objects.get(name='Layer Cakes')
-#         layercakes=Cake.objects.filter(category=cake_category)
-#         return render(req,'user/cake.html',{'cake': layercakes})     
-
-# def view_onelayercake(req):
-#         cake_category=Category.objects.get(name='One Tier Party Cakes')
-#         onelayercakes=Cake.objects.filter(category=cake_category)
-#         return render(req,'user/cake.html',{'cake': onelayercakes})   
-    
-# def view_twolayercake(req):
-#         cake_category=Category.objects.get(name='Two Tier Party Cakes')
-#         twolayercakes=Cake.objects.filter(category=cake_category)
-#         return render(req,'user/cake.html',{'cake': twolayercakes})   
 
 def about_us(req):
     return render(req,'about_us.html') 
-
-# def visit_us(req):
-#     return render(req,'visit_us.html')
-# from django.core.mail import send_mail
-# from django.contrib import messages
-# from django.shortcuts import render, redirect
-# from django.conf import settings
 
 def visit_us(request):
     if request.method == 'POST':
@@ -333,43 +241,6 @@ def search_admin(request):
         return render(request, 'shop/search_admin.html', {'searched': searched, 'results': results})
     else:
         return render(request, 'shop/search_admin.html', {'searched': '', 'results': []})    
-    
-# def add_cupcake(req):
-#     if req.method=='POST':
-#         id=req.POST['id']
-#         name=req.POST['name']       
-#         price=req.POST['price']            
-#         file=req.FILES['img']
-#         category=req.POST['category']
-#         qty=req.POST['quantity']
-#         des=req.POST['description']
-#         data=Cake.objects.create(name=name,price=price,img=file,category=category,quantity=qty,description=des)   
-#         data.save()
-#         return redirect(shop_home)
-#     return render(req,'shop/add_cupcake.html') 
-
-
-# def edit_cake(req,id):
-#         cake = Cake.objects.get(pk=id)
-#         category=Category.objects.all()
-
-
-#         if req.method == 'POST':
-#             name = req.POST['name']
-#             price = req.POST['price']
-#             file = req.FILES.get('img')  
-#             cat = req.POST['category']
-#             qty = req.POST['quantity']
-#             des = req.POST['description']
-            
-#             print(file)
-#             if file:
-#                 Cake.objects.filter(pk=id).update(name=name,price=price,img=file,category=cat,quantity=qty,description=des)   
-#             else:
-#                 Cake.objects.filter(pk=id).update(name=name,price=price,category=cat,quantity=qty,description=des)   
-
-#             return redirect(shop_home)
-#         return render(req,'shop/edit_cupcake.html',{'data':cake},{'categories': category}) 
 
 
 def edit_cake(req,id):
@@ -385,7 +256,6 @@ def edit_cake(req,id):
             qty = req.POST['quantity']
             des = req.POST['description']
 
-            # category = Category.objects.get(id=Category) 
             if file:
                 cake.img =file
             cake.save()    
@@ -399,34 +269,6 @@ def edit_cake(req,id):
             return redirect(shop_home)
         return render(req,'shop/edit_cupcake.html',{'data':cake, 'categories': category}) 
 
-
-# def edit_cupcake(req, id):
-#     cupcakes = Cake.objects.get(pk=id)
-
-#     if req.method == 'POST':
-#         name = req.POST['name']
-#         price = req.POST['price']
-#         file = req.FILES.get('img')  
-#         cat = req.POST['category']
-#         qty = req.POST['quantity']
-#         des = req.POST['description']
-        
-
-#         if file:
-#             cupcakes.img = file 
-
-#         cupcakes.name = name
-#         cupcakes.price = price
-#         cupcakes.category = cat
-#         cupcakes.quantity = qty
-#         cupcakes.description = des
-
-#         cupcakes.save()
-
-#         return redirect('shop_home')
-
-#     return render(req, 'shop/edit_cupcake.html', {'data': cupcakes})
-
 def delete_cupcake(req,id):
         data=Cake.objects.get(pk=id)
         url=data.img.url
@@ -435,9 +277,64 @@ def delete_cupcake(req,id):
         data.delete()
         return redirect(shop_home) 
 
-def bookings(req):
-    bookings=Buy.objects.all()[::-1][:10]
-    return render(req,'shop/bookings.html',{'data':bookings})
+# def bookings(req):
+#     bookings=Buy.objects.all()[::-1][:10]
+#     return render(req,'shop/bookings.html',{'data':bookings})
+
+# from django.shortcuts import render, get_object_or_404, redirect
+# from django.core.mail import send_mail
+# from django.conf import settings
+# from .models import Buy, User, Category, Cake
+# import os
+def admin_bookings(req):
+    user = User.objects.all()
+    data = Buy.objects.select_related('address', 'cake', 'user', 'cake__category').all()[::-1]
+    category = Category.objects.all()
+    total_profit = sum(item.price * item.quantity for item in data)
+
+    return render(req, 'shop/admin_bookings.html', {
+        'user': user,
+        'data': data,
+        'category': category,
+        'total_profit': total_profit
+    })
+
+
+def cancel_order(req, order_id):
+    order = get_object_or_404(Buy, pk=order_id)
+    order.delete()
+    return redirect("admin_bookings")
+
+def confirm_order(request, order_id):
+    order = get_object_or_404(Buy, pk=order_id)
+    
+    if not order.is_confirmed:
+        order.is_confirmed = True
+        order.save()
+
+        # Email details
+        subject = "Order Confirmation"
+        message = f"Dear {order.user.first_name},\n\nYour order ({order.cake.name}) has been confirmed. Thank you for shopping with us!\n\nBest regards,\nDreamy Delights Team"
+
+        recipient_email = order.user.email  
+
+        try:
+            send_mail(
+                subject,
+                message,
+                settings.EMAIL_HOST_USER,
+                [recipient_email],
+                fail_silently=False,
+            )
+        except Exception as e:
+            print(f"Email sending failed: {e}")
+
+    return redirect(admin_bookings)
+
+# def bookings(req):
+#     bookings = Buy.objects.all().order_by('-id')[:10]
+#     return render(req, 'shop/bookings.html', {'data': bookings})
+
 
 
 # #------------------------------------- User--------------------------------------------------------------
@@ -673,7 +570,7 @@ def pay(req):
         )
         data.save()
 
-        return redirect(user_view_bookings)
+        return redirect(view_bookings)
 
     return render(req, 'user/view_bookings.html')
 
@@ -721,10 +618,34 @@ def place_order(req,id):
     return redirect(user_home)
 
 
-def user_view_bookings(req):
-    user=User.objects.get(username=req.session['user'])
-    data=Buy.objects.filter(user=user)[::-1]
-    return render(req,'user/view_bookings.html',{'data':data})         
+# def user_view_bookings(req):
+#     user=User.objects.get(username=req.session['user'])
+#     data=Buy.objects.filter(user=user)[::-1]
+#     return render(req,'user/view_bookings.html',{'data':data}) 
+
+def view_bookings(req):
+    user = User.objects.get(username=req.session['user'])
+    
+    data1 = Buy.objects.filter(user=user).select_related('cake', 'cake__category').order_by('-id')
+
+    for booking in data1:
+        price = booking.cake.price  
+        booking.total_price = price * booking.quantity  
+
+    context = {
+        'data1': data1,
+    }
+    return render(req, 'user/view_bookings.html', context)
+
+def user_orders(request):
+    user = User.objects.get(username=request.session['user'])
+    orders = Buy.objects.filter(user=user).select_related('cake', 'cake__category').order_by('-id')
+
+    for order in orders:
+        print(f"Order ID: {order.id}, Is Confirmed: {order.is_confirmed}")
+
+    return render(request, 'user/view_bookings.html', {'data1': orders})
+
 
 
 @login_required
@@ -910,7 +831,7 @@ def cart_place_order(req):
     del req.session['address_id']  
 
     messages.success(req, "Order placed successfully!")
-    return redirect(user_view_bookings)
+    return redirect(view_bookings)
 
 
 
@@ -1068,7 +989,7 @@ def pay2(req):
 
         cart_items.delete()
 
-        return redirect(user_view_bookings)
+        return redirect(view_bookings)
 
     return render(req, 'user/view_bookings.html', {
         'total_price': total_price,

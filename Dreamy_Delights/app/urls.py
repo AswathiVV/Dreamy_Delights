@@ -24,9 +24,14 @@ urlpatterns=[
     path('add_cake',views.add_cake),
     path('edit_cupcake/<id>',views.edit_cake),
     path('delete_cupcake/<id>',views.delete_cupcake),
-    path('bookings',views.bookings),
+    # path('bookings',views.bookings),
     # path('search_admin',views.search_admin),
     path('search_admin/', views.search_admin, name='search_admin'),
+    path('admin_bookings',views.admin_bookings),
+    path('cancel_order/<order_id>',views.cancel_order, name='cancel_order'),
+    path('confirm_order/<order_id>',views.confirm_order, name='confirm_order'),
+
+
 
 
 # #------------------------------------- User--------------------------------------------------------------
@@ -47,7 +52,9 @@ urlpatterns=[
     path('search/', views.search, name='search'),
 
 
-    path('user_view_bookings',views.user_view_bookings),
+    path('user_view_bookings',views.view_bookings),
+    path('user_orders',views.user_orders),
+
      
     path('order_payment', views.order_payment, name='order_payment'),
     path('pay', views.pay, name='pay'),
