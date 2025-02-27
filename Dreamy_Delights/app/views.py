@@ -484,6 +484,26 @@ def buy_pro(req,id):
 #     return render(req, 'user/order_details.html', {
 #         'cake': cake,
 #     })
+# def address_page(req, id):
+#     cake = Cake.objects.get(id=id)
+#     user = User.objects.get(username=req.session['user'])  
+
+#     user_address = Address.objects.filter(user=user).order_by('-id').first()
+
+#     if req.method == 'POST':
+#         name = req.POST.get('name')
+#         address = req.POST.get('address')
+#         phone_number = req.POST.get('phone_number')
+#         Address.objects.filter(user=user).update(name=name, address=address, phone_number=phone_number)
+
+#         req.session['cake']=id
+
+#         return redirect(order_payment) 
+
+#     return render(req, 'user/order_details.html', {
+#         'cake': cake,
+#         'user_address': user_address  
+#     })
 def address_page(req, id):
     cake = Cake.objects.get(id=id)
     user = User.objects.get(username=req.session['user'])  
@@ -494,11 +514,14 @@ def address_page(req, id):
         name = req.POST.get('name')
         address = req.POST.get('address')
         phone_number = req.POST.get('phone_number')
+        quantity = req.POST.get('quantity')  # ✅ Capture quantity
+
         Address.objects.filter(user=user).update(name=name, address=address, phone_number=phone_number)
 
-        req.session['cake']=id
+        req.session['cake'] = id
+        req.session['quantity'] = quantity  # ✅ Save quantity in session
 
-        return redirect(order_payment) 
+        return redirect(order_payment)  # Redirect to payment page
 
     return render(req, 'user/order_details.html', {
         'cake': cake,
@@ -506,39 +529,70 @@ def address_page(req, id):
     })
 
 
+# @login_required
+# def order_payment(req):
+#     if 'user' in req.session:
+#         user = get_object_or_404(User, username=req.session['user'])
+#         cake = Cake.objects.get(pk=req.session['cake'])
+#         amount = cake.price
+#         print(cake)
+
+#         razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+
+#         razorpay_order = razorpay_client.order.create({
+#             "amount": int(amount) * 100, 
+#             "currency": "INR",    
+
+#             "payment_capture": "1"
+#         })
+
+#         order_id=razorpay_order['id']
+#         order = Order.objects.create(
+#             user=user,
+#             price=amount,
+#             provider_order_id=razorpay_order['id']
+#         )
+#         order.save()
+#         req.session['order_id'] = order.pk
+
+#         return render(req, "user/payment.html", {
+#             "callback_url": "http://127.0.0.1:8000/callback/",
+#             "razorpay_key": settings.RAZORPAY_KEY_ID,
+#             "order": order,
+#         })
+#     else:
+#         return redirect('login')
 @login_required
 def order_payment(req):
     if 'user' in req.session:
         user = get_object_or_404(User, username=req.session['user'])
         cake = Cake.objects.get(pk=req.session['cake'])
-        amount = cake.price
-        print(cake)
+        quantity = int(req.session.get('quantity', 1))  
+        total_amount = cake.price * quantity  
 
         razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
         razorpay_order = razorpay_client.order.create({
-            "amount": int(amount) * 100, 
-            "currency": "INR",    
-
+            "amount": int(total_amount * 100),  
+            "currency": "INR",
             "payment_capture": "1"
         })
 
-        order_id=razorpay_order['id']
         order = Order.objects.create(
             user=user,
-            price=amount,
+            price=total_amount,  
             provider_order_id=razorpay_order['id']
         )
-        order.save()
-        req.session['order_id'] = order.pk
+        
+        req.session['order_id'] = order.pk  
 
         return render(req, "user/payment.html", {
             "callback_url": "http://127.0.0.1:8000/callback/",
             "razorpay_key": settings.RAZORPAY_KEY_ID,
             "order": order,
         })
-    else:
-        return redirect('login')
+    
+    return redirect(login)  
 
 
 @login_required

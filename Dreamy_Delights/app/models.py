@@ -26,6 +26,8 @@ class Cake(models.Model):
 class Cart(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     cake=models.ForeignKey(Cake,on_delete=models.CASCADE) 
+    quantity = models.PositiveIntegerField(default=1)
+
 
 class Address(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -64,8 +66,7 @@ class Buy(models.Model):
     is_confirmed = models.BooleanField(default=False)
     order=models.ForeignKey(Order,on_delete=models.CASCADE,null=True)
 
-    def __str__(self):
-        return self.name 
+   
 
 
 class Profile(models.Model):
