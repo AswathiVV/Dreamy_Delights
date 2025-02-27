@@ -29,6 +29,10 @@ class Cart(models.Model):
     quantity = models.PositiveIntegerField(default=1)
 
 
+    def total_price(self):
+        return self.cake.price * self.quantity
+
+
 class Address(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
@@ -65,8 +69,6 @@ class Buy(models.Model):
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
     is_confirmed = models.BooleanField(default=False)
     order=models.ForeignKey(Order,on_delete=models.CASCADE,null=True)
-
-   
 
 
 class Profile(models.Model):

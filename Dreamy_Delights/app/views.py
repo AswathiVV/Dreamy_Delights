@@ -562,6 +562,8 @@ def address_page(req, id):
 #         })
 #     else:
 #         return redirect('login')
+
+
 @login_required
 def order_payment(req):
     if 'user' in req.session:
@@ -813,6 +815,8 @@ def update_profile(request):
         return redirect("profile_view")
 
     return render(request, "user/profile.html", {"user": request.user})
+
+
 
 
 
