@@ -419,20 +419,39 @@ def search(request):
         return render(request, 'user/search_user.html', {'searched': '', 'results': []})         
          
 
-def add_to_cart(req,id):
-     Product=Cake.objects.get(pk=id)
-     print(Product)
-     user=User.objects.get(username=req.session['user'])
-     print(user)
-     data=Cart.objects.create(user=user,cake=Product)
-     data.save()
-     return redirect(cart_display)
+# def add_to_cart(req,id):
+#      Product=Cake.objects.get(pk=id)
+#      print(Product)
+#      user=User.objects.get(username=req.session['user'])
+#      print(user)
+#      data=Cart.objects.create(user=user,cake=Product)
+#      data.save()
+#      return redirect(cart_display)
 
 
-def cart_display(req):
-    user=User.objects.get(username=req.session['user'])
-    data=Cart.objects.filter(user=user)
-    return render(req,'user/cart_display.html',{'data':data})  
+def add_to_cart(req, id):
+    if 'user' not in req.session:  # Check if user is logged in
+        return redirect('login')
+
+    user = get_object_or_404(User, username=req.session['user'])
+    cake = get_object_or_404(Cake, pk=id)
+
+    # Check if item already exists in cart
+    cart_item = Cart.objects.filter(user=user, cake=cake).first()
+
+    if cart_item:
+        cart_item.quantity += 1  # Increase quantity
+        cart_item.save()
+    else:
+        Cart.objects.create(user=user, cake=cake, quantity=1)  # Add new item
+
+    return redirect(cart_display)
+
+
+# def cart_display(req):
+#     user=User.objects.get(username=req.session['user'])
+#     data=Cart.objects.filter(user=user)
+#     return render(req,'user/cart_display.html',{'data':data})  
 
 
 def delete_cart(req,id):
@@ -444,66 +463,6 @@ def buy_pro(req,id):
     cake=Cake.objects.get(pk=id)
     return redirect(address_page, id=id)
 
-# def address_page(req,id):
-#     cake = Cake.objects.get(id=id)
-    
-#     if req.method == 'POST':
-#         name = req.POST.get('name')
-#         address = req.POST.get('address')
-#         phone_number = req.POST.get('phone_number')
-
-
-#         user_address = Address(user=req.user, name=name, address=address, phone_number=phone_number)
-#         user_address.save()
-
-#         buy = Buy(user=req.user, cake=cake, price=cake.price, address=user_address)
-#         buy.save()
-
-#         return redirect(user_view_bookings) 
-
-#     return render(req, 'user/order_details.html', {
-#         'cake': cake,
-#     })
-
-# def address_page(req, id):
-#     cake = Cake.objects.get(id=id)
-    
-#     if req.method == 'POST':
-#         name = req.POST.get('name')
-#         address = req.POST.get('address')
-#         phone_number = req.POST.get('phone_number')
-
-#         user_address = Address(user=req.user, name=name, address=address, phone_number=phone_number)
-#         user_address.save()
-
-#         buy = Buy(user=req.user, cake=cake, price=cake.price, address=user_address)
-#         buy.save()
-
-#         return redirect(user_view_bookings)
-
-#     return render(req, 'user/order_details.html', {
-#         'cake': cake,
-#     })
-# def address_page(req, id):
-#     cake = Cake.objects.get(id=id)
-#     user = User.objects.get(username=req.session['user'])  
-
-#     user_address = Address.objects.filter(user=user).order_by('-id').first()
-
-#     if req.method == 'POST':
-#         name = req.POST.get('name')
-#         address = req.POST.get('address')
-#         phone_number = req.POST.get('phone_number')
-#         Address.objects.filter(user=user).update(name=name, address=address, phone_number=phone_number)
-
-#         req.session['cake']=id
-
-#         return redirect(order_payment) 
-
-#     return render(req, 'user/order_details.html', {
-#         'cake': cake,
-#         'user_address': user_address  
-#     })
 def address_page(req, id):
     cake = Cake.objects.get(id=id)
     user = User.objects.get(username=req.session['user'])  
@@ -514,54 +473,19 @@ def address_page(req, id):
         name = req.POST.get('name')
         address = req.POST.get('address')
         phone_number = req.POST.get('phone_number')
-        quantity = req.POST.get('quantity')  # ✅ Capture quantity
+        quantity = req.POST.get('quantity')  
 
         Address.objects.filter(user=user).update(name=name, address=address, phone_number=phone_number)
 
         req.session['cake'] = id
-        req.session['quantity'] = quantity  # ✅ Save quantity in session
+        req.session['quantity'] = quantity 
 
-        return redirect(order_payment)  # Redirect to payment page
+        return redirect(order_payment)  
 
     return render(req, 'user/order_details.html', {
         'cake': cake,
         'user_address': user_address  
     })
-
-
-# @login_required
-# def order_payment(req):
-#     if 'user' in req.session:
-#         user = get_object_or_404(User, username=req.session['user'])
-#         cake = Cake.objects.get(pk=req.session['cake'])
-#         amount = cake.price
-#         print(cake)
-
-#         razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
-
-#         razorpay_order = razorpay_client.order.create({
-#             "amount": int(amount) * 100, 
-#             "currency": "INR",    
-
-#             "payment_capture": "1"
-#         })
-
-#         order_id=razorpay_order['id']
-#         order = Order.objects.create(
-#             user=user,
-#             price=amount,
-#             provider_order_id=razorpay_order['id']
-#         )
-#         order.save()
-#         req.session['order_id'] = order.pk
-
-#         return render(req, "user/payment.html", {
-#             "callback_url": "http://127.0.0.1:8000/callback/",
-#             "razorpay_key": settings.RAZORPAY_KEY_ID,
-#             "order": order,
-#         })
-#     else:
-#         return redirect('login')
 
 
 @login_required
@@ -818,55 +742,6 @@ def update_profile(request):
 
 
 
-
-
-@login_required
-def cart_address_page(req):
-    cart_items = Cart.objects.filter(user=req.user)
-    user_address = Address.objects.filter(user=req.user).first()  
-    user = User.objects.get(username=req.session['user'])  
-
-
-    if req.method == 'POST':
-        use_saved_address = req.POST.get('use_saved_address')
-
-        if use_saved_address == 'yes' and user_address:
-            selected_address = user_address
-        else:
-            name = req.POST.get('name')
-            address = req.POST.get('address')
-            phone_number = req.POST.get('phone_number')
-
-            if not re.fullmatch(r'\d{10}', phone_number):
-                messages.error(req, "Phone number must be exactly 10 digits.")
-                return redirect('cart_address_page')
-
-            if not cart_items.exists():
-                messages.error(req, "Your cart is empty.")
-                return redirect('cart_view')
-
-            selected_address = Address(
-                user=req.user,
-                name=name,
-                address=address,
-                phone_number=phone_number
-            )
-            selected_address.save()
-
-        req.session['address_id'] = selected_address.id
-        # req.session['cake']=id
-        req.session['cake'] = selected_address.id
-
-
-
-        return redirect(order_payment2)
-
-    return render(req, 'user/cart_order.html', {
-        'cart_items': cart_items,
-        'user_address': user_address
-    })
-
-
 def cart_place_order(req):
     cart_items = Cart.objects.filter(user=req.user)
     address_id = req.session.get('address_id')
@@ -893,80 +768,38 @@ def cart_place_order(req):
 
 
 
-@login_required
-def order_payment2(req):
-    if 'user' in req.session:
-        user = get_object_or_404(User, username=req.session['user'])
-        cart_items = Cart.objects.filter(user=req.user)
-
-        amount = 0
-
-        for cart_item in cart_items:
-            if cart_item.cake:  # Ensure the cart item has a cake (which it should)
-                amount += cart_item.cake.price  # Add the price of the cake to the total amount
-
-        # Print the total amount for debugging purposes
-        print(f"Total amount: {amount}")
-
-        # Razorpay client setup
-        razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
-
-        # Create the Razorpay order
-        razorpay_order = razorpay_client.order.create({
-            "amount": int(amount) * 100,  # Convert amount to paise (1 INR = 100 paise)
-            "currency": "INR",    
-            "payment_capture": "1"
-        })
-
-        # Create an Order in your database
-        order_id = razorpay_order['id']
-        order = Order.objects.create(
-            user=user,
-            price=amount,
-            provider_order_id=razorpay_order['id']
-        )
-        order.save()
-
-        req.session['order_id'] = order.pk
-
-        return render(req, "user/payment.html", {
-            "callback_url": "http://127.0.0.1:8000/callback2/",
-            "razorpay_key": settings.RAZORPAY_KEY_ID,
-            "order": order,
-        })
-    else:
-        return redirect('login')
-
+# @login_required
 # def order_payment2(req):
 #     if 'user' in req.session:
 #         user = get_object_or_404(User, username=req.session['user'])
 #         cart_items = Cart.objects.filter(user=req.user)
 
-#         # amount = cart_items.cake.price
-#         print(cart_items)
-#         for cart_item in cart_items:
-#                     if cart_item.cake:  # Ensure the cart item has a cake (which it should)
-#                         amount += cart_item.cake.price  # Add the price of the cake to the total amount
+#         amount = 0
 
-#                 # Print the total amount for debugging purposes
+#         for cart_item in cart_items:
+#             if cart_item.cake:  # Ensure the cart item has a cake (which it should)
+#                 amount += cart_item.cake.price  # Add the price of the cake to the total amount
+
+#         # Print the total amount for debugging purposes
 #         print(f"Total amount: {amount}")
 
+#         # Razorpay client setup
 #         razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
 #         razorpay_order = razorpay_client.order.create({
-#             "amount": int(amount) * 100, 
+#             "amount": int(amount) * 100,  # Convert amount to paise (1 INR = 100 paise)
 #             "currency": "INR",    
-
 #             "payment_capture": "1"
 #         })
 
-#         order_id=razorpay_order['id']
+#         order_id = razorpay_order['id']
 #         order = Order.objects.create(
 #             user=user,
 #             price=amount,
 #             provider_order_id=razorpay_order['id']
 #         )
 #         order.save()
+
 #         req.session['order_id'] = order.pk
 
 #         return render(req, "user/payment.html", {
@@ -977,83 +810,173 @@ def order_payment2(req):
 #     else:
 #         return redirect('login')
 
+
 # @login_required
 # def pay2(req):
 #     user = get_object_or_404(User, username=req.session['user'])
-#     # cake = Cart.objects.get(pk=req.session['cake'])
-#     cart_items= Cart.objects.filter(user=req.user)
 
+#     cart_items = Cart.objects.filter(user=req.user)
 
-#     # cart_item = Cake.objects.filter(user=user).order_by('-id').first()
-
-#     if not cart_items:
+#     if not cart_items.exists():
 #         messages.error(req, "Your cart is empty. Please add a cake first.")
-#         return redirect('cart_display')
+#         return redirect(cart_display)
 
-#     cart_items = cart_items
 #     quantity = int(req.GET.get('quantity', 1))
+
+#     total_price = sum(item.cake.price * quantity for item in cart_items)
+
 #     order_id = req.session.get('order_id')
 #     order = get_object_or_404(Order, pk=order_id) if order_id else None
-#     print(cart_items)
-
 
 #     if req.method == 'GET':
 #         user_address = Address.objects.filter(user=user).order_by('-id').first()
 
-#         data = Buy.objects.create(
-#             user=user,
-#             cake=cart_items,
-#             # price=cake.price,  
-#             price = cart_items.price,
+#         for item in cart_items:
+#             Buy.objects.create(
+#                 user=user,
+#                 cake=item.cake,
+#                 quantity=quantity,  
+#                 price=item.cake.price * quantity,  
+#                 address=user_address,
+#                 order=order
+#             )
 
-#             address=user_address,
-#             order=order
-#         )
-#         data.save()
+#         cart_items.delete()
 
-#         return redirect(user_view_bookings)
+#         return redirect(view_bookings)
 
-#     return render(req, 'user/view_bookings.html')
+#     return render(req, 'user/view_bookings.html', {
+#         'total_price': total_price,
+#         'cart_items': cart_items
+#     })
+
+
+
+# @csrf_exempt
+# def callback2(request):
+#     def verify_signature(response_data):
+#         client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+#         return client.utility.verify_payment_signature(response_data)
+
+#     if "razorpay_signature" in request.POST:
+#         payment_id = request.POST.get("razorpay_payment_id", "")
+#         provider_order_id = request.POST.get("razorpay_order_id", "")
+#         signature_id = request.POST.get("razorpay_signature", "")
+
+#         order = Order.objects.get(provider_order_id=provider_order_id)
+#         order.payment_id = payment_id
+#         order.signature_id = signature_id
+
+#         if verify_signature(request.POST):
+#             order.status = PaymentStatus.SUCCESS
+#         else:
+#             order.status = PaymentStatus.FAILURE
+
+#         order.save()
+#         return redirect(pay2)
+    
+
+#     else:
+#         payment_data = json.loads(request.POST.get("error[metadata]", "{}"))
+#         provider_order_id = payment_data.get("order_id", "")
+#         order = Order.objects.get(provider_order_id=provider_order_id)
+#         order.status = PaymentStatus.FAILURE
+#         order.save()
+
+#         return redirect(pay2)
+    
+
+# -------------------------------------------------------------------------------------------
+
+
+@login_required
+def cart_address_page(req):
+    user = get_object_or_404(User, username=req.session['user'])
+    cart_items = Cart.objects.filter(user=user)
+
+    if not cart_items.exists():
+        messages.error(req, "Your cart is empty. Please add items first.")
+        return redirect('cart_display')
+
+    user_address = Address.objects.filter(user=user).order_by('-id').first()
+
+    if req.method == 'POST':
+        name = req.POST.get('name')
+        address = req.POST.get('address')
+        phone_number = req.POST.get('phone_number')
+
+        Address.objects.filter(user=user).update(name=name, address=address, phone_number=phone_number)
+
+        req.session['cart_items'] = list(cart_items.values_list('id', flat=True))
+
+        return redirect(order_payment2)
+
+    return render(req, 'user/cart_order.html', {
+        'cart_items': cart_items,
+        'user_address': user_address
+    })
+
+@login_required
+def order_payment2(req):
+    if 'user' in req.session:
+        user = get_object_or_404(User, username=req.session['user'])
+        cart_items = Cart.objects.filter(id__in=req.session.get('cart_items', []))
+
+        if not cart_items.exists():
+            return redirect('cart_display')
+
+        total_amount = sum(cart.cake.price * cart.quantity for cart in cart_items)
+
+        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+        razorpay_order = client.order.create({
+            "amount": int(total_amount * 100),
+            "currency": "INR",
+            "payment_capture": "1"
+        })
+
+        order = Order.objects.create(
+            user=user,
+            price=total_amount,
+            provider_order_id=razorpay_order['id']
+        )
+
+        req.session['order_id'] = order.pk
+
+        return render(req, "user/payment.html", {
+            "callback_url": "http://127.0.0.1:8000/callback2/",
+            "razorpay_key": settings.RAZORPAY_KEY_ID,
+            "order": order,
+        })
+
+    return redirect('login')
 
 @login_required
 def pay2(req):
     user = get_object_or_404(User, username=req.session['user'])
-
-    cart_items = Cart.objects.filter(user=req.user)
+    cart_items = Cart.objects.filter(id__in=req.session.get('cart_items', []))
 
     if not cart_items.exists():
-        messages.error(req, "Your cart is empty. Please add a cake first.")
+        messages.error(req, "Your cart is empty. Please add items first.")
         return redirect(cart_display)
-
-    quantity = int(req.GET.get('quantity', 1))
-
-    total_price = sum(item.cake.price * quantity for item in cart_items)
 
     order_id = req.session.get('order_id')
     order = get_object_or_404(Order, pk=order_id) if order_id else None
 
-    if req.method == 'GET':
-        user_address = Address.objects.filter(user=user).order_by('-id').first()
+    user_address = Address.objects.filter(user=user).order_by('-id').first()
 
-        for item in cart_items:
-            Buy.objects.create(
-                user=user,
-                cake=item.cake,
-                quantity=quantity,  
-                price=item.cake.price * quantity,  
-                address=user_address,
-                order=order
-            )
+    for cart in cart_items:
+        Buy.objects.create(
+            user=user,
+            cake=cart.cake,
+            price=cart.cake.price * cart.quantity,
+            quantity=cart.quantity,
+            address=user_address,
+            order=order
+        )
 
-        cart_items.delete()
+    cart_items.delete() 
 
-        return redirect(view_bookings)
-
-    return render(req, 'user/view_bookings.html', {
-        'total_price': total_price,
-        'cart_items': cart_items
-    })
-
+    return redirect(view_bookings)
 
 
 @csrf_exempt
@@ -1088,3 +1011,27 @@ def callback2(request):
         order.save()
 
         return redirect(pay2)
+
+@login_required
+def cart_display(request):
+    cart_items = Cart.objects.filter(user=request.user)  
+    return render(request, "user/cart_display.html", {"cart_items": cart_items})
+
+
+from django.shortcuts import get_object_or_404, redirect
+from .models import Cart
+
+def increase_quantity(request, cart_id):
+    cart_item = get_object_or_404(Cart, pk=cart_id, user=request.user)
+    cart_item.quantity += 1
+    cart_item.save()
+    return redirect(cart_display)
+
+def decrease_quantity(request, cart_id):
+    cart_item = get_object_or_404(Cart, pk=cart_id, user=request.user)
+    if cart_item.quantity > 1:
+        cart_item.quantity -= 1
+        cart_item.save()
+    else:
+        cart_item.delete()
+    return redirect(cart_display)

@@ -78,4 +78,8 @@ urlpatterns=[
     path('callback2/', views.callback2, name='callback2'),
 
 
+    path('cart/increase_quantity/<int:cart_id>/', views.increase_quantity, name='increase_quantity'),
+    path('cart/decrease_quantity/<int:cart_id>/', views.decrease_quantity, name='decrease_quantity'),
+
+
 ]
