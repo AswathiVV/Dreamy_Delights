@@ -17,8 +17,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 
-def home(req):
-    return render(req,'home.html')
+# def home(req):
+#     return render(req,'home.html')
 
 
 def shop_login(req):
@@ -88,48 +88,48 @@ def register(req):
     return render(req, 'register.html')
 
 
-def view_cupcake(req):
-        cake_category = Category.objects.get(name='CupCakes')
-        cupcakes = Cake.objects.filter(category=cake_category)
+# def view_cupcake(req):
+#         cake_category = Category.objects.get(name='CupCakes')
+#         cupcakes = Cake.objects.filter(category=cake_category)
 
-        paginator = Paginator(cupcakes, 6)  
-        page_number = req.GET.get('page')  
-        page_obj = paginator.get_page(page_number)
+#         paginator = Paginator(cupcakes, 6)  
+#         page_number = req.GET.get('page')  
+#         page_obj = paginator.get_page(page_number)
 
-        return render(req, 'user/cake.html', {'page_obj': page_obj})
+#         return render(req, 'user/cake.html', {'page_obj': page_obj})
  
 
-def view_layercake(req):
-        cake_category = Category.objects.get(name='Layer Cakes')
-        layercakes = Cake.objects.filter(category=cake_category)
+# def view_layercake(req):
+#         cake_category = Category.objects.get(name='Layer Cakes')
+#         layercakes = Cake.objects.filter(category=cake_category)
 
-        paginator = Paginator(layercakes, 6)
-        page_number = req.GET.get('page')
-        page_obj = paginator.get_page(page_number)
+#         paginator = Paginator(layercakes, 6)
+#         page_number = req.GET.get('page')
+#         page_obj = paginator.get_page(page_number)
 
-        return render(req, 'user/cake.html', {'page_obj': page_obj})
+#         return render(req, 'user/cake.html', {'page_obj': page_obj})
   
 
-def view_onelayercake(req):
-        cake_category = Category.objects.get(name='One Tier Party Cakes')
-        onelayercakes = Cake.objects.filter(category=cake_category)
+# def view_onelayercake(req):
+#         cake_category = Category.objects.get(name='One Tier Party Cakes')
+#         onelayercakes = Cake.objects.filter(category=cake_category)
 
-        paginator = Paginator(onelayercakes, 6)
-        page_number = req.GET.get('page')
-        page_obj = paginator.get_page(page_number)
+#         paginator = Paginator(onelayercakes, 6)
+#         page_number = req.GET.get('page')
+#         page_obj = paginator.get_page(page_number)
 
-        return render(req, 'user/cake.html', {'page_obj': page_obj})
+#         return render(req, 'user/cake.html', {'page_obj': page_obj})
   
 
-def view_twolayercake(req):
-        cake_category = Category.objects.get(name='Two Tier Party Cakes')
-        twolayercakes = Cake.objects.filter(category=cake_category)
+# def view_twolayercake(req):
+#         cake_category = Category.objects.get(name='Two Tier Party Cakes')
+#         twolayercakes = Cake.objects.filter(category=cake_category)
 
-        paginator = Paginator(twolayercakes, 6)
-        page_number = req.GET.get('page')
-        page_obj = paginator.get_page(page_number)
+#         paginator = Paginator(twolayercakes, 6)
+#         page_number = req.GET.get('page')
+#         page_obj = paginator.get_page(page_number)
 
-        return render(req, 'user/cake.html', {'page_obj': page_obj})
+#         return render(req, 'user/cake.html', {'page_obj': page_obj})
 
 
 def about_us(req):
@@ -312,7 +312,6 @@ def confirm_order(request, order_id):
         order.is_confirmed = True
         order.save()
 
-        # Email details
         subject = "Order Confirmation"
         message = f"Dear {order.user.first_name},\n\nYour order ({order.cake.name}) has been confirmed. Thank you for shopping with us!\n\nBest regards,\nDreamy Delights Team"
 
@@ -430,20 +429,19 @@ def search(request):
 
 
 def add_to_cart(req, id):
-    if 'user' not in req.session:  # Check if user is logged in
+    if 'user' not in req.session:  
         return redirect('login')
 
     user = get_object_or_404(User, username=req.session['user'])
     cake = get_object_or_404(Cake, pk=id)
 
-    # Check if item already exists in cart
     cart_item = Cart.objects.filter(user=user, cake=cake).first()
 
     if cart_item:
-        cart_item.quantity += 1  # Increase quantity
+        cart_item.quantity += 1 
         cart_item.save()
     else:
-        Cart.objects.create(user=user, cake=cake, quantity=1)  # Add new item
+        Cart.objects.create(user=user, cake=cake, quantity=1)  
 
     return redirect(cart_display)
 
