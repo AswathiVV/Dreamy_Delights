@@ -1018,9 +1018,6 @@ def cart_display(request):
     return render(request, "user/cart_display.html", {"cart_items": cart_items})
 
 
-from django.shortcuts import get_object_or_404, redirect
-from .models import Cart
-
 def increase_quantity(request, cart_id):
     cart_item = get_object_or_404(Cart, pk=cart_id, user=request.user)
     cart_item.quantity += 1
@@ -1035,3 +1032,10 @@ def decrease_quantity(request, cart_id):
     else:
         cart_item.delete()
     return redirect(cart_display)
+
+
+
+def delete_order(req,id):
+    data=Buy.objects.get(pk=id)
+    data.delete()
+    return redirect(view_bookings)
