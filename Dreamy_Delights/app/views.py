@@ -305,28 +305,71 @@ def cancel_order(req, order_id):
     order.delete()
     return redirect("admin_bookings")
 
+# def confirm_order(request, order_id):
+#     order = get_object_or_404(Buy, pk=order_id)
+    
+#     if not order.is_confirmed:
+#         order.is_confirmed = True
+#         order.save()
+
+#         subject = "Order Confirmation"
+#         message = f"Dear {order.user.first_name},\n\nYour order ({order.cake.name}) has been confirmed. Thank you for shopping with us!\n\nBest regards,\nDreamy Delights Team"
+
+#         recipient_email = order.user.email  
+
+#         try:
+#             send_mail(
+#                 subject,
+#                 message,
+#                 settings.EMAIL_HOST_USER,
+#                 [recipient_email],
+#                 fail_silently=False,
+#             )
+#         except Exception as e:
+#             print(f"Email sending failed: {e}")
+
+#     return redirect(admin_bookings)
+from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404, redirect
+from django.conf import settings
+
 def confirm_order(request, order_id):
     order = get_object_or_404(Buy, pk=order_id)
-    
+
     if not order.is_confirmed:
         order.is_confirmed = True
         order.save()
 
-        subject = "Order Confirmation"
-        message = f"Dear {order.user.first_name},\n\nYour order ({order.cake.name}) has been confirmed. Thank you for shopping with us!\n\nBest regards,\nDreamy Delights Team"
+        # Ensure order.user has a valid email
+        if not order.user or not order.user.email:
+            print("Error: User does not have an email address!")
+            return redirect('admin_bookings')  # Prevent sending an email to avoid errors
 
-        recipient_email = order.user.email  
+        recipient_email = order.user.email
+        print(f"Attempting to send email to: {recipient_email}")  # Debugging
+
+        subject = "Order Confirmation"
+        message = f"""
+        Dear {order.user.first_name},
+
+        Your order ({order.cake.name}) has been confirmed.
+        Thank you for shopping with us!
+
+        Best regards,
+        Dreamy Delights Team
+        """
 
         try:
             send_mail(
                 subject,
                 message,
                 settings.EMAIL_HOST_USER,
-                [recipient_email],
+                [recipient_email],  # Sends to the user
                 fail_silently=False,
             )
+            print("Email sent successfully!")  # Debugging
         except Exception as e:
-            print(f"Email sending failed: {e}")
+            print(f"Email sending failed: {e}")  # Debugging
 
     return redirect(admin_bookings)
 

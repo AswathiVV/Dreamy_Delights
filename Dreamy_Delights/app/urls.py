@@ -27,7 +27,7 @@ urlpatterns=[
     # path('bookings',views.bookings),
     # path('search_admin',views.search_admin),
     path('search_admin/', views.search_admin, name='search_admin'),
-    path('admin_bookings',views.admin_bookings),
+    path('admin_bookings/',views.admin_bookings),
     path('cancel_order/<order_id>',views.cancel_order, name='cancel_order'),
     path('confirm_order/<order_id>',views.confirm_order, name='confirm_order'),
 
