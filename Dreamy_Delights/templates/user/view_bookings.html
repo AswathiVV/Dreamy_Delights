@@ -1,323 +1,125 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookings</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-</head>
-<style>
-    .navbar {
-    font-family: 'Arial', sans-serif;
-  }
-  
-  .navbar .navbar-nav .nav-item .nav-link {
-    color: white;
-    font-size: 16px;
-    padding-left: 15px;
-    padding-right: 15px;
-    transition: color 0.3s ease-in-out;
-  }
-  
-  .navbar .navbar-nav .nav-item .nav-link:hover {
-    color: #0c0c0c;
-    text-decoration: none;
-  }
-  
-  .navbar .navbar-toggler {
-    border: none;
-    background-color: transparent;
-  }
-  
-  .navbar-toggler-icon {
-    background-color: #947070;
-    border-radius: 5px;
-  }
-  
-  .navbar .btn-primary:hover {
-    background-color: #9c467bcf;
-  }
-
-.input-group {
-    width: 100%;
-    max-width: 500px; 
-}
-
-.input-group .form-control {
-    padding-right: 40px; 
-    border-right: none;  
-    border-radius: 0.25rem;  
-}
-
-
-.input-group .btn {
-    border-left: none;    
-    background-color: #f8f9fa; 
-    border-radius: 0.25rem;  
-    padding: 8px 10px;    
-    width: auto;          
-    min-width: 35px;     
-    height: 100%;       
-}
-
-.input-group .btn i {
-    font-size: 18px; 
-}
-
-.input-group .btn:focus {
-    outline: none; 
-    box-shadow: none; 
-}
-
-.cart-item {
-    font-family: "Playfair Display", serif;
-    background-color: #f9f9f9; 
-    border-radius: 8px; 
-    padding: 15px;
-    transition: all 0.3s ease; 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-}
-
-.cart-item:hover {
-    background-color: #e2e2e2; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
-    transform: translateY(-5px); 
-}
-
-.cart-item-img {
-    max-height: 120px;
-    object-fit: cover; 
-    border-radius: 8px; 
-}
-
-.remove-btn {
-    transition: color 0.3s ease;
-}
-
-.remove-btn:hover {
-    color: #8c7f81;
-}
-
-.remove-btn i {
-    font-size: 1.1rem;
-}
-
-.cart-item-title {
-    font-size: 1.1rem; 
-    color: #663233;
-}
-
-.cart-item-price {
-    font-size: 1rem; 
-    color: #663233;
-}
-
-.cart-item-date {
-    font-size: 0.85rem;
-    color: #663233;
-}
-
-
-@media (min-width: 992px) {
-    .cart-item {
-        padding: 20px; 
-    }
-
-    .cart-item-title {
-        font-size: 1.75rem; 
-    }
-
-    .cart-item-price {
-        font-size: 1.3rem; 
-    }
-
-    .cart-item-date {
-        font-size: 1rem; 
-    }
-}
-
-@media (max-width: 768px) {
-    .navbar ul {
-        flex-direction: column;
-    }
-
-    .team-info, .team-photo {
-        text-align: center;
-    }
-
-    .team-info p {
-        margin-top: 15px;
-    }
-
-    .grid {
-        grid-template-columns: 1fr;
-    }
-
-    .value-card {
-        padding: 15px;
-    }
-}
-
-@media (max-width: 768px) {
-    .navbar .navbar-nav .nav-item .nav-link{
-      font-size: 13px;
-      padding: 10px;
-    }
-    .navbar .navbar-nav .nav-item .nav-link i{
-      font-size: 10px;
-      padding: 10px;
-    }
-    .footer-container {
-        flex-direction: row;
-        justify-content: space-evenly; 
-        align-items: center; 
-    }
-  
-    .footer-col {
-        min-width: auto;
-        text-align: center; 
-        margin-bottom: 0; 
-    }
-  
-    .footer-col h4 {
-        font-size: 16px; 
-    }
-  
-    .social-icons {
-        text-align: center;
-    }
-    .social-icons a {
-      font-size: 16px; 
-    }
-  
-    .footer-bottom {
-        font-size: 14px;
-    }
-  }
-
-  @media (min-width: 992px) {
-    .navbar .navbar-nav .nav-item .nav-link{
-      font-size: 13px;
-      padding: 10px;
-    }
-    .navbar .navbar-nav .nav-item .nav-link i{
-      font-size: 10px;
-      padding: 10px;
-    }
-    .text {
-        background-color: rgba(0, 0, 0, 0.2);
-        padding: 20px; 
-    }
-  }  
-
-</style>
-<body>
-    
-    {% csrf_token %}
-    <nav class="navbar navbar-expand-sm navbar-light shadow-sm" style="background-color:#f1c9d9 ;" >
-      <div class="container-fluid">
-  
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-  
-    
-          <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav me-auto mb-2 mb-sm-0">
-                  <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="../">HOME</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="../collections">ORDER ONLINE</a>
-                    
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="visit_us">VISIT US</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="about_us">ABOUT US</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="cart_display">
-                      <i style="color:white; font-weight: bolder; font-size: 18px;" class="bi bi-cart2"></i>
-                    </a>
-                 </li> 
-                 
-                <li class="nav-item">
-                    <a class="nav-link" href="profile">
-                      <i style="color:white; font-weight: bolder; font-size: 19px;" class="bi bi-person-circle"></i>
-                    </a>
-                </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="logout">LOGOUT</a>
-                </li>
-                  
-              </ul>
-              <form class="d-flex" role="search" action="{% url 'search' %}" method="POST">
-                {% csrf_token %}
-                <div class="input-group">
-                    <button class="btn " type="submit" style="background-color: white;">
-                        <i class="bi bi-search"></i>
-                    </button>
-                    <input class="form-control" type="text" placeholder="Search" aria-label="Search"id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200"
-                    class="form-control me-2" 
-                    aria-label="Search" name="searched">
-                </div>
-            </form>
-              
-    
-  
-      
-          </div>
-      </div>
-    </nav>
-    
-<div class="container my-5">
-    <div class="row">
-        {% for i in data %}
-        <div class="col-12 mb-4">
-            <div class="row align-items-center cart-item">
-                <div class="col-4 col-md-3 col-lg-2">
-                    <img src="{{i.cake.img.url}}" alt="{{i.cake.name}}" class="img-fluid cart-item-img">
-                </div>
-
-                <div class="col-8 col-md-6 col-lg-7">
-                    <h4 class="cart-item-title">{{i.cake.name}}</h4>
-                    <h6 class="cart-item-price">₹ {{i.price}}</h6>
-                    <p class="cart-item-date">{{i.date}}</p>
-                </div>
-
-                <div class="col-12 col-md-4 col-lg-3 text-center text-md-right">
-                    <a href="#" class="btn btn-outline-danger remove-btn bg-danger text-light">
-                        cancel order
-                    </a>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-     
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Orders | Dreamy Delights</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/css/home.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</head>
-<body>
 
-    <div id="container" class="container mt-3" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="200">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<style>
+
+.order-card {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    transition: 0.3s ease-in-out;
+    border: none;
+}
+
+.order-card:hover {
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Image Styling */
+.order-img {
+    max-width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Typography */
+.text-muted {
+    font-size: 0.95rem;
+}
+
+/* Buttons and Badges */
+.badge {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+    border-radius: 5px;
+}
+.btn-outline-danger {
+    transition: all 0.3s ease-in-out;
+}
+.btn-outline-danger:hover {
+    background: #dc3545;
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .order-card {
+        text-align: center;
+        padding: 20px;
+    }
+    .order-img {
+        height: auto;
+    }
+}
+</style>
+<body>
+    
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+
+        <a class="navbar-brand" href="../">
+            <img src="{% static 'img/logo.jpeg' %}" alt="Logo">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <form class="d-flex mx-auto search-form" role="search" action="{% url 'search' %}" method="POST">
+          {% csrf_token %}
+          <div class="input-group search-box">
+              <button class="btn" type="submit" style="background-color: white;">
+                  <i class="bi bi-search"></i>
+              </button>
+              <input class="form-control" type="text" placeholder="Search" name="searched"
+                  id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200">
+          </div>
+      </form>
+      
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+               
+                <li class="nav-item">
+                    <a class="nav-link" href="../user_view_bookings">Orders</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../visit_us">Visit Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../about_us">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../profile"><i class="bi bi-person-circle"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../cart_display"><i class="bi bi-cart2"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+    <!-- <div id="container" class="container mt-3" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="200">
         <b id="mycart" style="font-size: 1.5rem;">My Orders</b>
         <hr class="mt-3 mb-5">
 
@@ -370,7 +172,49 @@
             <hr class="mt-3 mb-3">
         </div>
         {% endfor %}
+    </div> -->
+  
+    
+    <div class="container mt-4">
+        <h2 class="fw-bold text-center">My Orders</h2>
+        <hr class="mb-4">
+    
+        {% for order in data1 %}
+        <div class="card mb-3 p-3 shadow-sm border-0">
+            <div class="row g-3 align-items-center">
+                <!-- Image Section -->
+                <div class="col-md-4 text-center">
+                    <img src="{{ order.cake.img.url }}" class="img-fluid rounded" style="max-width: 100%; height: auto;border: none;">
+                </div>
+    
+                <!-- Order Details -->
+                <div class="col-md-8">
+                    <h4 class="fw-bold mb-2">{{ order.cake.name }}</h4>
+                    <p class="mb-1"><b>Category:</b> {{ order.cake.category.name }}</p>
+                    <p class="mb-1"><b>Color:</b> {{ order.cake.colour }}</p>
+                    <p class="mb-1"><b>Price per unit:</b> ₹{{ order.price }}</p>
+                    <p class="mb-1"><b>Total Price:</b> ₹{{ order.price|floatformat:2 }}</p>
+                    <p class="mb-1"><b>Ordered Quantity:</b> {{ order.quantity }}</p>
+                    <p class="mb-1"><b>Ordered Date:</b> {{ order.date }}</p>
+    
+                    <!-- Status & Action Buttons -->
+                    <div class="mt-3">
+                        {% if not order.is_confirmed %}
+                            <a href="../delete_order/{{ order.id }}" class="btn btn-outline-danger btn-sm">
+                                Cancel Order
+                            </a>
+                        {% endif %}
+                        {% if order.is_confirmed %}
+                            <span class="badge bg-success">Confirmed</span>
+                        {% else %}
+                            <span class="badge bg-warning">Pending</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
-
+    
 </body>
 </html>

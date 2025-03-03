@@ -1,14 +1,10 @@
 from django.urls import path
 from . import views
 urlpatterns=[
-    # path('',views.home),
     path('',views.shop_login, name='login'),
     path('register/', views.register, name='register'),
     path('logout/',views.shop_logout),
-    # path('view_cupcake',views.view_cupcake),
-    # path('view_layercake',views.view_layercake),    
-    # path('view_onelayercake',views.view_onelayercake), 
-    # path('view_twolayercake',views.view_twolayercake), 
+  
     path('about_us',views.about_us),
     path('visit_us',views.visit_us),
     path('collections',views.collections),
@@ -40,7 +36,7 @@ urlpatterns=[
     path('user_layercake',views.user_layercake),    
     path('user_onelayercake',views.user_onelayercake), 
     path('user_twolayercake',views.user_twolayercake), 
-    path('view_cake/<id>',views.view_cake),   
+    path('view_cake/<id>',views.view_cake, name='view_cake'),   
     path('add_to_cart/<id>',views.add_to_cart, name='add_to_cart'),
     path('cart_display',views.cart_display),
     path('delete_cart/<id>',views.delete_cart), 

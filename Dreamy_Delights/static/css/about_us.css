@@ -10,69 +10,6 @@ body {
     background-color: #f4f4f4;
 }
 
-
-.navbar {
-    font-family: 'Arial', sans-serif;
-  }
-  
-  .navbar .navbar-nav .nav-item .nav-link {
-    color: white;
-    font-size: 16px;
-    padding-left: 15px;
-    padding-right: 15px;
-    transition: color 0.3s ease-in-out;
-  }
-  
-  .navbar .navbar-nav .nav-item .nav-link:hover {
-    color: #0c0c0c;
-    text-decoration: none;
-  }
-  
-  .navbar .navbar-toggler {
-    border: none;
-    background-color: transparent;
-  }
-  
-  .navbar-toggler-icon {
-    background-color: #947070;
-    border-radius: 5px;
-  }
-  
-  .navbar .btn-primary:hover {
-    background-color: #9c467bcf;
-  }
-
-.input-group {
-    width: 100%;
-    max-width: 500px; 
-}
-
-.input-group .form-control {
-    padding-right: 40px; 
-    border-right: none;  
-    border-radius: 0.25rem;  
-}
-
-
-.input-group .btn {
-    border-left: none;    
-    background-color: #f8f9fa; 
-    border-radius: 0.25rem;  
-    padding: 8px 10px;    
-    width: auto;          
-    min-width: 35px;     
-    height: 100%;       
-}
-
-.input-group .btn i {
-    font-size: 18px; 
-}
-
-.input-group .btn:focus {
-    outline: none; 
-    box-shadow: none; 
-}
-
 .hero {
     background: linear-gradient(to right, #f9f9f9, #f7bad2);
     text-align: center;
@@ -287,14 +224,7 @@ body {
 
 
 @media (max-width: 768px) {
-    .navbar .navbar-nav .nav-item .nav-link{
-      font-size: 13px;
-      padding: 10px;
-    }
-    .navbar .navbar-nav .nav-item .nav-link i{
-      font-size: 10px;
-      padding: 10px;
-    }
+   
     .footer-container {
         flex-direction: row;
         justify-content: space-evenly; 
@@ -371,14 +301,7 @@ body {
   }
 
   @media (min-width: 992px) {
-    .navbar .navbar-nav .nav-item .nav-link{
-      font-size: 13px;
-      padding: 10px;
-    }
-    .navbar .navbar-nav .nav-item .nav-link i{
-      font-size: 10px;
-      padding: 10px;
-    }
+  
     .text {
         background-color: rgba(0, 0, 0, 0.2);
         padding: 20px; 

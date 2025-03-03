@@ -165,7 +165,7 @@ def collections(req):
     return render(req,'collections.html')
 
 #--------------------- admin-------------------------------------------------------------------------------------------  
-
+  
 
 def shop_home(req):
     if 'shop' in req.session:
@@ -329,9 +329,7 @@ def cancel_order(req, order_id):
 #             print(f"Email sending failed: {e}")
 
 #     return redirect(admin_bookings)
-from django.core.mail import send_mail
-from django.shortcuts import get_object_or_404, redirect
-from django.conf import settings
+
 
 def confirm_order(request, order_id):
     order = get_object_or_404(Buy, pk=order_id)
@@ -340,7 +338,6 @@ def confirm_order(request, order_id):
         order.is_confirmed = True
         order.save()
 
-        # Ensure order.user has a valid email
         if not order.user or not order.user.email:
             print("Error: User does not have an email address!")
             return redirect('admin_bookings')  # Prevent sending an email to avoid errors
@@ -385,6 +382,7 @@ def user_home(req):
     if 'user' in req.session:
         # products=Cake.objects.all()
         return render(req,'user/user_home.html')  
+
 
 
 def user_cupcake(req):

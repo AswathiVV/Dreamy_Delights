@@ -20,43 +20,48 @@ border: none;
 
 </style>
 <body>
-    {% csrf_token %}
-  <nav class="navbar navbar-expand-sm navbar-light shadow-sm" style="background-color:#f1c9d9;" >
+  <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="../">
+            <img src="{% static 'img/logo.jpeg' %}" alt="Logo">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-  
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto mb-2 mb-sm-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="../">Home</a>
+        <form class="d-flex mx-auto search-form" role="search" action="{% url 'search' %}" method="POST">
+          {% csrf_token %}
+          <div class="input-group search-box">
+              <button class="btn" type="submit" style="background-color: white;">
+                  <i class="bi bi-search"></i>
+              </button>
+              <input class="form-control" type="text" placeholder="Search" name="searched"
+                  id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200">
+          </div>
+      </form>
+      
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../add_cake">ADD PRODUCT</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="add_cupcake">Add Product</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="bookings">Bookings</a>
-                </li>
-               
-                <li class="nav-item">
-                    <a class="nav-link" href="logout">Logout</a>
+                    <a class="nav-link" href="../admin_bookings">BOOKINGS</a>
                 </li>
              
-                
+                <li class="nav-item">
+                    <a class="nav-link" href="../logout">LOGOUT</a>
+                </li>
             </ul>
-            
-      
-            <form class="d-flex">
-              <input class="form-control me-2" type="text" placeholder="Search">
-              <button class="btn" style="background-color: pink;" type="button">Search</button>
-            </form>
-    
         </div>
+
     </div>
 </nav>
+
 <br><br>    
 
 

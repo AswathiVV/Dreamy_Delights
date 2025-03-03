@@ -29,27 +29,21 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <!-- Centered Search Form -->
         <form class="d-flex mx-auto search-form" role="search" action="{% url 'search' %}" method="POST">
           {% csrf_token %}
           <div class="input-group search-box">
-              <!-- Search Button -->
               <button class="btn" type="submit" style="background-color: white;">
                   <i class="bi bi-search"></i>
               </button>
-              <!-- Search Input Field -->
               <input class="form-control" type="text" placeholder="Search" name="searched"
                   id="search" data-aos="fade-down" data-aos-duration="1500" data-aos-delay="200">
           </div>
       </form>
       
 
-        <!-- Navbar Links on the Right -->
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
-                <!-- <li class="nav-item">
-                    <a class="nav-link active" href="../">Home</a>
-                </li> -->
+               
                 <li class="nav-item">
                     <a class="nav-link" href="../user_view_bookings">Orders</a>
                 </li>
