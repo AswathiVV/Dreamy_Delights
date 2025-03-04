@@ -193,7 +193,7 @@
                     <p class="mb-1"><b>Category:</b> {{ order.cake.category.name }}</p>
                     <p class="mb-1"><b>Color:</b> {{ order.cake.colour }}</p>
                     <p class="mb-1"><b>Price per unit:</b> ₹{{ order.price }}</p>
-                    <p class="mb-1"><b>Total Price:</b> ₹{{ order.price|floatformat:2 }}</p>
+                    <p class="mb-1"><b>Total Price:</b> ₹{{ order.total_price }}</p>
                     <p class="mb-1"><b>Ordered Quantity:</b> {{ order.quantity }}</p>
                     <p class="mb-1"><b>Ordered Date:</b> {{ order.date }}</p>
     

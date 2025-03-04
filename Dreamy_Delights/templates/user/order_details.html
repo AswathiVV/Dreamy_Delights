@@ -92,7 +92,7 @@
 
 </html>  -->
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -209,10 +209,8 @@
 </script>
 
 </body>
-</html>
-
-
-<!-- <!DOCTYPE html>
+</html> -->
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -254,13 +252,30 @@
         }
 
         .quantity-input {
-            width: 60px;
-            text-align: center;
+            width: 80px;
         }
 
-        .subtotal {
-            font-weight: bold;
+        .saved-address-box {
+            border: 2px dashed #198754;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #e9f7ef;
+            margin-bottom: 20px;
+            position: relative;
         }
+
+        .btn-use-address {
+            background-color: #198754;
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-use-address:hover {
+            background-color: #145c43;
+            transform: scale(1.05);
+        }
+
     </style>
 </head>
 <body>
@@ -268,42 +283,22 @@
 <div class="container" data-aos="fade-up">
     <h2 class="text-center">Place Your Order</h2>
 
+    {% if user_address %}
+    <div id="saved-address-box" class="saved-address-box"
+         data-name="{{ user_address.name }}"
+         data-address="{{ user_address.address }}"
+         data-phone="{{ user_address.phone_number }}">
+        <h5>Saved Address</h5>
+        <p><strong>Name:</strong> {{ user_address.name }}</p>
+        <p><strong>Address:</strong> {{ user_address.address }}</p>
+        <p><strong>Phone:</strong> {{ user_address.phone_number }}</p>
+        <button type="button" id="use-saved-address-btn" class="btn btn-use-address mt-2">Use Saved Address</button>
+    </div>
+    {% endif %}
+
     <form method="POST">
         {% csrf_token %}
 
-        <div id="cart-items">
-            {% for cart_item in cart_items %}
-            <div class="card mb-4 cart-item">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="{{ cart_item.cake.img.url }}" class="product-img" alt="{{ cart_item.cake.name }}">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ cart_item.cake.name }}</h5>
-                            <p class="card-text"><strong>Price:</strong> ₹<span class="unit-price">{{ cart_item.cake.price }}</span></p>
-                            
-                            <div class="mb-3 d-flex align-items-center">
-                                <button type="button" class="btn btn-outline-secondary btn-sm decrement-qty">-</button>
-                                <input type="number" class="form-control quantity-input mx-2" value="{{ cart_item.quantity }}" min="1">
-                                <button type="button" class="btn btn-outline-secondary btn-sm increment-qty">+</button>
-                            </div>
-
-                            <p class="card-text"><strong>Subtotal:</strong> ₹<span class="subtotal">{{ cart_item.cake.price }}</span></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% empty %}
-            <p>Your cart is empty.</p>
-            {% endfor %}
-        </div>
-
-        <h4 class="text-center mt-4">
-            <button class="btn btn-success fw-bold px-4 py-2 rounded-pill" id="grand-total-btn">
-                Grand Total: ₹<span id="grand-total">0</span>
-            </button>
-        </h4>
 
         <div class="mb-3">
             <label for="name" class="form-label">Full Name</label>
@@ -316,91 +311,60 @@
         </div>
 
         <div class="mb-3">
-            <label for="city" class="form-label">City</label>
-            <input type="text" id="city" name="city" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="state" class="form-label">State</label>
-            <input type="text" id="state" name="state" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="pincode" class="form-label">Pincode</label>
-            <input type="text" id="pincode" name="pincode" class="form-control" required pattern="[0-9]{6}" maxlength="6" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-        </div>
-
-        <div class="mb-3">
             <label for="phone_number" class="form-label">Phone Number</label>
-            <input type="text" id="phone_number" name="phone_number" class="form-control" required pattern="[0-9]{10}" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+            <input type="text" id="phone_number" name="phone_number" class="form-control" required
+                   pattern="[0-9]{10}" maxlength="10" minlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
         </div>
 
-        <button type="submit" class="btn btn-primary w-100 mt-4">Place Order</button>
+        
+        <div class="card mb-4">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{{ cake.img.url }}" class="product-img" alt="{{ cake.name }}">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ cake.name }}</h5>
+                        <p class="card-text"><strong>Price:</strong> ₹<span id="unit-price">{{ cake.price }}</span></p>
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">Quantity</label>
+                            <input type="number" id="quantity" name="quantity" class="form-control quantity-input" value="1" min="1" required>
+                        </div>
+                        <p class="card-text"><strong>Total Price:</strong> ₹<span id="total-price">{{ cake.price }}</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Place Order</button>
     </form>
 </div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    function updateTotals() {
-        let grandTotal = 0;
-        let cartData = [];
+        // Auto-fill form fields when "Use Saved Address" is clicked
+        const useAddressBtn = document.getElementById('use-saved-address-btn');
+        const savedAddressBox = document.getElementById('saved-address-box');
 
-        document.querySelectorAll('.cart-item').forEach((card) => {
-            const unitPrice = parseFloat(card.querySelector('.unit-price').textContent);
-            const qtyInput = card.querySelector('.quantity-input');
-            const subtotalEl = card.querySelector('.subtotal');
-
-            let qty = parseInt(qtyInput.value);
-            if (isNaN(qty) || qty < 1) qty = 1;
-
-            let subtotal = unitPrice * qty;
-            subtotalEl.textContent = subtotal.toFixed(2);
-            grandTotal += subtotal;
-
-            // Store updated data to send to backend
-            cartData.push({
-                id: card.dataset.itemId, // Add data-item-id="{{ cart_item.id }}" in HTML
-                quantity: qty
+        if (useAddressBtn && savedAddressBox) {
+            useAddressBtn.addEventListener('click', function () {
+                document.getElementById('name').value = savedAddressBox.getAttribute('data-name');
+                document.getElementById('address').value = savedAddressBox.getAttribute('data-address');
+                document.getElementById('phone_number').value = savedAddressBox.getAttribute('data-phone');
             });
-        });
+        }
 
-        document.getElementById('grand-total').textContent = grandTotal.toFixed(2);
+        // Update total price when quantity changes
+        const quantityInput = document.getElementById('quantity');
+        const unitPrice = parseFloat(document.getElementById('unit-price').textContent);
+        const totalPriceEl = document.getElementById('total-price');
 
-        // Send updated cart to backend
-        fetch('/update-cart/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': '{{ csrf_token }}'
-            },
-            body: JSON.stringify({ cart: cartData })
-        });
-    }
-
-    document.querySelectorAll('.increment-qty').forEach((button) => {
-        button.addEventListener('click', function () {
-            let qtyInput = this.previousElementSibling;
-            qtyInput.value = parseInt(qtyInput.value) + 1;
-            updateTotals();
+        quantityInput.addEventListener('input', function () {
+            const qty = parseInt(quantityInput.value) || 1;
+            const total = unitPrice * qty;
+            totalPriceEl.textContent = total.toFixed(2);
         });
     });
-
-    document.querySelectorAll('.decrement-qty').forEach((button) => {
-        button.addEventListener('click', function () {
-            let qtyInput = this.nextElementSibling;
-            if (parseInt(qtyInput.value) > 1) {
-                qtyInput.value = parseInt(qtyInput.value) - 1;
-            }
-            updateTotals();
-        });
-    });
-
-    document.querySelectorAll('.quantity-input').forEach((input) => {
-        input.addEventListener('input', updateTotals);
-    });
-
-    updateTotals();
-});
-
 </script>
 
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
@@ -413,4 +377,5 @@
 </script>
 
 </body>
-</html> -->
+</html>
+

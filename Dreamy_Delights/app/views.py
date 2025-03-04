@@ -502,10 +502,32 @@ def buy_pro(req,id):
     cake=Cake.objects.get(pk=id)
     return redirect(address_page, id=id)
 
+# def address_page(req, id):
+#     cake = Cake.objects.get(id=id)
+#     user = User.objects.get(username=req.session['user'])  
+
+#     user_address = Address.objects.filter(user=user).order_by('-id').first()
+
+#     if req.method == 'POST':
+#         name = req.POST.get('name')
+#         address = req.POST.get('address')
+#         phone_number = req.POST.get('phone_number')
+#         quantity = req.POST.get('quantity')  
+
+#         Address.objects.filter(user=user).update(name=name, address=address, phone_number=phone_number)
+
+#         req.session['cake'] = id
+#         req.session['quantity'] = quantity 
+
+#         return redirect(order_payment)  
+
+#     return render(req, 'user/order_details.html', {
+#         'cake': cake,
+#         'user_address': user_address  
+#     })
 def address_page(req, id):
     cake = Cake.objects.get(id=id)
     user = User.objects.get(username=req.session['user'])  
-
     user_address = Address.objects.filter(user=user).order_by('-id').first()
 
     if req.method == 'POST':
@@ -514,10 +536,18 @@ def address_page(req, id):
         phone_number = req.POST.get('phone_number')
         quantity = req.POST.get('quantity')  
 
+        # Convert quantity to integer
+        if quantity.isdigit():
+            quantity = int(quantity)
+        else:
+            quantity = 1  # Default to 1 if invalid
+
         Address.objects.filter(user=user).update(name=name, address=address, phone_number=phone_number)
 
         req.session['cake'] = id
-        req.session['quantity'] = quantity 
+        req.session['quantity'] = quantity  # ✅ Store as integer
+
+        print(f"DEBUG: Stored in session -> Cake: {req.session['cake']}, Quantity: {req.session['quantity']}")  # Debugging
 
         return redirect(order_payment)  
 
@@ -526,7 +556,6 @@ def address_page(req, id):
         'user_address': user_address  
     })
 
-
 @login_required
 def order_payment(req):
     if 'user' in req.session:
@@ -534,6 +563,8 @@ def order_payment(req):
         cake = Cake.objects.get(pk=req.session['cake'])
         quantity = int(req.session.get('quantity', 1))  
         total_amount = cake.price * quantity  
+
+        print(f"DEBUG: order_payment -> Cake: {cake.id}, Quantity: {quantity}")  # Debugging
 
         razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
@@ -557,42 +588,112 @@ def order_payment(req):
             "order": order,
         })
     
-    return redirect(login)  
+    return redirect(login)
 
+# @login_required
+# def order_payment(req):
+#     if 'user' in req.session:
+#         user = get_object_or_404(User, username=req.session['user'])
+#         cake = Cake.objects.get(pk=req.session['cake'])
+#         quantity = int(req.session.get('quantity', 1))  
+#         total_amount = cake.price * quantity  
+
+#         razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+
+#         razorpay_order = razorpay_client.order.create({
+#             "amount": int(total_amount * 100),  
+#             "currency": "INR",
+#             "payment_capture": "1"
+#         })
+
+#         order = Order.objects.create(
+#             user=user,
+#             price=total_amount,  
+#             provider_order_id=razorpay_order['id']
+#         )
+        
+#         req.session['order_id'] = order.pk  
+
+#         return render(req, "user/payment.html", {
+#             "callback_url": "http://127.0.0.1:8000/callback/",
+#             "razorpay_key": settings.RAZORPAY_KEY_ID,
+#             "order": order,
+#         })
+    
+#     return redirect(login)  
+
+
+# @login_required
+# def pay(req):
+#     user = get_object_or_404(User, username=req.session['user'])
+#     cake = Cake.objects.get(pk=req.session['cake'])
+
+
+#     if not cake:
+#         messages.error(req, "Your cart is empty. Please add a cake first.")
+#         return redirect('cart_display')
+
+#     cake = cake
+#     quantity = int(req.GET.get('quantity', 1))
+#     order_id = req.session.get('order_id')
+#     order = get_object_or_404(Order, pk=order_id) if order_id else None
+#     print(cake)
+
+
+#     if req.method == 'GET':
+#         user_address = Address.objects.filter(user=user).order_by('-id').first()
+
+#         data = Buy.objects.create(
+#             user=user,
+#             cake=cake,
+#             # price=cake.price * quantity, 
+#              price=cake.price,  # Store only per-unit price
+#              quantity=quantity,  
+#             address=user_address,
+#             order=order
+#         )
+#         data.save()
+
+#         return redirect(view_bookings)
+
+#     return render(req, 'user/view_bookings.html')
 
 @login_required
 def pay(req):
     user = get_object_or_404(User, username=req.session['user'])
     cake = Cake.objects.get(pk=req.session['cake'])
 
-
-    if not cake:
-        messages.error(req, "Your cart is empty. Please add a cake first.")
-        return redirect('cart_display')
-
-    cake = cake
-    quantity = int(req.GET.get('quantity', 1))
+    quantity = int(req.session.get('quantity', 1))  # Retrieve quantity
     order_id = req.session.get('order_id')
     order = get_object_or_404(Order, pk=order_id) if order_id else None
-    print(cake)
 
+    print(f"DEBUG: pay -> Cake: {cake.id}, Quantity: {quantity}")  # Debugging
 
     if req.method == 'GET':
         user_address = Address.objects.filter(user=user).order_by('-id').first()
 
+        # data = Buy.objects.create(
+        #     user=user,
+        #     cake=cake,
+        #     price=cake.price * quantity,  
+        #     quantity=quantity,  # ✅ Ensure quantity is stored
+        #     address=user_address,
+        #     order=order
+        # )
         data = Buy.objects.create(
             user=user,
             cake=cake,
-            price=cake.price * quantity,  
+            price=cake.price,  # ✅ Fix this! Store only the unit price.
+            quantity=quantity,  # ✅ Ensure correct quantity is stored
             address=user_address,
             order=order
         )
+
         data.save()
 
         return redirect(view_bookings)
 
     return render(req, 'user/view_bookings.html')
-
 
 
 @csrf_exempt
@@ -642,19 +743,47 @@ def place_order(req,id):
 #     data=Buy.objects.filter(user=user)[::-1]
 #     return render(req,'user/view_bookings.html',{'data':data}) 
 
+# def view_bookings(req):
+#     user = User.objects.get(username=req.session['user'])
+    
+#     data1 = Buy.objects.filter(user=user).select_related('cake', 'cake__category').order_by('-id')
+
+#     for booking in data1:
+#         price = booking.cake.price  
+#         booking.total_price = price * booking.quantity  
+
+#     context = {
+#         'data1': data1,
+#     }
+#     return render(req, 'user/view_bookings.html', context)
+# def view_bookings(req):
+#     user = User.objects.get(username=req.session['user'])
+    
+#     data1 = Buy.objects.filter(user=user).select_related('cake', 'cake__category').order_by('-id')
+
+#     for booking in data1:
+#         booking.total_price = booking.cake.price * booking.quantity  
+
+#     context = {
+#         'data1': data1,
+#     }
+#     return render(req, 'user/view_bookings.html', context)
+
 def view_bookings(req):
     user = User.objects.get(username=req.session['user'])
     
     data1 = Buy.objects.filter(user=user).select_related('cake', 'cake__category').order_by('-id')
 
+    # Ensure quantity is used correctly
     for booking in data1:
-        price = booking.cake.price  
-        booking.total_price = price * booking.quantity  
+        booking.total_price = booking.price * booking.quantity  # ✅ Correct calculation
 
     context = {
         'data1': data1,
     }
     return render(req, 'user/view_bookings.html', context)
+
+
 
 def user_orders(request):
     user = User.objects.get(username=request.session['user'])
