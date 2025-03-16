@@ -62,46 +62,51 @@
 
     <div class="container mt-5">
         <h2 class="text-center mb-4">Admin Bookings</h2>
-        <table class="table table-bordered table-striped">
-            <thead class="table-dark">
-                <tr>
-                    <th>#</th>
-                    <th>Customer</th>
-                    <th>Category</th>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for order in data %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ order.user.first_name }} {{ order.user.last_name }}</td>
-                    <td>{{ order.cake.category.name }}</td>
-                    <td>{{ order.cake.name }}</td>
-                    <td>{{ order.quantity }}</td>
-                    <td> ₹{{ order.price }}</td>
-                    <td>
-                        {% if order.is_confirmed %}
-                            <span class="badge bg-success">Confirmed</span>
-                        {% else %}
-                            <span class="badge bg-warning">Pending</span>
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if not order.is_confirmed %}
-                            <a href="{% url 'confirm_order' order.id %}" class="btn btn-sm btn-success">Confirm</a>
-                        {% endif %}
-                        <a href="{% url 'cancel_order' order.id %}" class="btn btn-sm btn-danger">Cancel</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    
+        <div class="table-responsive"> 
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Customer</th>
+                        <th>Category</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in data %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ order.user.first_name }} {{ order.user.last_name }}</td>
+                        <td>{{ order.cake.category.name }}</td>
+                        <td>{{ order.cake.name }}</td>
+                        <td>{{ order.quantity }}</td>
+                        <td> ₹{{ order.price }}</td>
+                        <td>
+                            {% if order.is_confirmed %}
+                                <span class="badge bg-success">Confirmed</span>
+                            {% else %}
+                                <span class="badge bg-warning">Pending</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if not order.is_confirmed %}
+                                <a href="{% url 'confirm_order' order.id %}" class="btn btn-sm btn-success">Confirm</a>
+                            {% endif %}
+                            <a href="{% url 'cancel_order' order.id %}" class="btn btn-sm btn-danger">Cancel</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div> 
+    
         <h4 class="text-end">Total Profit: <strong> ₹{{ total_profit }}</strong></h4>
     </div>
+    
 </body>
 </html>

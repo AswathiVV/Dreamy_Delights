@@ -14,7 +14,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <style>
+h2{
+    font-family: "Playfair Display", serif;
 
+}
 .order-card {
     background: #ffffff;
     border-radius: 10px;
@@ -27,7 +30,6 @@
     box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15);
 }
 
-/* Image Styling */
 .order-img {
     max-width: 100%;
     height: 200px;
@@ -36,12 +38,10 @@
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Typography */
 .text-muted {
     font-size: 0.95rem;
 }
 
-/* Buttons and Badges */
 .badge {
     font-size: 0.9rem;
     padding: 8px 12px;
@@ -55,7 +55,6 @@
     color: white;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .order-card {
         text-align: center;
@@ -119,101 +118,46 @@
     </div>
 </nav>
 
-    <!-- <div id="container" class="container mt-3" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="200">
-        <b id="mycart" style="font-size: 1.5rem;">My Orders</b>
-        <hr class="mt-3 mb-5">
-
-        {% for order in data1 %}
-        <div class="row mt-5">
-            <div class="col-lg-5 mt-2" data-aos="zoom-out" data-aos-duration="1900" data-aos-delay="300">
-                <img src="{{ order.cake.img.url }}" class="product_img img-fluid" alt="" style="width:250px; height: 300px;">
-            </div>
-            <div id="details-section" class="col-lg-6 mt-4" data-aos="zoom-out-right" data-aos-duration="1900" data-aos-delay="300">
-                <h5 class="product_name" style="font-size: 1.2rem;">{{ order.cake.name }}</h5><br>
-
-                <p class="offer_price" style="font-size: 1rem;"><b>Price per unit:</b> ₹{{ order.price }}</p>
-                <p class="offer_price" style="font-size: 1rem;"><b>Total Price:</b> ₹{{ order.price|floatformat:2 }}</p>
-
-                <p style="font-size: 0.9rem;"><b>Ordered Quantity:</b> <b>{{ order.quantity }}</b></p>
-                <p style="font-size: 0.9rem;"><b>Ordered Date:</b> <b>{{ order.date }}</b></p>
-
-                <div class="row mt-4">
-                    <div class="col-md-6">
-                        <h6 style="font-size: 1rem;">Category</h6>
-                        <div id="categ" class="card mb-2" style="border:3px solid rgb(0, 0, 0); font-size: 0.9rem;">
-                            {{ order.cake.category.name }}
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <h6 style="font-size: 1rem;">Color</h6>
-                        <div id="categ" class="card mb-2" style="border:3px solid rgb(0, 0, 0); font-size: 0.9rem;">
-                            {{ order.cake.colour }}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-3">
-                    {% if not order.is_confirmed %}
-                        <a href="../delete_order/{{ order.id }}" id="cart" class="btn btn-sm">
-                            <i class="fa-solid fa-trash" style="margin-right:5px;"></i>Cancel the order
-                        </a>
-                    {% endif %}
-                    {% if order.is_confirmed %}
-                        <span class="badge bg-success" style="font-size: 0.9rem;" id="confirm">
-                            <i class="fa-solid fa-check" style="margin-right:5px;"></i> Confirmed
-                        </span>
-                    {% else %}
-                        <span class="badge bg-warning" style="font-size: 0.9rem;" id="pending">
-                            <i class="fa-solid fa-clock" style="margin-right:5px;"></i> Pending
-                        </span>
-                    {% endif %}
-                </div>
-            </div>
-            <hr class="mt-3 mb-3">
-        </div>
-        {% endfor %}
-    </div> -->
-  
-    
-    <div class="container mt-4">
+     <div class="container mt-4">
         <h2 class="fw-bold text-center">My Orders</h2>
         <hr class="mb-4">
     
-        {% for order in data1 %}
-        <div class="card mb-3 p-3 shadow-sm border-0">
-            <div class="row g-3 align-items-center">
-                <!-- Image Section -->
-                <div class="col-md-4 text-center">
-                    <img src="{{ order.cake.img.url }}" class="img-fluid rounded" style="max-width: 100%; height: auto;border: none;">
-                </div>
+        {% if data1 %}
+            {% for order in data1 %}
+            <div class="card mb-3 p-3 shadow-sm border-0">
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-4 text-center">
+                        <img src="{{ order.cake.img.url }}" class="img-fluid rounded" style="max-width: 100%; height: auto; border: none;">
+                    </div>
     
-                <!-- Order Details -->
-                <div class="col-md-8">
-                    <h4 class="fw-bold mb-2">{{ order.cake.name }}</h4>
-                    <p class="mb-1"><b>Category:</b> {{ order.cake.category.name }}</p>
-                    <p class="mb-1"><b>Color:</b> {{ order.cake.colour }}</p>
-                    <p class="mb-1"><b>Price per unit:</b> ₹{{ order.price }}</p>
-                    <p class="mb-1"><b>Total Price:</b> ₹{{ order.total_price }}</p>
-                    <p class="mb-1"><b>Ordered Quantity:</b> {{ order.quantity }}</p>
-                    <p class="mb-1"><b>Ordered Date:</b> {{ order.date }}</p>
+                    <div class="col-md-8">
+                        <h4 class="fw-bold mb-2">{{ order.cake.name }}</h4>
+                        <p class="mb-1"><b>Category:</b> {{ order.cake.category.name }}</p>
+                        <p class="mb-1"><b>Color:</b> {{ order.cake.colour }}</p>
+                        <p class="mb-1"><b>Price per unit:</b> ₹{{ order.price }}</p>
+                        <p class="mb-1"><b>Total Price:</b> ₹{{ order.total_price }}</p>
+                        <p class="mb-1"><b>Ordered Quantity:</b> {{ order.quantity }}</p>
+                        <p class="mb-1"><b>Ordered Date:</b> {{ order.date }}</p>
     
-                    <!-- Status & Action Buttons -->
-                    <div class="mt-3">
-                        {% if not order.is_confirmed %}
-                            <a href="../delete_order/{{ order.id }}" class="btn btn-outline-danger btn-sm">
-                                Cancel Order
-                            </a>
-                        {% endif %}
-                        {% if order.is_confirmed %}
-                            <span class="badge bg-success">Confirmed</span>
-                        {% else %}
-                            <span class="badge bg-warning">Pending</span>
-                        {% endif %}
+                        <div class="mt-3">
+                            {% if not order.is_confirmed %}
+                                <a href="../delete_order/{{ order.id }}" class="btn btn-outline-danger btn-sm">
+                                    Cancel Order
+                                </a>
+                            {% endif %}
+                            {% if order.is_confirmed %}
+                                <span class="badge bg-success">Confirmed</span>
+                            {% else %}
+                                <span class="badge bg-warning">Pending</span>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        {% endfor %}
+            {% endfor %}
+        {% else %}
+            <p class="text-center text-muted">No bookings found.</p>
+        {% endif %}
     </div>
     
 </body>

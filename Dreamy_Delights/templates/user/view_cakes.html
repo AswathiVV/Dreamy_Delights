@@ -167,13 +167,7 @@ $(document).ready(function () {
         <h1 class="product-title">{{cake.name}}</h1>
         <p class="product-price" >₹ {{cake.price}}</p>
         <hr>
-        <!-- <div class="mb-3">
-          <label for="quantity" class="form-label">Quantity:</label>
-          <select id="quantity" class="form-select">
-            <option>{{cake.quantity}}</option>
-           
-          </select>
-        </div> -->
+      
 <div class="d-flex gap-3">
     {% if cart %}
     <a href="../cart_display" class="btn btn-primary w-50 text-dark">
@@ -188,30 +182,6 @@ $(document).ready(function () {
     </a>
     {% endif %}
 </div>
-
-    <!-- <div class="d-flex gap-3">
-{% if cart %}
-    <button class="btn btn-primary w-50">
-        <a href="../cart_display" class="text-dark">
-            <i class="bi bi-cart"></i> Go to cart
-        </a>
-    </button>
-
-{% else %}
-    <button class="btn btn-secondary w-50">
-        <a href="../add_to_cart/{{cake.pk}}" class="text-white" id="cart">
-            <i class="bi bi-cart"></i> Add to cart
-        </a>
-    </button>
-    
-    <button class="btn btn-primary w-50">
-        <a href="../address_page/{{cake.pk}}" class="text-white">
-            <i class="bi bi-chevron-double-right"></i> Buy Now
-        </a>
-    </button>
-{% endif %}
-
-    </div> -->
     
 <br><br>
         <h5>Description: </h5>

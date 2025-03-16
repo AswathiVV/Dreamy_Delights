@@ -5,22 +5,247 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Product</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static '/css/edit.css' %}">
+    <link rel="stylesheet" href="{% static '/css/home.css' %}">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: white;
+}
+.dropdown-container {
+    position: relative;
+    width: 100%;
+}
+
+.dropdown-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+.dropdown-list {
+    position: absolute;
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-height: 150px;
+    overflow-y: auto;
+    display: none;
+    z-index: 10;
+}
+
+.dropdown-list div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dropdown-list div:hover {
+    background: #f0f0f0;
+}
+.cake-category-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; 
+    width: 100%;
+}
+
+.cake-category-container {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 650px;
+    text-align: center;
+    position: relative; 
+    z-index: 1; 
+}
+
+.cake-category-container h1 {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #100303;
+    font-weight: bold;
+    font-family: 'Playfair Display', serif;
+}
+
+.cake-category-btn {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    background: #3E2723;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cake-category-btn:hover {
+    background: #6d859f;
+}
+
+.cake-category-form {
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.cake-category-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background: #fff;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.cake-category-input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+    transform: scale(1.02);
+}
+
+.cake-category-input[type="file"] {
+    padding: 8px;
+    background: #fff;
+}
+
+.cake-category-submit {
+    background: #3E2723;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+    padding: 12px;
+}
+
+.cake-category-submit:hover {
+    background: #6d859f;
+    transform: scale(1.05);
+}
+
+    </style>
 </head>
 <body>
-    <h1 style="text-align: center;">Add Product</h1><br><br>
-    <form action="" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="text" name="id" id="" placeholder="id">
-        <input type="text" name="name" id="" placeholder="Name">
-        <input type="number" name="price" id="" placeholder="Price">
-        <input type="file" name="img" id="">
-        <input type="text" name="category" id="" placeholder="category">
-        <input type="number" name="quantity" id="" placeholder="qty">
-        <input type="text" name="description" id="" placeholder="des">
+
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="../">
+                <img src="{% static 'img/logo.jpeg' %}" alt="Logo">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <form class="d-flex mx-auto search-form" role="search" action="{% url 'search' %}" method="POST">
+                {% csrf_token %}
+                <div class="input-group search-box">
+                    <button class="btn" type="submit" style="background-color: white;">
+                        <i class="bi bi-search"></i>
+                    </button>
+                    <input class="form-control" type="text" placeholder="Search" name="searched">
+                </div>
+            </form>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../add_cake">ADD PRODUCT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../admin_bookings">BOOKINGS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../logout">LOGOUT</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+<div class="cake-category-wrapper">
+    <div class="cake-category-container">
         
-        <input type="submit" value="Add">
-        
-    </form>
+        <button class="cake-category-btn" onclick="toggleForm('cakeCategoryForm')">Add Category</button>
+        <button class="cake-category-btn" onclick="toggleForm('cakeForm')">Add Cake</button>
+
+        <form id="cakeCategoryForm" class="cake-category-form" action="" method="post">
+            {% csrf_token %}
+            <h1>Add Category</h1>
+            <input type="text" class="cake-category-input" name="category_name" placeholder="Category Name" required>
+            <input type="submit" class="cake-category-submit" value="Add Category">
+        </form>
+
+        <form id="cakeForm" class="cake-category-form" action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h1>Add Cake</h1>
+            <input type="text" class="cake-category-input" name="name" placeholder="Cake Name" required>
+            <input type="number" class="cake-category-input" name="price" placeholder="Price" required>
+            <input type="file" class="cake-category-input" name="img" required>
+            <div class="dropdown-container">
+                <input type="text" id="category-input" name="category" class="dropdown-input" placeholder="Select or type a category" required>
+                <div id="category-dropdown" class="dropdown-list">
+                    {% for category in categories %}
+                        <div onclick="selectCategory('{{ category.name }}')">{{ category.name }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <input type="text" class="cake-category-input" name="description" placeholder="Description" required>
+            
+            <input type="submit" class="cake-category-submit" value="Add Cake">
+        </form>
+    </div>
+</div>
+
+<script>
+    const input = document.getElementById("category-input");
+    const dropdown = document.getElementById("category-dropdown");
+
+    input.addEventListener("focus", () => {
+        dropdown.style.display = "block";
+    });
+
+    document.addEventListener("click", (e) => {
+        if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.style.display = "none";
+        }
+    });
+
+    function selectCategory(category) {
+        input.value = category;
+        dropdown.style.display = "none";
+    }
+</script>
+<script>
+    function toggleForm(formId) {
+        document.querySelectorAll('.cake-category-form').forEach(form => {
+            form.style.display = "none"; 
+        });
+
+        document.getElementById(formId).style.display = "flex"; 
+    }
+</script>
+
+
 </body>
 </html>

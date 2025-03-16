@@ -74,50 +74,7 @@
         </div>
     </nav>
     
-    <!-- <div class="container carousel-inner" >
-        <div class="carousel-item active ">
-            <h1 class="text-center"> Search Product</h1>
-
-            <div class="card-body">
-                <form action="POST"></form>
-            </div><br>
-
-            {% if searched %}
-            <p>Your searched for: <strong>{{ searched }}</strong></p>
-            {% endif %}
-
-            <div class="row ">
-                {% if results %}
-                {% for i in results %}
-                                <div class="col-md-3">
-                    <a class="text-decoration-none text-black" href="../view_cake/{{ i.id }}">
-                        <div id="card" style="border: none;" class="movie-card justify-content-center">
-                            <img src="{{ i.img.url }}" style="width: auto; height: 400px" class="img-fluid">
-                            <div class="Phone-details text-center">
-                
-                                <h5 class="phone-title mt-3">{{ i.name }}</h5>
-                
-                                {% with i.categorys_set.all|first as category %}
-                                {% if category %}
-                                    <p class="offer_price text-danger text-decoration-line-through">
-                                        Price: ₹{{ category.price }}
-                                    </p>
-                                   
-                                {% else %}
-                                    <p>No category information available.</p>
-                                {% endif %}
-                            {% endwith %}
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            {% endfor %}
-            {% else %}
-            <p>No results found for "{{ searched }}".</p>
-            {% endif %}            </div>
-        </div>
-
-    </div> -->
+   
     <div class="container mt-4">
         <div class="carousel-inner">
             <div class="carousel-item active">

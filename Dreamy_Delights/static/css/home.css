@@ -71,7 +71,6 @@ font-family: "Playfair Display", serif;
   color: #e63946;
   margin-bottom: 1rem;
   color: #663233;
-  /* text-align: center; */
 }
 
 img {
@@ -220,11 +219,6 @@ a {
   color: inherit;
 }
 
-/* .festive-collections {
-  padding: 40px 20px;
-  text-align: center;
-} */
-
 .header-text h1 {
   font-size: 2rem;
   color:#ed80a8;
@@ -238,7 +232,6 @@ a {
   color: #ed80a8;
   margin-bottom: 30px;
 }
-
 
 footer {
   background-color: white;
@@ -310,7 +303,6 @@ footer {
   color: #00457c; 
 }
 
-
 .payment-options i {
   font-size: 3rem;
   transition: transform 0.3s ease, color 0.3s ease;
@@ -338,29 +330,22 @@ footer {
   color: #947070;
 }
 
-
-
 .festive-collections {
   padding: 40px 20px;
-  /* background-color: #f7f7f7; */
   text-align: center;
 }
 
 .header-text h1 {
   font-size: 2.5rem;
-  color: rgb(211, 146, 156); /* Festive color */
+  color: rgb(211, 146, 156); 
   margin-bottom: 10px;
-  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
   font-family: "Playfair Display", serif;
-
 }
 
 .header-text p {
   font-size: 1.2rem;
   color: #333;
   font-family: "Playfair Display", serif;
-
-  /* font-family: 'Arial', sans-serif; */
   margin-bottom: 30px;
 }
 
@@ -411,13 +396,11 @@ footer {
   background-color: rgba(0, 0, 0, 0.5);
   padding: 10px 20px;
   border-radius: 5px;
-  display: none;  /* Hidden by default */
-  cursor: pointer; /* Indicates clickable */
+  display: none;  
+  cursor: pointer; 
   font-family: "Playfair Display", serif;
-
 }
 
-/* Show the "View More" button on hover */
 .collection-item:hover .view-more {
   display: block;
 }
@@ -430,18 +413,14 @@ footer {
   background-color: #f1c9d9;
 }
 
-/* Logo Styling */
 .navbar-brand img {
   height: 50px;
   width: auto;
   border: none;
 }
 
-
 .navbar {
-  /* font-family: 'Arial', sans-serif; */
   font-family: "Playfair Display", serif;
-  
 }
 
 .navbar .navbar-nav .nav-item .nav-link {
@@ -456,14 +435,12 @@ footer {
   color: #0c0c0c;
   text-decoration: none;
 }
-/* Centered Search Box */
 .search-form {
   flex-grow: 1;
   display: flex;
   justify-content: center;
 }
 
-/* Search Box Styling */
 .search-box {
   max-width: 400px;
   width: 100%;
@@ -475,7 +452,6 @@ footer {
   background-color: white;
 }
 
-/* Search Input Field */
 .search-box input {
   width: 100%;
   padding: 8px;
@@ -484,23 +460,20 @@ footer {
   transition: width 0.3s ease-in-out;
 }
 
-/* Search Button */
 .search-box button {
   background: white;
   border: none;
   padding: 8px 12px;
   cursor: pointer;
 }
-/* Centering Search Box */
 .search-form {
   flex-grow: 1;
   display: flex;
   justify-content: center;
 }
 
-/* Search Box Styling */
 .search-box {
-  max-width: 400px;  /* Wider on larger screens */
+  max-width: 400px;  
   width: 100%;
   display: flex;
   align-items: center;
@@ -510,7 +483,6 @@ footer {
   background-color: white;
 }
 
-/* Search Input Field */
 .search-box input {
   width: 100%;
   padding: 8px;
@@ -519,7 +491,6 @@ footer {
   transition: width 0.3s ease-in-out;
 }
 
-/* Search Button */
 .search-box button {
   background: white;
   border: none;
@@ -527,9 +498,6 @@ footer {
   cursor: pointer;
 }
 
-
-
-/* Unique Section to Avoid Conflicts */
 .dreamy-delights-section {
   display: flex;
   justify-content: center;
@@ -539,7 +507,6 @@ footer {
   background-color: #ffffff;
 }
 
-/* Content (both sections) */
 .dreamy-delights-section .content {
   display: flex;
   width: 90%;
@@ -547,7 +514,6 @@ footer {
   height: 500px;
 }
 
-/* Left Section: Image */
 .dreamy-delights-section .image-container {
   flex: 1;
   overflow: hidden;
@@ -559,7 +525,6 @@ footer {
   object-fit: cover;
 }
 
-/* Right Section: Text & Logo */
 .dreamy-delights-section .text-container {
   flex: 1;
   background-color: #fdd5db;
@@ -571,7 +536,6 @@ footer {
   padding: 40px;
 }
 
-/* Background Logo */
 .dreamy-delights-section .bg-logo {
   position: absolute;
   top: 10%;
@@ -581,13 +545,11 @@ footer {
   opacity: 0.3;
 }
 
-/* Main Logo */
 .dreamy-delights-section .logo {
   max-width: 200px;
   margin: 0 auto;
 }
 
-/* Address & Timing */
 .dreamy-delights-section .address {
   font-size: 18px;
   margin-top: 10px;
@@ -598,7 +560,6 @@ footer {
   font-weight: bold;
 }
 
-/* Read More Link */
 .dreamy-delights-section .read-more {
   text-decoration: none;
   color: black;
@@ -607,7 +568,6 @@ footer {
   display: inline-block;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .dreamy-delights-section .content {
       flex-direction: column;
@@ -629,7 +589,6 @@ footer {
 }
 
 
-/* Responsive Adjustments */
 @media (max-width: 992px) {
   .search-box {
       max-width: 300px;
@@ -648,8 +607,6 @@ footer {
   }
 }
 
-
-
 @media (max-width: 768px) {
   .festive-collections {
     padding: 20px 10px;
@@ -666,7 +623,7 @@ footer {
   }
 
   .collection-grid {
-    grid-template-columns: repeat(2, 1fr); /* Two columns for smaller devices */
+    grid-template-columns: repeat(2, 1fr);
     gap: 15px;
   }
 
@@ -675,12 +632,11 @@ footer {
   }
 
   .collection-item img {
-    height: 200px; /* Limit height for smaller screens */
+    height: 200px; 
     object-fit: cover;
   }
 }
 
-/* For devices with screen width up to 480px (smaller mobile screens) */
 @media (max-width: 480px) {
   .header-text h1 {
     font-size: 1.5rem;
@@ -691,12 +647,12 @@ footer {
   }
 
   .collection-grid {
-    grid-template-columns: 1fr; /* Single column for very small screens */
+    grid-template-columns: 1fr; 
     gap: 10px;
   }
 
   .collection-item img {
-    height: 180px; /* Smaller height for very small screens */
+    height: 180px; 
   }
 }
 
@@ -810,31 +766,6 @@ footer {
   }
 }
 
-
-
-/* @media (max-width: 768px) {
-  .navbar .navbar-nav .nav-item .nav-link{
-    font-size: 13px;
-    padding: 10px;
-  }
-  
-  .navbar .navbar-nav .nav-item .nav-link i{
-    font-size: 10px;
-    padding: 10px;
-  }
-} */
-/* @media (max-width: 768px) {
-  .image-text-container .row {
-    padding-left: 15px;
-    padding-right: 15px;
-    border: none;
-  }
-  
-  .text {
-    padding: 20px;
-  }
-} */
-
 @media (max-width: 480px) {
   .container {
     margin-bottom: 10px;  
@@ -854,29 +785,6 @@ footer {
       font-size: 0.6rem; 
       padding: 3px 6px; 
   }
-/* 
-  .image-text-container .row {
-    padding-left: 10px;
-    padding-right: 10px;
-    border: none;
-    
-  }
-  .image-text-container .row .image{
-   height: 200px;
-   object-fit: contain; 
-  }
-  .image-text-container .row .text {
-    height: 210px;
-    object-fit: contain;
-
-   }
-  .image-text-container .row .text p{
-    font-size: 10px;
-   }
-   .image-text-container .row .text h1{
-    padding-top: 7px;
-   }
-   */
   .text {
     padding: 20px;
   }  
@@ -911,35 +819,12 @@ footer {
 
 }
 
-/* @media (min-width: 992px) {
-  .navbar .navbar-nav .nav-item .nav-link{
-    font-size: 15px;
-    padding: 10px;
-  }
-  .navbar .navbar-nav .nav-item .nav-link i{
-    font-size: 10px;
-    padding: 10px;
-  }
-  .text {
-      background-color: rgba(0, 0, 0, 0.2);
-      padding: 20px; 
-  }
-} */
-
 @media (min-width: 1200px) {
   .text {
       background-color: rgba(0, 0, 0, 0.25);
       padding: 25px;
   }
 }
-
-/* @media (max-width: 768px) {
-  .image-text-container .image,
-  .image-text-container .text {
-      flex: 100%;
-  }
-} */
-
 
 @media (max-width: 768px) {
 .row {
@@ -967,7 +852,6 @@ footer {
   padding-left: 5px;  
   padding-right: 5px;  
 }
-
 }
 
 @media (max-width: 576px) {
@@ -992,10 +876,6 @@ footer {
     padding-top: 6px;
 
   }
-/* 
-  .image-text-container .col{
-    width: 100;
-  } */
 
   .row {
     margin-left: 0;
@@ -1033,14 +913,6 @@ footer {
   .custom-container{
     padding-bottom: 0px;
   }
-  /* .navbar .navbar-nav .nav-item .nav-link{
-    font-size: 15px;
-    padding: 10px;
-  }
-  .navbar .navbar-nav .nav-item .nav-link i{
-    font-size: 10px;
-    padding: 10px;
-  } */
   .cake-container .product-title{
     font-size: 22px;
   }
